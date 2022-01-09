@@ -12,11 +12,24 @@
     "lint:scripts": "eslint \"apps/{backend,client}/{src,test,server}/**/*.{ts,vue}\" --fix",
     "build": "lerna run build --stream",
     "start:prod": "lerna run start:prod --stream",
-    "start:dev": "lerna run start:dev --stream"
+    "start:dev": "lerna run start:dev --stream",
+    "commit": "git cz"
+  },
+  "config": {
+    "commitizen": {
+      "path": "@commitlint/cz-commitlint"
+    }
   },
   "devDependencies": {
+    "@commitlint/cli": "^16.0.2",
+    "@commitlint/config-conventional": "^16.0.0",
+    "@commitlint/cz-commitlint": "^16.0.0",
+    "@commitlint/format": "^16.0.0",
+    "@commitlint/types": "^16.0.0",
     "@typescript-eslint/eslint-plugin": "^5.9.0",
     "@typescript-eslint/parser": "^5.9.0",
+    "commitizen": "^4.2.4",
+    "conventional-changelog-conventionalcommits": "^4.6.3",
     "eslint": "^8.6.0",
     "eslint-config-airbnb-typescript": "^16.1.0",
     "eslint-config-prettier": "^8.3.0",
