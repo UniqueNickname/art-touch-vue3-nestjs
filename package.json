@@ -7,6 +7,11 @@
     "apps/*",
     "packages/*"
   ],
+  "scripts": {
+    "build": "lerna run build --stream",
+    "start:prod": "lerna run start:prod --stream",
+    "start:dev": "lerna run start:dev --stream"
+  },
   "devDependencies": {
     "lerna": "^4.0.0",
     "ts-node": "^10.4.0",
