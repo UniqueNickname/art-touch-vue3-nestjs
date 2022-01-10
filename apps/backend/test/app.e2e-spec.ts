@@ -161,6 +161,21 @@ describe('Backend', () => {
         .expect(HttpStatus.OK)
         .expect(getCityDtoFirst)
     })
+
+    it(`/POST /api/v1/cities (with empty DTO)`, () => {
+      return request(app.getHttpServer())
+        .post(`/api/v1/cities`)
+        .send({})
+        .expect(HttpStatus.BAD_REQUEST)
+        .expect({
+          statusCode: HttpStatus.BAD_REQUEST,
+          message: [
+            'name must be longer than or equal to 3 characters',
+            'name must be a string',
+          ],
+          error: 'Bad Request',
+        })
+    })
   })
 
   describe('Cities alt names', () => {
@@ -277,7 +292,7 @@ describe('Backend', () => {
         .expect(getUniversityDto)
     })
 
-    it(`/POST /api/v1/universities (with empty dto)`, () => {
+    it(`/POST /api/v1/universities (with empty DTO)`, () => {
       return request(app.getHttpServer())
         .post(`/api/v1/universities`)
         .send({})
