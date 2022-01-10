@@ -255,6 +255,20 @@ describe('App', () => {
           message: `City with id '${cityId}' does not exist`,
         })
     })
+
+    it(`/GET /api/v1/universities (full database)`, () => {
+      return request(app.getHttpServer())
+        .get(`/api/v1/universities`)
+        .expect(HttpStatus.OK)
+        .expect([getUniversityDto])
+    })
+
+    it(`/GET /api/v1/universities/${getUniversityDto.id} (full database)`, () => {
+      return request(app.getHttpServer())
+        .get(`/api/v1/universities/${getUniversityDto.id}`)
+        .expect(HttpStatus.OK)
+        .expect(getUniversityDto)
+    })
   })
 
   afterAll(async () => {
