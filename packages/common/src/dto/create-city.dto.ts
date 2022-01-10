@@ -1,4 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger'
+import { IsString, MinLength } from 'class-validator'
 
 export class CreateCityDto {
   @ApiProperty({
@@ -6,5 +7,7 @@ export class CreateCityDto {
     description: 'Name of the city',
     uniqueItems: true,
   })
+  @IsString()
+  @MinLength(3)
   readonly name: string
 }
