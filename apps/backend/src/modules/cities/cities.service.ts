@@ -9,11 +9,17 @@ export class CitiesService {
   constructor(@InjectModel(City) private cityRepository: typeof City) {}
 
   async create(dto: CreateCityDto): Promise<GetCityDto> {
-    const city = await this.cityRepository.create(dto)
-
-    return {
-      id: city.id,
-      name: city.name,
+    try {
+      const city = await this.cityRepository.create(dto)
+      return {
+        id: city.id,
+        name: city.name,
+      }
+    } catch (error) {
+      throw new HttpException(
+        `City with name '${dto.name}' already exists`,
+        HttpStatus.BAD_REQUEST,
+      )
     }
   }
 
