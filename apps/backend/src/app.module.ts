@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common'
 import { ConfigModule } from '@nestjs/config'
 import { SequelizeModule } from '@nestjs/sequelize'
+import { CitiesModule } from './modules/cities/cities.module'
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { SequelizeModule } from '@nestjs/sequelize'
       models: [],
       autoLoadModels: true,
     }),
+    CitiesModule,
   ],
   controllers: [],
   providers: [],
