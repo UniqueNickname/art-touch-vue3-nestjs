@@ -6,11 +6,12 @@ import { DatabaseModule } from 'src/modules/database/database.module'
 import { CreateCityDto } from '@art-touch/common/dist/dto/create-city.dto'
 import { GetCityDto } from '@art-touch/common/dist/dto/get-city.dto'
 import { City } from 'src/models/city.model'
+import { CityAltName } from 'src/models/alt-names.model'
 
 describe('Cities', () => {
   let app: INestApplication
 
-  beforeAll(async () => {
+  const prepare = async () => {
     const moduleRef = await Test.createTestingModule({
       imports: [DatabaseModule, CitiesModule],
     }).compile()
@@ -23,6 +24,18 @@ describe('Cities', () => {
     })
 
     await app.init()
+  }
+
+  const end = async () => {
+    await CityAltName.drop()
+    await City.drop()
+    await app.close()
+  }
+
+  beforeAll(async () => {
+    await prepare()
+    await end()
+    await prepare()
   })
 
   const createDtoFirst: CreateCityDto = {
@@ -99,7 +112,6 @@ describe('Cities', () => {
   })
 
   afterAll(async () => {
-    await City.drop()
-    await app.close()
+    await end()
   })
 })
