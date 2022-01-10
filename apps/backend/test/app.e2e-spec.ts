@@ -6,17 +6,24 @@ import { DatabaseModule } from 'src/modules/database/database.module'
 import { CreateCityDto } from '@art-touch/common/dist/dto/create-city.dto'
 import { GetCityDto } from '@art-touch/common/dist/dto/get-city.dto'
 import { City } from 'src/models/city.model'
-import { CityAltName } from 'src/models/alt-names.model'
+import { CityAltName, UniversityAltName } from 'src/models/alt-names.model'
 import { ISO } from '@art-touch/common/dist/enums/iso.enum'
 import { CreateAltNameDto } from '@art-touch/common/dist/dto/create-alt-name.dto'
 import { AltNamesModule } from 'src/modules/alt-names/alt-names.module'
+import { UniversitiesModule } from 'src/modules/universities/universities.module'
+import { University } from 'src/models/university.model'
 
 describe('App', () => {
   let app: INestApplication
 
   const prepare = async () => {
     const moduleRef = await Test.createTestingModule({
-      imports: [DatabaseModule, CitiesModule, AltNamesModule],
+      imports: [
+        DatabaseModule,
+        CitiesModule,
+        UniversitiesModule,
+        AltNamesModule,
+      ],
     }).compile()
 
     app = moduleRef.createNestApplication()
@@ -30,6 +37,8 @@ describe('App', () => {
   }
 
   const end = async () => {
+    await UniversityAltName.drop()
+    await University.drop()
     await CityAltName.drop()
     await City.drop()
     await app.close()
