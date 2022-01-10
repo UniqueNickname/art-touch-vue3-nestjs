@@ -1,4 +1,4 @@
-import { VersioningType } from '@nestjs/common'
+import { ValidationPipe, VersioningType } from '@nestjs/common'
 import { NestFactory } from '@nestjs/core'
 import { AppModule } from './app.module'
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger'
@@ -11,6 +11,8 @@ async function bootstrap() {
   app.enableVersioning({
     type: VersioningType.URI,
   })
+
+  app.useGlobalPipes(new ValidationPipe())
 
   const swaggerConfig = new DocumentBuilder()
     .setTitle('Art touch')
