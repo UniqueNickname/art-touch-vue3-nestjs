@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common'
 import { ConfigModule } from '@nestjs/config'
 import { SequelizeModule } from '@nestjs/sequelize'
+import { City } from './models/city.model'
 import { CitiesModule } from './modules/cities/cities.module'
 
 @Module({
@@ -15,7 +16,7 @@ import { CitiesModule } from './modules/cities/cities.module'
       username: process.env.POSTGRES_USER,
       password: process.env.POSTGRES_PASSWORD,
       database: process.env.POSTGRES_DB,
-      models: [],
+      models: [City],
       autoLoadModels: true,
     }),
     CitiesModule,
