@@ -35,7 +35,7 @@ export class UniversitiesController {
   @ApiOperation({ summary: 'Get universities in the city' })
   @ApiResponse({ status: HttpStatus.OK, type: [GetUniversityDto] })
   @Version('1')
-  @Get('/by_city/:id')
+  @Get('/by-city/:id')
   getByCity(@Param('id') value: string) {
     return this.universitiesService.getByCity(Number(value))
   }
