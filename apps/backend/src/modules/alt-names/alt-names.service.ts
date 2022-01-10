@@ -11,6 +11,7 @@ export class AltNamesService {
     @InjectModel(CityAltName)
     private cityAltNameRepository: typeof CityAltName,
     private citiesService: CitiesService,
+    @InjectModel(UniversityAltName)
     private universityAltNameRepository: typeof UniversityAltName,
     private universitiesService: UniversitiesService,
   ) {}
