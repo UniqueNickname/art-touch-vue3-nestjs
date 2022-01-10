@@ -9,6 +9,7 @@ import {
 } from 'sequelize-typescript'
 import { City } from 'src/models/city.model'
 import { ISO } from '@art-touch/common/dist/enums/iso.enum'
+import { University } from './university.model'
 
 interface AltNamesCreationAttrs {
   entityId: number
@@ -59,4 +60,23 @@ export class CityAltName extends BaseAltName {
 
   @BelongsTo(() => City)
   entity: City
+}
+
+@Table({
+  tableName: 'alt-names-university',
+  createdAt: false,
+  updatedAt: false,
+})
+export class UniversityAltName extends BaseAltName {
+  @ApiProperty({
+    example: 1,
+    description: 'Id of the university',
+    uniqueItems: true,
+  })
+  @ForeignKey(() => University)
+  @Column({ type: DataType.INTEGER })
+  entityId: number
+
+  @BelongsTo(() => University)
+  entity: University
 }
