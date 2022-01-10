@@ -9,9 +9,10 @@ import {
   Post,
   Version,
 } from '@nestjs/common'
-import { ApiOperation, ApiResponse } from '@nestjs/swagger'
+import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger'
 import { UniversitiesService } from './universities.service'
 
+@ApiTags('Universities')
 @Controller('universities')
 export class UniversitiesController {
   constructor(private universitiesService: UniversitiesService) {}
