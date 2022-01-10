@@ -11,13 +11,19 @@ export class UniversitiesService {
   ) {}
 
   async create(dto: CreateUniversityDto): Promise<GetUniversityDto> {
-    const university = await this.universityRepository.create(dto)
-
-    return {
-      id: university.id,
-      cityId: university.cityId,
-      name: university.name,
-      altNames: {},
+    try {
+      const university = await this.universityRepository.create(dto)
+      return {
+        id: university.id,
+        cityId: university.cityId,
+        name: university.name,
+        altNames: {},
+      }
+    } catch (error) {
+      throw new HttpException(
+        `University with name '${dto.name}' already exist`,
+        HttpStatus.BAD_REQUEST,
+      )
     }
   }
 
