@@ -13,6 +13,7 @@
     "build": "lerna run build --stream",
     "start:prod": "lerna run start:prod --stream",
     "start:dev": "lerna run start:dev --stream",
+    "test:e2e": "lerna run test:e2e --stream",
     "prepare": "husky install",
     "precommit": "lint-staged",
     "commit": "git cz"
