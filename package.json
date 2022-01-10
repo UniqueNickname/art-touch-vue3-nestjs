@@ -37,6 +37,7 @@
     "class-validator": "^0.13.2",
     "commitizen": "^4.2.4",
     "conventional-changelog-conventionalcommits": "^4.6.3",
+    "cross-env": "^7.0.3",
     "dotenv": "^10.0.0",
     "eslint": "^8.6.0",
     "eslint-config-airbnb-typescript": "^16.1.0",
