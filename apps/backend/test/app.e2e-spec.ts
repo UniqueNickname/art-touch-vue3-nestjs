@@ -12,6 +12,8 @@ import { CreateAltNameDto } from '@art-touch/common/dist/dto/create-alt-name.dto
 import { AltNamesModule } from 'src/modules/alt-names/alt-names.module'
 import { UniversitiesModule } from 'src/modules/universities/universities.module'
 import { University } from 'src/models/university.model'
+import { CreateUniversityDto } from '@art-touch/common/dist/dto/create-university.dto'
+import { GetUniversityDto } from '@art-touch/common/dist/dto/get-university.dto'
 
 describe('App', () => {
   let app: INestApplication
@@ -84,6 +86,18 @@ describe('App', () => {
     entityId: getCityDtoFirst.id,
     iso: ISO.en,
     value: 'New York',
+  }
+
+  const createUniversityDto: CreateUniversityDto = {
+    name: 'Columbia University',
+    cityId: getCityDtoFirst.id,
+  }
+
+  const getUniversityDto: GetUniversityDto = {
+    id: 1,
+    name: createUniversityDto.name,
+    cityId: createUniversityDto.cityId,
+    altNames: {},
   }
 
   describe('Cities', () => {
@@ -192,6 +206,53 @@ describe('App', () => {
         .expect({
           statusCode: HttpStatus.BAD_REQUEST,
           message: `City with id '${entityId}' does not exist`,
+        })
+    })
+  })
+
+  describe('Universities', () => {
+    it(`/GET /api/v1/universities (empty database)`, () => {
+      return request(app.getHttpServer())
+        .get(`/api/v1/universities`)
+        .expect(HttpStatus.OK)
+        .expect([])
+    })
+
+    it(`/GET /api/v1/universities/2 (empty database)`, () => {
+      return request(app.getHttpServer())
+        .get(`/api/v1/universities/2`)
+        .expect(HttpStatus.NOT_FOUND)
+    })
+
+    it(`/POST /api/v1/universities`, () => {
+      return request(app.getHttpServer())
+        .post(`/api/v1/universities`)
+        .send(createUniversityDto)
+        .expect(HttpStatus.CREATED)
+        .expect(getUniversityDto)
+    })
+
+    it(`/POST /api/v1/universities (with exist name)`, () => {
+      return request(app.getHttpServer())
+        .post(`/api/v1/universities`)
+        .send(createUniversityDto)
+        .expect(HttpStatus.BAD_REQUEST)
+        .expect({
+          statusCode: HttpStatus.BAD_REQUEST,
+          message: `University with name '${createUniversityDto.name}' already exist`,
+        })
+    })
+
+    it(`/POST /api/v1/universities (for not exist city)`, () => {
+      const cityId = 4
+
+      return request(app.getHttpServer())
+        .post(`/api/v1/universities`)
+        .send(Object.assign(createUniversityDto, { cityId }))
+        .expect(HttpStatus.BAD_REQUEST)
+        .expect({
+          statusCode: HttpStatus.BAD_REQUEST,
+          message: `City with id '${cityId}' does not exist`,
         })
     })
   })
