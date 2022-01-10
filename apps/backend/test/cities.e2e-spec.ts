@@ -36,10 +36,12 @@ describe('Cities', () => {
   const getDtoFirst: GetCityDto = {
     id: 1,
     name: createDtoFirst.name,
+    altNames: {},
   }
   const getDtoSecond: GetCityDto = {
     id: 2,
     name: createDtoSecond.name,
+    altNames: {},
   }
 
   it(`/GET cities (empty database)`, () => {

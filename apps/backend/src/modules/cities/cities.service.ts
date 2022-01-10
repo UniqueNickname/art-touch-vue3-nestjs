@@ -3,6 +3,8 @@ import { InjectModel } from '@nestjs/sequelize'
 import { City } from 'src/models/city.model'
 import { CreateCityDto } from '@art-touch/common/dist/dto/create-city.dto'
 import { GetCityDto } from '@art-touch/common/dist/dto/get-city.dto'
+import { CityAltName } from 'src/models/alt-names.model'
+import { GetAltNamesDTO } from '@art-touch/common/dist/dto/get-alt-name.dto'
 
 @Injectable()
 export class CitiesService {
@@ -14,6 +16,7 @@ export class CitiesService {
       return {
         id: city.id,
         name: city.name,
+        altNames: {},
       }
     } catch (error) {
       throw new HttpException(
@@ -26,6 +29,7 @@ export class CitiesService {
   async getById(cityId: number): Promise<GetCityDto> {
     const city = await this.cityRepository.findOne({
       where: { id: cityId },
+      include: [CityAltName],
     })
 
     if (!city) {
@@ -38,6 +42,7 @@ export class CitiesService {
     return {
       id: city.id,
       name: city.name,
+      altNames: city.altNames ? this.transformAltNames(city.altNames) : {},
     }
   }
 
@@ -47,6 +52,14 @@ export class CitiesService {
     return cities.map(city => ({
       id: city.id,
       name: city.name,
+      altNames: city.altNames ? this.transformAltNames(city.altNames) : {},
     }))
+  }
+
+  private transformAltNames(altNames: CityAltName[]) {
+    return altNames.reduce((acc, { value, iso }) => {
+      acc[iso] = value
+      return acc
+    }, {} as GetAltNamesDTO)
   }
 }
