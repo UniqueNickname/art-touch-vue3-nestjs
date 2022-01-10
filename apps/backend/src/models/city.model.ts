@@ -1,4 +1,5 @@
-import { Column, DataType, Model, Table } from 'sequelize-typescript'
+import { Column, DataType, HasMany, Model, Table } from 'sequelize-typescript'
+import { CityAltName } from './alt-names.model'
 
 interface CityCreationAttrs {
   name: string
@@ -16,4 +17,7 @@ export class City extends Model<City, CityCreationAttrs> {
 
   @Column({ type: DataType.STRING, unique: true, allowNull: true })
   name: string
+
+  @HasMany(() => CityAltName)
+  altNames: CityAltName[]
 }
