@@ -1,7 +1,12 @@
 import * as request from 'supertest'
 import { Test } from '@nestjs/testing'
 import { CitiesModule } from 'src/modules/cities/cities.module'
-import { HttpStatus, INestApplication, VersioningType } from '@nestjs/common'
+import {
+  HttpStatus,
+  INestApplication,
+  ValidationPipe,
+  VersioningType,
+} from '@nestjs/common'
 import { DatabaseModule } from 'src/modules/database/database.module'
 import { CreateCityDto } from '@art-touch/common/dist/dto/create-city.dto'
 import { GetCityDto } from '@art-touch/common/dist/dto/get-city.dto'
@@ -15,7 +20,7 @@ import { University } from 'src/models/university.model'
 import { CreateUniversityDto } from '@art-touch/common/dist/dto/create-university.dto'
 import { GetUniversityDto } from '@art-touch/common/dist/dto/get-university.dto'
 
-describe('App', () => {
+describe('Backend', () => {
   let app: INestApplication
 
   const prepare = async () => {
@@ -34,6 +39,8 @@ describe('App', () => {
     app.enableVersioning({
       type: VersioningType.URI,
     })
+
+    app.useGlobalPipes(new ValidationPipe())
 
     await app.init()
   }
@@ -268,6 +275,22 @@ describe('App', () => {
         .get(`/api/v1/universities/${getUniversityDto.id}`)
         .expect(HttpStatus.OK)
         .expect(getUniversityDto)
+    })
+
+    it(`/POST /api/v1/universities (with empty dto)`, () => {
+      return request(app.getHttpServer())
+        .post(`/api/v1/universities`)
+        .send({})
+        .expect(HttpStatus.BAD_REQUEST)
+        .expect({
+          statusCode: HttpStatus.BAD_REQUEST,
+          message: [
+            'name must be longer than or equal to 6 characters',
+            'name must be a string',
+            'cityId must be a number conforming to the specified constraints',
+          ],
+          error: 'Bad Request',
+        })
     })
   })
 
