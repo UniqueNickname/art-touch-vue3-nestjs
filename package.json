@@ -34,6 +34,7 @@
     "@nestjs/swagger": "^5.1.5",
     "@typescript-eslint/eslint-plugin": "^5.9.0",
     "@typescript-eslint/parser": "^5.9.0",
+    "class-validator": "^0.13.2",
     "commitizen": "^4.2.4",
     "conventional-changelog-conventionalcommits": "^4.6.3",
     "dotenv": "^10.0.0",
