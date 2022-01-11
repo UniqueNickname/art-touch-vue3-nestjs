@@ -470,6 +470,7 @@ describe('Backend', () => {
       })
     })
   })
+
   describe('Teachers', () => {
     const getSameTeacherDto: GetTeacherDto = {
       id: 2,
@@ -556,6 +557,105 @@ describe('Backend', () => {
         .get(`/api/v1/teachers`)
         .expect(HttpStatus.OK)
         .expect([getTeacherDto])
+    })
+
+    describe('Teachers alt names', () => {
+      const createTeacherAltNameRu: CreateAltNameDto = {
+        entityId: getTeacherDto.id,
+        iso: ISO.ru,
+        value: 'Николас Бартлет',
+      }
+
+      const createTeacherAltNameEn: CreateAltNameDto = {
+        entityId: getTeacherDto.id,
+        iso: ISO.en,
+        value: 'Nicholas Bartlett',
+      }
+
+      const getTeacherWithAltNamesDto: GetTeacherDto = {
+        id: getTeacherDto.id,
+        name: getTeacherDto.name,
+        universityId: getTeacherDto.universityId,
+        altNames: {
+          'ru-RU': createTeacherAltNameRu.value,
+          'en-US': createTeacherAltNameEn.value,
+        },
+      }
+
+      it(`/POST /api/v1/teachers/alt-names (ru-RU)`, () => {
+        return request(app.getHttpServer())
+          .post(`/api/v1/teachers/alt-names`)
+          .send(createTeacherAltNameRu)
+          .expect(HttpStatus.CREATED)
+          .expect({
+            id: 1,
+            entityId: createTeacherAltNameRu.entityId,
+            iso: createTeacherAltNameRu.iso,
+            value: createTeacherAltNameRu.value,
+          } as UniversityAltName)
+      })
+
+      it(`/POST /api/v1/teachers/alt-names (en-US)`, () => {
+        return request(app.getHttpServer())
+          .post(`/api/v1/teachers/alt-names`)
+          .send(createTeacherAltNameEn)
+          .expect(HttpStatus.CREATED)
+          .expect({
+            id: 2,
+            entityId: createTeacherAltNameEn.entityId,
+            iso: createTeacherAltNameEn.iso,
+            value: createTeacherAltNameEn.value,
+          } as UniversityAltName)
+      })
+
+      it(`/GET teachers/${getTeacherDto.id} (with alt names)`, () => {
+        return request(app.getHttpServer())
+          .get(`/api/v1/teachers/${getTeacherDto.id}`)
+          .expect(HttpStatus.OK)
+          .expect(getTeacherWithAltNamesDto)
+      })
+
+      it(`/GET teachers/by-university/${getTeacherDto.universityId} (with alt names)`, () => {
+        return request(app.getHttpServer())
+          .get(`/api/v1/teachers/by-university/${getTeacherDto.universityId}`)
+          .expect(HttpStatus.OK)
+          .expect([getTeacherWithAltNamesDto])
+      })
+
+      it(`/POST /api/v1/teachers/alt-names (for not exist university)`, () => {
+        const entityId = 4
+        return request(app.getHttpServer())
+          .post(`/api/v1/teachers/alt-names`)
+          .send({
+            entityId,
+            iso: createTeacherAltNameEn.iso,
+            value: createTeacherAltNameEn.value,
+          } as CreateAltNameDto)
+          .expect(HttpStatus.BAD_REQUEST)
+          .expect({
+            statusCode: HttpStatus.BAD_REQUEST,
+            message: `Teacher with id '${entityId}' does not exist`,
+          })
+      })
+
+      it(`/POST /api/v1/teachers/alt-names (with empty DTO)`, () => {
+        return request(app.getHttpServer())
+          .post(`/api/v1/teachers/alt-names`)
+          .send({})
+          .expect(HttpStatus.BAD_REQUEST)
+          .expect({
+            statusCode: HttpStatus.BAD_REQUEST,
+            message: [
+              'entityId must be a number conforming to the specified constraints',
+              'iso must be longer than or equal to 5 characters',
+              'iso must be a valid enum value',
+              'iso must be a string',
+              'value must be longer than or equal to 3 characters',
+              'value must be a string',
+            ],
+            error: 'Bad Request',
+          })
+      })
     })
   })
 
