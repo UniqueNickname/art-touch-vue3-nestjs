@@ -25,4 +25,13 @@ export class AltNamesController {
   createUniversityName(@Body() dto: CreateAltNameDto) {
     return this.altNamesService.createUniversityName(dto)
   }
+
+  @ApiOperation({ summary: 'Add alternative name of the teacher' })
+  @ApiResponse({ status: HttpStatus.OK, type: UniversityAltName })
+  @ApiTags('Teachers')
+  @Version('1')
+  @Post('/teachers/alt-names')
+  createTeacherName(@Body() dto: CreateAltNameDto) {
+    return this.altNamesService.createTeacherName(dto)
+  }
 }

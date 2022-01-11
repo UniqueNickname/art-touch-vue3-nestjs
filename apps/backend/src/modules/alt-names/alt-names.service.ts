@@ -1,6 +1,10 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common'
 import { InjectModel } from '@nestjs/sequelize'
-import { CityAltName, UniversityAltName } from 'src/models/alt-names.model'
+import {
+  CityAltName,
+  TeacherAltName,
+  UniversityAltName,
+} from 'src/models/alt-names.model'
 import { CreateAltNameDto } from '@art-touch/common/dist/dto/create-alt-name.dto'
 import { CitiesService } from 'src/modules/cities/cities.service'
 import { UniversitiesService } from '../universities/universities.service'
@@ -14,6 +18,9 @@ export class AltNamesService {
     @InjectModel(UniversityAltName)
     private universityAltNameRepository: typeof UniversityAltName,
     private universitiesService: UniversitiesService,
+    @InjectModel(TeacherAltName)
+    private teacherAltNameRepository: typeof TeacherAltName,
+    private teachersService: UniversitiesService,
   ) {}
 
   async createCityName(dto: CreateAltNameDto) {
@@ -42,6 +49,21 @@ export class AltNamesService {
     }
 
     const altName = await this.universityAltNameRepository.create(dto)
+
+    return altName
+  }
+
+  async createTeacherName(dto: CreateAltNameDto) {
+    try {
+      await this.teachersService.getById(dto.entityId)
+    } catch (error) {
+      throw new HttpException(
+        `Teacher with id '${dto.entityId}' does not exist`,
+        HttpStatus.BAD_REQUEST,
+      )
+    }
+
+    const altName = await this.teacherAltNameRepository.create(dto)
 
     return altName
   }
