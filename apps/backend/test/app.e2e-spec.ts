@@ -536,6 +536,27 @@ describe('Backend', () => {
         .expect(HttpStatus.OK)
         .expect(getTeacherDto)
     })
+
+    it(`/GET /api/v1/teachers/by-university/${getTeacherDto.universityId} (full database)`, () => {
+      return request(app.getHttpServer())
+        .get(`/api/v1/teachers/by-university/${getTeacherDto.universityId}`)
+        .expect(HttpStatus.OK)
+        .expect([getSameTeacherDto, getTeacherDto])
+    })
+
+    it(`/DELETE /api/v1/teachers/2`, () => {
+      return request(app.getHttpServer())
+        .delete(`/api/v1/teachers/2`)
+        .expect(HttpStatus.OK)
+        .expect({})
+    })
+
+    it(`/GET /api/v1/teachers (after delete)`, () => {
+      return request(app.getHttpServer())
+        .get(`/api/v1/teachers`)
+        .expect(HttpStatus.OK)
+        .expect([getTeacherDto])
+    })
   })
 
   afterAll(async () => {
