@@ -3,6 +3,7 @@ import { GetTeacherDto } from '@art-touch/common/dist/dto/get-teacher.dto'
 import {
   Body,
   Controller,
+  Delete,
   Get,
   HttpStatus,
   Param,
@@ -23,6 +24,14 @@ export class TeachersController {
   @Post()
   create(@Body() dto: CreateTeacherDto) {
     return this.teachersService.create(dto)
+  }
+
+  @ApiOperation({ summary: 'Delete teacher by id' })
+  @ApiResponse({ status: HttpStatus.OK, type: [GetTeacherDto] })
+  @Version('1')
+  @Delete('/:id')
+  delete(@Param('id') value: string) {
+    return this.teachersService.delete(Number(value))
   }
 
   @ApiOperation({ summary: 'Get all teachers' })

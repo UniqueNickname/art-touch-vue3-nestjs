@@ -33,6 +33,11 @@ export class TeachersService {
     }
   }
 
+  async delete(teacherId: number) {
+    const teacher = await this.getModelById(teacherId)
+    teacher.destroy()
+  }
+
   async getAll(): Promise<GetTeacherDto[]> {
     const teachers = await this.teacherRepository.findAll({
       include: [TeacherAltName],
@@ -47,17 +52,7 @@ export class TeachersService {
   }
 
   async getById(teacherId: number): Promise<GetTeacherDto> {
-    const teacher = await this.teacherRepository.findOne({
-      where: { id: teacherId },
-      include: [TeacherAltName],
-    })
-
-    if (!teacher) {
-      throw new HttpException(
-        `Teacher with Id ${teacherId} does not exist.`,
-        HttpStatus.NOT_FOUND,
-      )
-    }
+    const teacher = await this.getModelById(teacherId)
 
     return {
       id: teacher.id,
@@ -93,5 +88,21 @@ export class TeachersService {
       acc[iso] = value
       return acc
     }, {} as GetAltNamesDTO)
+  }
+
+  private async getModelById(teacherId: number): Promise<Teacher> {
+    const teacher = await this.teacherRepository.findOne({
+      where: { id: teacherId },
+      include: [TeacherAltName],
+    })
+
+    if (!teacher) {
+      throw new HttpException(
+        `Teacher with Id ${teacherId} does not exist.`,
+        HttpStatus.NOT_FOUND,
+      )
+    }
+
+    return teacher
   }
 }
