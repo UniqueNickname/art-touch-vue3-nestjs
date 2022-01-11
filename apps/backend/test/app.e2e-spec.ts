@@ -24,6 +24,7 @@ import { University } from 'src/models/university.model'
 import { CreateUniversityDto } from '@art-touch/common/dist/dto/create-university.dto'
 import { GetUniversityDto } from '@art-touch/common/dist/dto/get-university.dto'
 import { Teacher } from 'src/models/teacher.model'
+import { TeachersModule } from 'src/modules/teachers/teachers.module'
 
 describe('Backend', () => {
   let app: INestApplication
@@ -34,6 +35,7 @@ describe('Backend', () => {
         DatabaseModule,
         CitiesModule,
         UniversitiesModule,
+        TeachersModule,
         AltNamesModule,
       ],
     }).compile()
