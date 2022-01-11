@@ -9,6 +9,7 @@ import {
 import { City } from 'src/models/city.model'
 import { Teacher } from 'src/models/teacher.model'
 import { University } from 'src/models/university.model'
+import { Participant } from 'src/models/user.model'
 
 @Module({
   imports: [
@@ -29,6 +30,7 @@ import { University } from 'src/models/university.model'
         UniversityAltName,
         Teacher,
         TeacherAltName,
+        Participant,
       ],
       autoLoadModels: true,
     }),
