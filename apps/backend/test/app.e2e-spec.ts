@@ -63,6 +63,7 @@ describe('Backend', () => {
     await prepare()
   })
 
+  //+ City DTO
   const createCityDtoFirst: CreateCityDto = {
     name: 'New York',
   }
@@ -83,18 +84,7 @@ describe('Backend', () => {
     altNames: {},
   }
 
-  const createCityAltNameRu: CreateAltNameDto = {
-    entityId: getCityDtoFirst.id,
-    iso: ISO.ru,
-    value: 'Нью Йорк',
-  }
-
-  const createCityAltNameEn: CreateAltNameDto = {
-    entityId: getCityDtoFirst.id,
-    iso: ISO.en,
-    value: 'New York',
-  }
-
+  //+ University DTO
   const createUniversityDto: CreateUniversityDto = {
     name: 'Columbia University',
     cityId: getCityDtoFirst.id,
@@ -176,78 +166,90 @@ describe('Backend', () => {
           error: 'Bad Request',
         })
     })
-  })
 
-  describe('Cities alt names', () => {
-    it(`/POST /api/v1/cities/alt-names (ru-RU)`, () => {
-      return request(app.getHttpServer())
-        .post(`/api/v1/cities/alt-names`)
-        .send(createCityAltNameRu)
-        .expect(HttpStatus.CREATED)
-        .expect({
-          id: 1,
-          entityId: createCityAltNameRu.entityId,
-          iso: createCityAltNameRu.iso,
-          value: createCityAltNameRu.value,
-        } as CityAltName)
-    })
+    describe('Cities alt names', () => {
+      const createCityAltNameRu: CreateAltNameDto = {
+        entityId: getCityDtoFirst.id,
+        iso: ISO.ru,
+        value: 'Нью Йорк',
+      }
 
-    it(`/POST /api/v1/cities/alt-names (en-US)`, () => {
-      return request(app.getHttpServer())
-        .post(`/api/v1/cities/alt-names`)
-        .send(createCityAltNameEn)
-        .expect(HttpStatus.CREATED)
-        .expect({
-          id: 2,
-          entityId: createCityAltNameEn.entityId,
-          iso: createCityAltNameEn.iso,
-          value: createCityAltNameEn.value,
-        } as CityAltName)
-    })
+      const createCityAltNameEn: CreateAltNameDto = {
+        entityId: getCityDtoFirst.id,
+        iso: ISO.en,
+        value: 'New York',
+      }
 
-    it(`/GET city by id (with alt names)`, () => {
-      return request(app.getHttpServer())
-        .get(`/api/v1/cities/${getCityDtoFirst.id}`)
-        .expect(HttpStatus.OK)
-        .expect(
-          Object.assign(getCityDtoFirst, {
-            altNames: {
-              'ru-RU': createCityAltNameRu.value,
-              'en-US': createCityAltNameEn.value,
-            },
-          }),
-        )
-    })
+      it(`/POST /api/v1/cities/alt-names (ru-RU)`, () => {
+        return request(app.getHttpServer())
+          .post(`/api/v1/cities/alt-names`)
+          .send(createCityAltNameRu)
+          .expect(HttpStatus.CREATED)
+          .expect({
+            id: 1,
+            entityId: createCityAltNameRu.entityId,
+            iso: createCityAltNameRu.iso,
+            value: createCityAltNameRu.value,
+          } as CityAltName)
+      })
 
-    it(`/POST /api/v1/cities/alt-names (for not exist city)`, () => {
-      const entityId = 4
-      return request(app.getHttpServer())
-        .post(`/api/v1/cities/alt-names`)
-        .send(Object.assign(createCityAltNameEn, { entityId }))
-        .expect(HttpStatus.BAD_REQUEST)
-        .expect({
-          statusCode: HttpStatus.BAD_REQUEST,
-          message: `City with id '${entityId}' does not exist`,
-        })
-    })
+      it(`/POST /api/v1/cities/alt-names (en-US)`, () => {
+        return request(app.getHttpServer())
+          .post(`/api/v1/cities/alt-names`)
+          .send(createCityAltNameEn)
+          .expect(HttpStatus.CREATED)
+          .expect({
+            id: 2,
+            entityId: createCityAltNameEn.entityId,
+            iso: createCityAltNameEn.iso,
+            value: createCityAltNameEn.value,
+          } as CityAltName)
+      })
 
-    it(`/POST /api/v1/cities/alt-names (with empty DTO)`, () => {
-      return request(app.getHttpServer())
-        .post(`/api/v1/cities/alt-names`)
-        .send({})
-        .expect(HttpStatus.BAD_REQUEST)
-        .expect({
-          statusCode: HttpStatus.BAD_REQUEST,
-          message: [
-            'entityId must be a number conforming to the specified constraints',
-            'iso must be longer than or equal to 5 characters',
-            'iso must be a valid enum value',
-            'iso must be a string',
-            'value must be longer than or equal to 3 characters',
-            'value must be a string',
-          ],
-          error: 'Bad Request',
-        })
+      it(`/GET city by id (with alt names)`, () => {
+        return request(app.getHttpServer())
+          .get(`/api/v1/cities/${getCityDtoFirst.id}`)
+          .expect(HttpStatus.OK)
+          .expect(
+            Object.assign(getCityDtoFirst, {
+              altNames: {
+                'ru-RU': createCityAltNameRu.value,
+                'en-US': createCityAltNameEn.value,
+              },
+            }),
+          )
+      })
+
+      it(`/POST /api/v1/cities/alt-names (for not exist city)`, () => {
+        const entityId = 4
+        return request(app.getHttpServer())
+          .post(`/api/v1/cities/alt-names`)
+          .send(Object.assign(createCityAltNameEn, { entityId }))
+          .expect(HttpStatus.BAD_REQUEST)
+          .expect({
+            statusCode: HttpStatus.BAD_REQUEST,
+            message: `City with id '${entityId}' does not exist`,
+          })
+      })
+
+      it(`/POST /api/v1/cities/alt-names (with empty DTO)`, () => {
+        return request(app.getHttpServer())
+          .post(`/api/v1/cities/alt-names`)
+          .send({})
+          .expect(HttpStatus.BAD_REQUEST)
+          .expect({
+            statusCode: HttpStatus.BAD_REQUEST,
+            message: [
+              'entityId must be a number conforming to the specified constraints',
+              'iso must be longer than or equal to 5 characters',
+              'iso must be a valid enum value',
+              'iso must be a string',
+              'value must be longer than or equal to 3 characters',
+              'value must be a string',
+            ],
+            error: 'Bad Request',
+          })
+      })
     })
   })
 
