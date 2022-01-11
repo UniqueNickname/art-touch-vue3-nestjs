@@ -230,6 +230,25 @@ describe('Backend', () => {
           message: `City with id '${entityId}' does not exist`,
         })
     })
+
+    it(`/POST /api/v1/cities/alt-names (with empty DTO)`, () => {
+      return request(app.getHttpServer())
+        .post(`/api/v1/cities/alt-names`)
+        .send({})
+        .expect(HttpStatus.BAD_REQUEST)
+        .expect({
+          statusCode: HttpStatus.BAD_REQUEST,
+          message: [
+            'entityId must be a number conforming to the specified constraints',
+            'iso must be longer than or equal to 5 characters',
+            'iso must be a valid enum value',
+            'iso must be a string',
+            'value must be longer than or equal to 3 characters',
+            'value must be a string',
+          ],
+          error: 'Bad Request',
+        })
+    })
   })
 
   describe('Universities', () => {
