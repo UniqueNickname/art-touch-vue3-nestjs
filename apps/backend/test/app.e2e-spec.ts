@@ -189,6 +189,15 @@ describe('Backend', () => {
         value: 'New York',
       }
 
+      const getCityDtoWithAltNames: GetCityDto = {
+        id: getCityDtoFirst.id,
+        name: getCityDtoFirst.name,
+        altNames: {
+          'ru-RU': createCityAltNameRu.value,
+          'en-US': createCityAltNameEn.value,
+        },
+      }
+
       it(`/POST /api/v1/cities/alt-names (ru-RU)`, () => {
         return request(app.getHttpServer())
           .post(`/api/v1/cities/alt-names`)
@@ -219,21 +228,18 @@ describe('Backend', () => {
         return request(app.getHttpServer())
           .get(`/api/v1/cities/${getCityDtoFirst.id}`)
           .expect(HttpStatus.OK)
-          .expect(
-            Object.assign(getCityDtoFirst, {
-              altNames: {
-                'ru-RU': createCityAltNameRu.value,
-                'en-US': createCityAltNameEn.value,
-              },
-            }),
-          )
+          .expect(getCityDtoWithAltNames)
       })
 
       it(`/POST /api/v1/cities/alt-names (for not exist city)`, () => {
         const entityId = 4
         return request(app.getHttpServer())
           .post(`/api/v1/cities/alt-names`)
-          .send(Object.assign(createCityAltNameEn, { entityId }))
+          .send({
+            entityId,
+            iso: createCityAltNameEn.iso,
+            value: createCityAltNameEn.value,
+          } as CreateAltNameDto)
           .expect(HttpStatus.BAD_REQUEST)
           .expect({
             statusCode: HttpStatus.BAD_REQUEST,
@@ -300,7 +306,10 @@ describe('Backend', () => {
 
       return request(app.getHttpServer())
         .post(`/api/v1/universities`)
-        .send(Object.assign(createUniversityDto, { cityId }))
+        .send({
+          cityId,
+          name: createUniversityDto.name,
+        } as CreateUniversityDto)
         .expect(HttpStatus.BAD_REQUEST)
         .expect({
           statusCode: HttpStatus.BAD_REQUEST,
@@ -351,6 +360,16 @@ describe('Backend', () => {
         value: 'Columbia University',
       }
 
+      const getUniversityWithAltNamesDto: GetUniversityDto = {
+        id: getUniversityDto.id,
+        name: getUniversityDto.name,
+        cityId: getUniversityDto.cityId,
+        altNames: {
+          'ru-RU': createUniversityAltNameRu.value,
+          'en-US': createUniversityAltNameEn.value,
+        },
+      }
+
       it(`/POST /api/v1/universities/alt-names (ru-RU)`, () => {
         return request(app.getHttpServer())
           .post(`/api/v1/universities/alt-names`)
@@ -381,49 +400,32 @@ describe('Backend', () => {
         return request(app.getHttpServer())
           .get(`/api/v1/universities`)
           .expect(HttpStatus.OK)
-          .expect([
-            Object.assign(getUniversityDto, {
-              altNames: {
-                'ru-RU': createUniversityAltNameRu.value,
-                'en-US': createUniversityAltNameEn.value,
-              },
-            }),
-          ])
+          .expect([getUniversityWithAltNamesDto])
       })
 
       it(`/GET universities by id (with alt names)`, () => {
         return request(app.getHttpServer())
           .get(`/api/v1/universities/${getUniversityDto.id}`)
           .expect(HttpStatus.OK)
-          .expect(
-            Object.assign(getUniversityDto, {
-              altNames: {
-                'ru-RU': createUniversityAltNameRu.value,
-                'en-US': createUniversityAltNameEn.value,
-              },
-            }),
-          )
+          .expect(getUniversityWithAltNamesDto)
       })
 
       it(`/GET universities by city id (with alt names)`, () => {
         return request(app.getHttpServer())
           .get(`/api/v1/universities/by-city/${getUniversityDto.cityId}`)
           .expect(HttpStatus.OK)
-          .expect([
-            Object.assign(getUniversityDto, {
-              altNames: {
-                'ru-RU': createUniversityAltNameRu.value,
-                'en-US': createUniversityAltNameEn.value,
-              },
-            }),
-          ])
+          .expect([getUniversityWithAltNamesDto])
       })
 
       it(`/POST /api/v1/universities/alt-names (for not exist city)`, () => {
         const entityId = 4
         return request(app.getHttpServer())
           .post(`/api/v1/universities/alt-names`)
-          .send(Object.assign(createUniversityAltNameEn, { entityId }))
+          .send({
+            entityId,
+            iso: createUniversityAltNameEn.iso,
+            value: createUniversityAltNameEn.value,
+          } as CreateAltNameDto)
           .expect(HttpStatus.BAD_REQUEST)
           .expect({
             statusCode: HttpStatus.BAD_REQUEST,
