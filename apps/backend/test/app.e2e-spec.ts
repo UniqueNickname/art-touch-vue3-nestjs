@@ -25,6 +25,8 @@ import { CreateUniversityDto } from '@art-touch/common/dist/dto/create-universit
 import { GetUniversityDto } from '@art-touch/common/dist/dto/get-university.dto'
 import { Teacher } from 'src/models/teacher.model'
 import { TeachersModule } from 'src/modules/teachers/teachers.module'
+import { CreateTeacherDto } from '@art-touch/common/dist/dto/create-teacher.dto'
+import { GetTeacherDto } from '@art-touch/common/dist/dto/get-teacher.dto'
 
 describe('Backend', () => {
   let app: INestApplication
@@ -103,6 +105,19 @@ describe('Backend', () => {
     id: 1,
     name: createUniversityDto.name,
     cityId: createUniversityDto.cityId,
+    altNames: {},
+  }
+
+  //+ Teacher DTO
+  const createTeacherDto: CreateTeacherDto = {
+    name: 'Nicholas Bartlett',
+    universityId: getUniversityDto.id,
+  }
+
+  const getTeacherDto: GetTeacherDto = {
+    id: 1,
+    universityId: createTeacherDto.universityId,
+    name: createTeacherDto.name,
     altNames: {},
   }
 
@@ -451,6 +466,73 @@ describe('Backend', () => {
             error: 'Bad Request',
           })
       })
+    })
+  })
+  describe('Teachers', () => {
+    const getSameTeacherDto: GetTeacherDto = {
+      id: 2,
+      universityId: getTeacherDto.universityId,
+      name: getTeacherDto.name,
+      altNames: getTeacherDto.altNames,
+    }
+
+    it(`/GET /api/v1/teachers (empty database)`, () => {
+      return request(app.getHttpServer())
+        .get(`/api/v1/teachers`)
+        .expect(HttpStatus.OK)
+        .expect([])
+    })
+
+    it(`/GET /api/v1/teachers/${getTeacherDto.id} (empty database)`, () => {
+      return request(app.getHttpServer())
+        .get(`/api/v1/teachers/${getTeacherDto.id}`)
+        .expect(HttpStatus.NOT_FOUND)
+    })
+
+    it(`/POST /api/v1/teachers`, () => {
+      return request(app.getHttpServer())
+        .post(`/api/v1/teachers`)
+        .send(createTeacherDto)
+        .expect(HttpStatus.CREATED)
+        .expect(getTeacherDto)
+    })
+
+    it(`/POST /api/v1/teachers (with exist name)`, () => {
+      return request(app.getHttpServer())
+        .post(`/api/v1/teachers`)
+        .send(createTeacherDto)
+        .expect(HttpStatus.CREATED)
+        .expect(getSameTeacherDto)
+    })
+
+    it(`/POST /api/v1/teachers (with empty DTO)`, () => {
+      return request(app.getHttpServer())
+        .post(`/api/v1/teachers`)
+        .send({})
+        .expect(HttpStatus.BAD_REQUEST)
+        .expect({
+          statusCode: HttpStatus.BAD_REQUEST,
+          message: [
+            'name must be longer than or equal to 6 characters',
+            'name must be a string',
+            'universityId must be a number conforming to the specified constraints',
+          ],
+          error: 'Bad Request',
+        })
+    })
+
+    it(`/GET /api/v1/teachers (full database)`, () => {
+      return request(app.getHttpServer())
+        .get(`/api/v1/teachers`)
+        .expect(HttpStatus.OK)
+        .expect([getTeacherDto, getSameTeacherDto])
+    })
+
+    it(`/GET /api/v1/teachers/${getTeacherDto.id} (full database)`, () => {
+      return request(app.getHttpServer())
+        .get(`/api/v1/teachers/${getTeacherDto.id}`)
+        .expect(HttpStatus.OK)
+        .expect(getTeacherDto)
     })
   })
 
