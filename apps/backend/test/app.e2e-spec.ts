@@ -28,6 +28,7 @@ import { TeachersModule } from 'src/modules/teachers/teachers.module'
 import { CreateTeacherDto } from '@art-touch/common/dist/dto/create-teacher.dto'
 import { GetTeacherDto } from '@art-touch/common/dist/dto/get-teacher.dto'
 import { Participant } from 'src/models/user.model'
+import { FilesModule } from 'src/modules/files/files.module'
 
 describe('Backend', () => {
   let app: INestApplication
@@ -40,6 +41,7 @@ describe('Backend', () => {
         UniversitiesModule,
         TeachersModule,
         AltNamesModule,
+        FilesModule,
       ],
     }).compile()
 
