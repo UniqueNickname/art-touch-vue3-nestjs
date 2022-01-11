@@ -9,6 +9,7 @@ import {
 } from 'sequelize-typescript'
 import { UniversityAltName } from './alt-names.model'
 import { City } from './city.model'
+import { Teacher } from './teacher.model'
 
 interface UniversityCreationAttrs {
   name: string
@@ -34,6 +35,9 @@ export class University extends Model<University, UniversityCreationAttrs> {
 
   @BelongsTo(() => City)
   city: City
+
+  @HasMany(() => Teacher)
+  universities: Teacher[]
 
   @HasMany(() => UniversityAltName)
   altNames: UniversityAltName[]

@@ -10,6 +10,7 @@ import {
 import { City } from 'src/models/city.model'
 import { ISO } from '@art-touch/common/dist/enums/iso.enum'
 import { University } from './university.model'
+import { Teacher } from './teacher.model'
 
 interface AltNamesCreationAttrs {
   entityId: number
@@ -79,4 +80,19 @@ export class UniversityAltName extends BaseAltName {
 
   @BelongsTo(() => University)
   entity: University
+}
+
+@Table({ tableName: 'alt-names-teacher', createdAt: false, updatedAt: false })
+export class TeacherAltName extends BaseAltName {
+  @ApiProperty({
+    example: 1,
+    description: 'Id of the professor',
+    uniqueItems: true,
+  })
+  @ForeignKey(() => Teacher)
+  @Column({ type: DataType.INTEGER })
+  entityId: number
+
+  @BelongsTo(() => Teacher)
+  entity: Teacher
 }
