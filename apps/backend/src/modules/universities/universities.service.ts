@@ -4,6 +4,8 @@ import { University } from 'src/models/university.model'
 import { CreateUniversityDto } from '@art-touch/common/dist/dto/create-university.dto'
 import { GetUniversityDto } from '@art-touch/common/dist/dto/get-university.dto'
 import { CitiesService } from '../cities/cities.service'
+import { UniversityAltName } from 'src/models/alt-names.model'
+import { GetAltNamesDTO } from '@art-touch/common/dist/dto/get-alt-name.dto'
 
 @Injectable()
 export class UniversitiesService {
@@ -39,19 +41,22 @@ export class UniversitiesService {
   }
 
   async getAll(): Promise<GetUniversityDto[]> {
-    const universities = await this.universityRepository.findAll()
+    const universities = await this.universityRepository.findAll({
+      include: [UniversityAltName],
+    })
 
     return universities.map(university => ({
       id: university.id,
       cityId: university.cityId,
       name: university.name,
-      altNames: {},
+      altNames: this.transformAltNames(university.altNames),
     }))
   }
 
   async getById(universityId: number): Promise<GetUniversityDto> {
     const university = await this.universityRepository.findOne({
       where: { id: universityId },
+      include: [UniversityAltName],
     })
 
     if (!university) {
@@ -65,13 +70,14 @@ export class UniversitiesService {
       id: university.id,
       cityId: university.cityId,
       name: university.name,
-      altNames: {},
+      altNames: this.transformAltNames(university.altNames),
     }
   }
 
   async getByCity(cityId: number): Promise<GetUniversityDto[]> {
     const universities = await this.universityRepository.findAll({
       where: { cityId },
+      include: [UniversityAltName],
     })
 
     if (!universities.length) {
@@ -85,7 +91,14 @@ export class UniversitiesService {
       id: university.id,
       cityId: university.cityId,
       name: university.name,
-      altNames: {},
+      altNames: this.transformAltNames(university.altNames),
     }))
+  }
+
+  private transformAltNames(altNames: UniversityAltName[]) {
+    return altNames.reduce((acc, { value, iso }) => {
+      acc[iso] = value
+      return acc
+    }, {} as GetAltNamesDTO)
   }
 }
