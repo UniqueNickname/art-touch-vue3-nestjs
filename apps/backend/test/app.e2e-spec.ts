@@ -326,6 +326,119 @@ describe('Backend', () => {
           error: 'Bad Request',
         })
     })
+
+    describe('Universities alt names', () => {
+      const createUniversityAltNameRu: CreateAltNameDto = {
+        entityId: getUniversityDto.id,
+        iso: ISO.ru,
+        value: 'Колумбийский университет',
+      }
+
+      const createUniversityAltNameEn: CreateAltNameDto = {
+        entityId: getUniversityDto.id,
+        iso: ISO.en,
+        value: 'Columbia University',
+      }
+
+      it(`/POST /api/v1/universities/alt-names (ru-RU)`, () => {
+        return request(app.getHttpServer())
+          .post(`/api/v1/universities/alt-names`)
+          .send(createUniversityAltNameRu)
+          .expect(HttpStatus.CREATED)
+          .expect({
+            id: 1,
+            entityId: createUniversityAltNameRu.entityId,
+            iso: createUniversityAltNameRu.iso,
+            value: createUniversityAltNameRu.value,
+          } as UniversityAltName)
+      })
+
+      it(`/POST /api/v1/universities/alt-names (en-US)`, () => {
+        return request(app.getHttpServer())
+          .post(`/api/v1/universities/alt-names`)
+          .send(createUniversityAltNameEn)
+          .expect(HttpStatus.CREATED)
+          .expect({
+            id: 2,
+            entityId: createUniversityAltNameEn.entityId,
+            iso: createUniversityAltNameEn.iso,
+            value: createUniversityAltNameEn.value,
+          } as UniversityAltName)
+      })
+
+      it(`/GET universities (with alt names)`, () => {
+        return request(app.getHttpServer())
+          .get(`/api/v1/universities`)
+          .expect(HttpStatus.OK)
+          .expect([
+            Object.assign(getUniversityDto, {
+              altNames: {
+                'ru-RU': createUniversityAltNameRu.value,
+                'en-US': createUniversityAltNameEn.value,
+              },
+            }),
+          ])
+      })
+
+      it(`/GET universities by id (with alt names)`, () => {
+        return request(app.getHttpServer())
+          .get(`/api/v1/universities/${getUniversityDto.id}`)
+          .expect(HttpStatus.OK)
+          .expect(
+            Object.assign(getUniversityDto, {
+              altNames: {
+                'ru-RU': createUniversityAltNameRu.value,
+                'en-US': createUniversityAltNameEn.value,
+              },
+            }),
+          )
+      })
+
+      it(`/GET universities by city id (with alt names)`, () => {
+        return request(app.getHttpServer())
+          .get(`/api/v1/universities/by-city/${getUniversityDto.cityId}`)
+          .expect(HttpStatus.OK)
+          .expect([
+            Object.assign(getUniversityDto, {
+              altNames: {
+                'ru-RU': createUniversityAltNameRu.value,
+                'en-US': createUniversityAltNameEn.value,
+              },
+            }),
+          ])
+      })
+
+      it(`/POST /api/v1/universities/alt-names (for not exist city)`, () => {
+        const entityId = 4
+        return request(app.getHttpServer())
+          .post(`/api/v1/universities/alt-names`)
+          .send(Object.assign(createUniversityAltNameEn, { entityId }))
+          .expect(HttpStatus.BAD_REQUEST)
+          .expect({
+            statusCode: HttpStatus.BAD_REQUEST,
+            message: `University with id '${entityId}' does not exist`,
+          })
+      })
+
+      it(`/POST /api/v1/universities/alt-names (with empty DTO)`, () => {
+        return request(app.getHttpServer())
+          .post(`/api/v1/universities/alt-names`)
+          .send({})
+          .expect(HttpStatus.BAD_REQUEST)
+          .expect({
+            statusCode: HttpStatus.BAD_REQUEST,
+            message: [
+              'entityId must be a number conforming to the specified constraints',
+              'iso must be longer than or equal to 5 characters',
+              'iso must be a valid enum value',
+              'iso must be a string',
+              'value must be longer than or equal to 3 characters',
+              'value must be a string',
+            ],
+            error: 'Bad Request',
+          })
+      })
+    })
   })
 
   afterAll(async () => {
