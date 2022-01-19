@@ -350,6 +350,12 @@ describe('Backend', () => {
         .expect(getUniversityDto)
     })
 
+    it(`/GET universities by city id (for not exist city)`, () => {
+      return request(app.getHttpServer())
+        .get(`/api/v1/universities/by-city/${7}`)
+        .expect(HttpStatus.NOT_FOUND)
+    })
+
     it(`/POST /api/v1/universities (with empty DTO)`, () => {
       return request(app.getHttpServer())
         .post(`/api/v1/universities`)
