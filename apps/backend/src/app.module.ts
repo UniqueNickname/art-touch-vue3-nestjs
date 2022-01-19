@@ -5,6 +5,7 @@ import { AltNamesModule } from './modules/alt-names/alt-names.module'
 import { UniversitiesModule } from './modules/universities/universities.module'
 import { TeachersModule } from './modules/teachers/teachers.module'
 import { FilesModule } from './modules/files/files.module'
+import { AuthModule } from './modules/auth/auth.module'
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { FilesModule } from './modules/files/files.module'
     UniversitiesModule,
     TeachersModule,
     FilesModule,
+    AuthModule,
   ],
   controllers: [],
   providers: [],
