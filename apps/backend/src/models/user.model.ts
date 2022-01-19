@@ -6,7 +6,6 @@ import {
   Table,
   Model,
 } from 'sequelize-typescript'
-import { Role } from '@art-touch/common/dist/enums/role.enum'
 import { Teacher } from './teacher.model'
 
 interface UserCreationAttrs {
@@ -14,16 +13,13 @@ interface UserCreationAttrs {
   password: string
   phone: string
   fullName: string
-  role: Role
 }
 
 interface ParticipantCreationAttrs extends UserCreationAttrs {
-  role: Role.participant
   teacherId: number
 }
 
 interface JuryCreationAttrs extends UserCreationAttrs {
-  role: Role.jury
   photo: string
 }
 
