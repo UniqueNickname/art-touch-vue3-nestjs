@@ -27,7 +27,7 @@ import { Teacher } from 'src/models/teacher.model'
 import { TeachersModule } from 'src/modules/teachers/teachers.module'
 import { CreateTeacherDto } from '@art-touch/common/dist/dto/create-teacher.dto'
 import { GetTeacherDto } from '@art-touch/common/dist/dto/get-teacher.dto'
-import { Jury, Participant } from 'src/models/user.model'
+import { Admin, Jury, Participant } from 'src/models/user.model'
 import { FilesModule } from 'src/modules/files/files.module'
 
 describe('Backend', () => {
@@ -60,6 +60,7 @@ describe('Backend', () => {
   const end = async () => {
     await Participant.drop()
     await Jury.drop()
+    await Admin.drop()
     await TeacherAltName.drop()
     await Teacher.drop()
     await UniversityAltName.drop()

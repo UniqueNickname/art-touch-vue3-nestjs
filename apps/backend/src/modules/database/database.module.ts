@@ -9,7 +9,7 @@ import {
 import { City } from 'src/models/city.model'
 import { Teacher } from 'src/models/teacher.model'
 import { University } from 'src/models/university.model'
-import { Jury, Participant } from 'src/models/user.model'
+import { Admin, Jury, Participant } from 'src/models/user.model'
 
 @Module({
   imports: [
@@ -32,6 +32,7 @@ import { Jury, Participant } from 'src/models/user.model'
         TeacherAltName,
         Participant,
         Jury,
+        Admin,
       ],
       autoLoadModels: true,
     }),
