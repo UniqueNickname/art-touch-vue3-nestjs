@@ -11,6 +11,7 @@
     "format": "prettier --write \"apps/{backend,client}/{src,test,server}/**/*.{ts,vue}\" ",
     "lint:scripts": "eslint \"apps/{backend,client}/{src,test,server}/**/*.{ts,vue}\" --fix",
     "build": "lerna run build --stream",
+    "update:common": "cd ./packages/common && yarn build && cd ../../ && yarn",
     "start:prod": "lerna run start:prod --stream",
     "start:dev": "lerna run start:dev --stream",
     "test:e2e": "lerna run test:e2e --stream",
