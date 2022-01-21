@@ -11,11 +11,11 @@ import { Teacher } from './teacher.model'
 interface UserCreationAttrs {
   email: string
   password: string
-  phone: string
   fullName: string
 }
 
 interface ParticipantCreationAttrs extends UserCreationAttrs {
+  phone: string
   teacherId: number
 }
 
@@ -71,9 +71,6 @@ export class Jury extends Model<Jury, JuryCreationAttrs> {
   @Column({ type: DataType.STRING, allowNull: false })
   password: string
 
-  @Column({ type: DataType.STRING, unique: true, allowNull: false })
-  phone: string
-
   @Column({ type: DataType.STRING, allowNull: false })
   fullName: string
 
@@ -96,9 +93,6 @@ export class Admin extends Model<Admin, AdminAttrs> {
 
   @Column({ type: DataType.STRING, allowNull: false })
   password: string
-
-  @Column({ type: DataType.STRING, unique: true, allowNull: false })
-  phone: string
 
   @Column({ type: DataType.STRING, allowNull: false })
   fullName: string

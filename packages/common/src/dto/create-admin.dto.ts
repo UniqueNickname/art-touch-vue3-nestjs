@@ -1,6 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger'
 import { IsEmail, IsString, MinLength } from 'class-validator'
-import { IsPhoneNumber } from '../validators/IsPhoneNumber.validator'
 
 export class CreateAdminDto {
   @ApiProperty({
@@ -16,15 +15,6 @@ export class CreateAdminDto {
   @IsString()
   @MinLength(8)
   readonly password: string
-
-  @ApiProperty({
-    example: '+79998882233',
-    description: 'Phone number',
-    uniqueItems: true,
-  })
-  @IsString()
-  @IsPhoneNumber()
-  readonly phone: string
 
   @ApiProperty({
     example: 'Paul Kreitman',
