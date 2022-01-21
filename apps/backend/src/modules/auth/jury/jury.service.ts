@@ -1,8 +1,7 @@
 import { Injectable } from '@nestjs/common'
 import { InjectModel } from '@nestjs/sequelize'
 import { Jury } from 'src/models/user.model'
-import { CreateAdminDto } from '@art-touch/common/dist/dto/create-admin.dto'
-import { GetJuryDto } from '@art-touch/common/dist/dto/get-jury.dto'
+import { CreateJuryDto } from '@art-touch/common/dist/dto/create-jury.dto'
 import { FilesService } from 'src/modules/files/files.service'
 
 @Injectable()
@@ -12,15 +11,10 @@ export class JuryService {
     private fileService: FilesService,
   ) {}
 
-  async create(dto: CreateAdminDto, photo: any): Promise<GetJuryDto> {
+  async create(dto: CreateJuryDto, photo: any): Promise<Jury> {
     const fileName = await this.fileService.createFile(photo)
     const jury = await this.juryRepository.create({ ...dto, photo: fileName })
 
-    return {
-      id: jury.id,
-      email: jury.email,
-      fullName: jury.fullName,
-      photo: jury.photo,
-    }
+    return jury
   }
 }
