@@ -1,12 +1,7 @@
 import * as request from 'supertest'
 import { Test } from '@nestjs/testing'
 import { CitiesModule } from 'src/modules/cities/cities.module'
-import {
-  HttpStatus,
-  INestApplication,
-  ValidationPipe,
-  VersioningType,
-} from '@nestjs/common'
+import { HttpStatus, INestApplication } from '@nestjs/common'
 import { DatabaseModule } from 'src/modules/database/database.module'
 import { CreateCityDto } from '@art-touch/common/dist/dto/create-city.dto'
 import { GetCityDto } from '@art-touch/common/dist/dto/get-city.dto'
@@ -30,6 +25,7 @@ import { GetTeacherDto } from '@art-touch/common/dist/dto/get-teacher.dto'
 import { Admin, Jury, Participant } from 'src/models/user.model'
 import { FilesModule } from 'src/modules/files/files.module'
 import { AuthModule } from 'src/modules/auth/auth.module'
+import { initDefaultConfig } from 'src/config'
 
 describe('Backend', () => {
   let app: INestApplication
@@ -49,12 +45,7 @@ describe('Backend', () => {
 
     app = moduleRef.createNestApplication()
 
-    app.setGlobalPrefix('/api')
-    app.enableVersioning({
-      type: VersioningType.URI,
-    })
-
-    app.useGlobalPipes(new ValidationPipe())
+    await initDefaultConfig(app)
 
     await app.init()
   }
