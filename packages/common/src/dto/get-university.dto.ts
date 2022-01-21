@@ -25,7 +25,7 @@ export class GetUniversityDto {
 
   @ApiProperty({
     example: {
-      'ru-ru': 'Колумбийский университет',
+      'ru-Ru': 'Колумбийский университет',
     },
     description: 'Alternative names of the university',
     uniqueItems: true,

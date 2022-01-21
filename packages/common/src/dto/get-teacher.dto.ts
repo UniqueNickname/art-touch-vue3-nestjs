@@ -24,7 +24,7 @@ export class GetTeacherDto {
 
   @ApiProperty({
     example: {
-      'ru-ru': 'Николас Бартлет',
+      'ru-Ru': 'Николас Бартлет',
     },
     description: 'Alternative names of the teacher',
     uniqueItems: true,
