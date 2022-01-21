@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger'
 import { IsEmail, IsString, MinLength } from 'class-validator'
-import { IsPhoneNumber } from 'src/validators/IsPhoneNumber.validator'
+import { IsPhoneNumber } from '../validators/IsPhoneNumber.validator'
 
 export class CreateAdminDto {
   @ApiProperty({
