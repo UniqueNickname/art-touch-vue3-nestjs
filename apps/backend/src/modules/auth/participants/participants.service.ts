@@ -2,7 +2,6 @@ import { Injectable } from '@nestjs/common'
 import { InjectModel } from '@nestjs/sequelize'
 import { Participant } from 'src/models/user.model'
 import { CreateParticipantDto } from '@art-touch/common/dist/dto/create-participant.dto'
-import { GetParticipantDto } from '@art-touch/common/dist/dto/get-participant.dto'
 
 @Injectable()
 export class ParticipantsService {
@@ -10,15 +9,9 @@ export class ParticipantsService {
     @InjectModel(Participant) private participantRepository: typeof Participant,
   ) {}
 
-  async create(dto: CreateParticipantDto): Promise<GetParticipantDto> {
+  async create(dto: CreateParticipantDto): Promise<Participant> {
     const participant = await this.participantRepository.create(dto)
 
-    return {
-      id: participant.id,
-      email: participant.email,
-      fullName: participant.fullName,
-      phone: participant.phone,
-      teacherId: participant.teacherId,
-    }
+    return participant
   }
 }
