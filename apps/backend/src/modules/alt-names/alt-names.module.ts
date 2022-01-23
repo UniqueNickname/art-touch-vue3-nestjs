@@ -10,6 +10,7 @@ import {
 import { CitiesModule } from '../cities/cities.module'
 import { UniversitiesModule } from '../universities/universities.module'
 import { TeachersModule } from '../teachers/teachers.module'
+import { JwtRegistrationModule } from '../auth/jwt/jwt-registrarion.module'
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { TeachersModule } from '../teachers/teachers.module'
       UniversityAltName,
       TeacherAltName,
     ]),
+    JwtRegistrationModule,
     CitiesModule,
     UniversitiesModule,
     TeachersModule,

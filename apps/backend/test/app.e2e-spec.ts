@@ -264,9 +264,17 @@ describe('Backend', () => {
         },
       }
 
+      it(`/POST /api/v1/cities/alt-names (not admin)`, () => {
+        return request(app.getHttpServer())
+          .post(`/api/v1/cities/alt-names`)
+          .send(createCityAltNameRu)
+          .expect(HttpStatus.UNAUTHORIZED)
+      })
+
       it(`/POST /api/v1/cities/alt-names (ru-RU)`, () => {
         return request(app.getHttpServer())
           .post(`/api/v1/cities/alt-names`)
+          .set('Authorization', `Bearer ${adminAccessToken}`)
           .send(createCityAltNameRu)
           .expect(HttpStatus.CREATED)
           .expect({
@@ -280,6 +288,7 @@ describe('Backend', () => {
       it(`/POST /api/v1/cities/alt-names (en-US)`, () => {
         return request(app.getHttpServer())
           .post(`/api/v1/cities/alt-names`)
+          .set('Authorization', `Bearer ${adminAccessToken}`)
           .send(createCityAltNameEn)
           .expect(HttpStatus.CREATED)
           .expect({
@@ -301,6 +310,7 @@ describe('Backend', () => {
         const entityId = 4
         return request(app.getHttpServer())
           .post(`/api/v1/cities/alt-names`)
+          .set('Authorization', `Bearer ${adminAccessToken}`)
           .send({
             entityId,
             iso: createCityAltNameEn.iso,
@@ -316,6 +326,7 @@ describe('Backend', () => {
       it(`/POST /api/v1/cities/alt-names (with empty DTO)`, () => {
         return request(app.getHttpServer())
           .post(`/api/v1/cities/alt-names`)
+          .set('Authorization', `Bearer ${adminAccessToken}`)
           .send({})
           .expect(HttpStatus.BAD_REQUEST)
           .expect({
@@ -442,9 +453,17 @@ describe('Backend', () => {
         },
       }
 
+      it(`/POST /api/v1/universities/alt-names (not admin)`, () => {
+        return request(app.getHttpServer())
+          .post(`/api/v1/universities/alt-names`)
+          .send(createUniversityAltNameRu)
+          .expect(HttpStatus.UNAUTHORIZED)
+      })
+
       it(`/POST /api/v1/universities/alt-names (ru-RU)`, () => {
         return request(app.getHttpServer())
           .post(`/api/v1/universities/alt-names`)
+          .set('Authorization', `Bearer ${adminAccessToken}`)
           .send(createUniversityAltNameRu)
           .expect(HttpStatus.CREATED)
           .expect({
@@ -458,6 +477,7 @@ describe('Backend', () => {
       it(`/POST /api/v1/universities/alt-names (en-US)`, () => {
         return request(app.getHttpServer())
           .post(`/api/v1/universities/alt-names`)
+          .set('Authorization', `Bearer ${adminAccessToken}`)
           .send(createUniversityAltNameEn)
           .expect(HttpStatus.CREATED)
           .expect({
@@ -493,6 +513,7 @@ describe('Backend', () => {
         const entityId = 4
         return request(app.getHttpServer())
           .post(`/api/v1/universities/alt-names`)
+          .set('Authorization', `Bearer ${adminAccessToken}`)
           .send({
             entityId,
             iso: createUniversityAltNameEn.iso,
@@ -508,6 +529,7 @@ describe('Backend', () => {
       it(`/POST /api/v1/universities/alt-names (with empty DTO)`, () => {
         return request(app.getHttpServer())
           .post(`/api/v1/universities/alt-names`)
+          .set('Authorization', `Bearer ${adminAccessToken}`)
           .send({})
           .expect(HttpStatus.BAD_REQUEST)
           .expect({
@@ -637,9 +659,17 @@ describe('Backend', () => {
         },
       }
 
+      it(`/POST /api/v1/teachers/alt-names (not admin)`, () => {
+        return request(app.getHttpServer())
+          .post(`/api/v1/teachers/alt-names`)
+          .send(createTeacherAltNameRu)
+          .expect(HttpStatus.UNAUTHORIZED)
+      })
+
       it(`/POST /api/v1/teachers/alt-names (ru-RU)`, () => {
         return request(app.getHttpServer())
           .post(`/api/v1/teachers/alt-names`)
+          .set('Authorization', `Bearer ${adminAccessToken}`)
           .send(createTeacherAltNameRu)
           .expect(HttpStatus.CREATED)
           .expect({
@@ -653,6 +683,7 @@ describe('Backend', () => {
       it(`/POST /api/v1/teachers/alt-names (en-US)`, () => {
         return request(app.getHttpServer())
           .post(`/api/v1/teachers/alt-names`)
+          .set('Authorization', `Bearer ${adminAccessToken}`)
           .send(createTeacherAltNameEn)
           .expect(HttpStatus.CREATED)
           .expect({
@@ -681,6 +712,7 @@ describe('Backend', () => {
         const entityId = 4
         return request(app.getHttpServer())
           .post(`/api/v1/teachers/alt-names`)
+          .set('Authorization', `Bearer ${adminAccessToken}`)
           .send({
             entityId,
             iso: createTeacherAltNameEn.iso,
@@ -696,6 +728,7 @@ describe('Backend', () => {
       it(`/POST /api/v1/teachers/alt-names (with empty DTO)`, () => {
         return request(app.getHttpServer())
           .post(`/api/v1/teachers/alt-names`)
+          .set('Authorization', `Bearer ${adminAccessToken}`)
           .send({})
           .expect(HttpStatus.BAD_REQUEST)
           .expect({
