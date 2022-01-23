@@ -59,7 +59,7 @@ export class AuthController {
     return this.authService.registrationParticipant(dto)
   }
 
-  @ApiOperation({ summary: 'Register a new admin' })
+  @ApiOperation({ summary: `Register a new admin (Only for ${Role.admin})` })
   @ApiResponse({ status: HttpStatus.CREATED, type: GetAdminDto })
   @Version('1')
   @RequireRole(Role.admin)
@@ -69,7 +69,7 @@ export class AuthController {
     return this.authService.registrationAdmin(dto)
   }
 
-  @ApiOperation({ summary: 'Register a new jury' })
+  @ApiOperation({ summary: `Register a new jury (Only for ${Role.admin})` })
   @ApiConsumes('multipart/form-data')
   @ApiBody({
     required: true,
