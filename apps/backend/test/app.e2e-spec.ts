@@ -366,6 +366,7 @@ describe('Backend', () => {
     it(`/POST /api/v1/universities`, () => {
       return request(app.getHttpServer())
         .post(`/api/v1/universities`)
+        .set('Authorization', `Bearer ${adminAccessToken}`)
         .send(createUniversityDto)
         .expect(HttpStatus.CREATED)
         .expect(getUniversityDto)
@@ -374,6 +375,7 @@ describe('Backend', () => {
     it(`/POST /api/v1/universities (with exist name)`, () => {
       return request(app.getHttpServer())
         .post(`/api/v1/universities`)
+        .set('Authorization', `Bearer ${adminAccessToken}`)
         .send(createUniversityDto)
         .expect(HttpStatus.BAD_REQUEST)
         .expect({
@@ -387,6 +389,7 @@ describe('Backend', () => {
 
       return request(app.getHttpServer())
         .post(`/api/v1/universities`)
+        .set('Authorization', `Bearer ${adminAccessToken}`)
         .send({
           cityId,
           name: createUniversityDto.name,
@@ -421,6 +424,7 @@ describe('Backend', () => {
     it(`/POST /api/v1/universities (with empty DTO)`, () => {
       return request(app.getHttpServer())
         .post(`/api/v1/universities`)
+        .set('Authorization', `Bearer ${adminAccessToken}`)
         .send({})
         .expect(HttpStatus.BAD_REQUEST)
         .expect({

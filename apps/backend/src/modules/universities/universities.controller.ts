@@ -1,5 +1,6 @@
 import { CreateUniversityDto } from '@art-touch/common/dist/dto/create-university.dto'
 import { GetUniversityDto } from '@art-touch/common/dist/dto/get-university.dto'
+import { Role } from '@art-touch/common/dist/enums/role.enum'
 import {
   Body,
   Controller,
@@ -7,9 +8,12 @@ import {
   HttpStatus,
   Param,
   Post,
+  UseGuards,
   Version,
 } from '@nestjs/common'
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger'
+import { RequireRole } from 'src/decorators/roles-auth.decorator'
+import { RolesGuard } from 'src/guards/roles.guard'
 import { UniversitiesService } from './universities.service'
 
 @ApiTags('Universities')
@@ -17,9 +21,11 @@ import { UniversitiesService } from './universities.service'
 export class UniversitiesController {
   constructor(private universitiesService: UniversitiesService) {}
 
-  @ApiOperation({ summary: 'Add a new university' })
+  @ApiOperation({ summary: `Add a new university (Only for ${Role.admin})` })
   @ApiResponse({ status: HttpStatus.CREATED, type: GetUniversityDto })
   @Version('1')
+  @RequireRole(Role.admin)
+  @UseGuards(RolesGuard)
   @Post()
   create(@Body() dto: CreateUniversityDto) {
     return this.universitiesService.create(dto)
