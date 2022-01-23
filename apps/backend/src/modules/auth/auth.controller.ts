@@ -4,6 +4,7 @@ import {
   HttpStatus,
   Post,
   UploadedFile,
+  UseGuards,
   UseInterceptors,
   Version,
 } from '@nestjs/common'
@@ -23,6 +24,9 @@ import { CreateAdminDto } from '@art-touch/common/dist/dto/create-admin.dto'
 import { CreateJuryDto } from '@art-touch/common/dist/dto/create-jury.dto'
 import { FileInterceptor } from '@nestjs/platform-express'
 import { LoginUserDto } from '@art-touch/common/dist/dto/login-user.dto'
+import { RequireRole } from 'src/decorators/roles-auth.decorator'
+import { Role } from '@art-touch/common/dist/enums/role.enum'
+import { RolesGuard } from 'src/guards/roles.guard'
 
 const registerJuryBody: Record<
   keyof CreateJuryDto | 'photo',
@@ -58,6 +62,8 @@ export class AuthController {
   @ApiOperation({ summary: 'Register a new admin' })
   @ApiResponse({ status: HttpStatus.CREATED, type: GetAdminDto })
   @Version('1')
+  @RequireRole(Role.admin)
+  @UseGuards(RolesGuard)
   @Post('/registration/admin')
   registerAdmin(@Body() dto: CreateAdminDto): Promise<string> {
     return this.authService.registrationAdmin(dto)
@@ -76,6 +82,8 @@ export class AuthController {
   })
   @ApiResponse({ status: HttpStatus.CREATED, type: GetJuryDto })
   @Version('1')
+  @RequireRole(Role.admin)
+  @UseGuards(RolesGuard)
   @Post('/registration/jury')
   @UseInterceptors(FileInterceptor('photo'))
   registerJury(
