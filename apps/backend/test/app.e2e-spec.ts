@@ -26,6 +26,7 @@ import { Admin, Jury, Participant } from 'src/models/user.model'
 import { FilesModule } from 'src/modules/files/files.module'
 import { AuthModule } from 'src/modules/auth/auth.module'
 import { initDefaultConfig } from 'src/config'
+import { CreateAdminDto } from '@art-touch/common/dist/dto/create-admin.dto'
 
 describe('Backend', () => {
   let app: INestApplication
@@ -119,6 +120,57 @@ describe('Backend', () => {
     name: createTeacherDto.name,
     altNames: {},
   }
+
+  let adminAccessToken: string
+
+  describe('Auth Admin', () => {
+    it('/POST /api/v1/auth/login (as default admin)', async () => {
+      const response = await request(app.getHttpServer())
+        .post(`/api/v1/auth/login`)
+        .send({
+          email: process.env.ADMIN_EMAIL,
+          password: process.env.ADMIN_PASSWORD,
+        })
+        .expect(HttpStatus.CREATED)
+
+      adminAccessToken = response.text
+    })
+
+    it('/POST /api/v1/auth/registration/admin (with valid access token)', () => {
+      return request(app.getHttpServer())
+        .post(`/api/v1/auth/registration/admin`)
+        .set('Authorization', `Bearer ${adminAccessToken}`)
+        .send({
+          email: 'example@mail.com',
+          password: process.env.ADMIN_PASSWORD,
+          fullName: process.env.ADMIN_FULLNAME,
+        } as CreateAdminDto)
+        .expect(HttpStatus.CREATED)
+    })
+
+    it('/POST /api/v1/auth/registration/admin (with valid access token & exist email)', () => {
+      return request(app.getHttpServer())
+        .post(`/api/v1/auth/registration/admin`)
+        .set('Authorization', `Bearer ${adminAccessToken}`)
+        .send({
+          email: process.env.ADMIN_EMAIL,
+          password: process.env.ADMIN_PASSWORD,
+          fullName: process.env.ADMIN_FULLNAME,
+        } as CreateAdminDto)
+        .expect(HttpStatus.BAD_REQUEST)
+    })
+
+    it('/POST /api/v1/auth/registration/admin (without valid access token)', () => {
+      return request(app.getHttpServer())
+        .post(`/api/v1/auth/registration/admin`)
+        .send({
+          email: 'example2@mail.com',
+          password: process.env.ADMIN_PASSWORD,
+          fullName: process.env.ADMIN_FULLNAME,
+        } as CreateAdminDto)
+        .expect(HttpStatus.UNAUTHORIZED)
+    })
+  })
 
   describe('Cities', () => {
     it(`/GET /api/v1/cities (empty database)`, () => {
