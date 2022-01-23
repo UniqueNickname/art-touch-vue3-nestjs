@@ -5,21 +5,27 @@ import {
   HttpStatus,
   Param,
   Post,
+  UseGuards,
   Version,
 } from '@nestjs/common'
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger'
 import { CitiesService } from './cities.service'
 import { CreateCityDto } from '@art-touch/common/dist/dto/create-city.dto'
 import { GetCityDto } from '@art-touch/common/dist/dto/get-city.dto'
+import { RequireRole } from 'src/decorators/roles-auth.decorator'
+import { Role } from '@art-touch/common/dist/enums/role.enum'
+import { RolesGuard } from 'src/guards/roles.guard'
 
 @ApiTags('Cities')
 @Controller('cities')
 export class CitiesController {
   constructor(private citiesService: CitiesService) {}
 
-  @ApiOperation({ summary: 'Add a new city' })
+  @ApiOperation({ summary: `Add a new city (Only for ${Role.admin})` })
   @ApiResponse({ status: HttpStatus.CREATED, type: GetCityDto })
   @Version('1')
+  @RequireRole(Role.admin)
+  @UseGuards(RolesGuard)
   @Post()
   create(@Body() dto: CreateCityDto) {
     return this.citiesService.create(dto)

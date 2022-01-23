@@ -189,6 +189,7 @@ describe('Backend', () => {
     it(`/POST /api/v1/cities (first)`, () => {
       return request(app.getHttpServer())
         .post(`/api/v1/cities`)
+        .set('Authorization', `Bearer ${adminAccessToken}`)
         .send(createCityDtoFirst)
         .expect(HttpStatus.CREATED)
         .expect(getCityDtoFirst)
@@ -197,6 +198,7 @@ describe('Backend', () => {
     it(`/POST /api/v1/cities (second)`, () => {
       return request(app.getHttpServer())
         .post(`/api/v1/cities`)
+        .set('Authorization', `Bearer ${adminAccessToken}`)
         .send(createCityDtoSecond)
         .expect(HttpStatus.CREATED)
         .expect(getCityDtoSecond)
@@ -205,6 +207,7 @@ describe('Backend', () => {
     it(`/POST /api/v1/cities (with exist name)`, () => {
       return request(app.getHttpServer())
         .post(`/api/v1/cities`)
+        .set('Authorization', `Bearer ${adminAccessToken}`)
         .send(createCityDtoSecond)
         .expect(HttpStatus.BAD_REQUEST)
         .expect({
@@ -230,6 +233,7 @@ describe('Backend', () => {
     it(`/POST /api/v1/cities (with empty DTO)`, () => {
       return request(app.getHttpServer())
         .post(`/api/v1/cities`)
+        .set('Authorization', `Bearer ${adminAccessToken}`)
         .send({})
         .expect(HttpStatus.BAD_REQUEST)
         .expect({
