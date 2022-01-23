@@ -1,4 +1,9 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common'
+import {
+  Injectable,
+  UnauthorizedException,
+  HttpException,
+  HttpStatus,
+} from '@nestjs/common'
 import { JwtService } from '@nestjs/jwt'
 import { Admin, Jury, Participant } from 'src/models/user.model'
 import { AdminService } from './admin/admin.service'
@@ -26,9 +31,12 @@ export class AuthService {
     message: 'Invalid email or password.',
   })
 
-  private registrationError = new UnauthorizedException({
-    message: 'User with this email already exists.',
-  })
+  private registrationError = new HttpException(
+    {
+      message: 'User with this email already exists.',
+    },
+    HttpStatus.BAD_REQUEST,
+  )
 
   async login(loginDto: LoginUserDto) {
     const user = await this.getUserByEmail(loginDto.email)
