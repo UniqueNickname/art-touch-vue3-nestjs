@@ -580,6 +580,7 @@ describe('Backend', () => {
     it(`/POST /api/v1/teachers`, () => {
       return request(app.getHttpServer())
         .post(`/api/v1/teachers`)
+        .set('Authorization', `Bearer ${adminAccessToken}`)
         .send(createTeacherDto)
         .expect(HttpStatus.CREATED)
         .expect(getTeacherDto)
@@ -588,6 +589,7 @@ describe('Backend', () => {
     it(`/POST /api/v1/teachers (with exist name)`, () => {
       return request(app.getHttpServer())
         .post(`/api/v1/teachers`)
+        .set('Authorization', `Bearer ${adminAccessToken}`)
         .send(createTeacherDto)
         .expect(HttpStatus.CREATED)
         .expect(getSameTeacherDto)
@@ -596,6 +598,7 @@ describe('Backend', () => {
     it(`/POST /api/v1/teachers (with empty DTO)`, () => {
       return request(app.getHttpServer())
         .post(`/api/v1/teachers`)
+        .set('Authorization', `Bearer ${adminAccessToken}`)
         .send({})
         .expect(HttpStatus.BAD_REQUEST)
         .expect({
@@ -633,6 +636,7 @@ describe('Backend', () => {
     it(`/DELETE /api/v1/teachers/2`, () => {
       return request(app.getHttpServer())
         .delete(`/api/v1/teachers/2`)
+        .set('Authorization', `Bearer ${adminAccessToken}`)
         .expect(HttpStatus.OK)
         .expect({})
     })

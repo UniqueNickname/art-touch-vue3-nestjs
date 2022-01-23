@@ -1,5 +1,6 @@
 import { CreateTeacherDto } from '@art-touch/common/dist/dto/create-teacher.dto'
 import { GetTeacherDto } from '@art-touch/common/dist/dto/get-teacher.dto'
+import { Role } from '@art-touch/common/dist/enums/role.enum'
 import {
   Body,
   Controller,
@@ -8,9 +9,12 @@ import {
   HttpStatus,
   Param,
   Post,
+  UseGuards,
   Version,
 } from '@nestjs/common'
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger'
+import { RequireRole } from 'src/decorators/roles-auth.decorator'
+import { RolesGuard } from 'src/guards/roles.guard'
 import { TeachersService } from './teachers.service'
 
 @ApiTags('Teachers')
@@ -18,17 +22,21 @@ import { TeachersService } from './teachers.service'
 export class TeachersController {
   constructor(private teachersService: TeachersService) {}
 
-  @ApiOperation({ summary: 'Add a new teacher' })
+  @ApiOperation({ summary: `Add a new teacher (Only for ${Role.admin})` })
   @ApiResponse({ status: HttpStatus.CREATED, type: GetTeacherDto })
   @Version('1')
+  @RequireRole(Role.admin)
+  @UseGuards(RolesGuard)
   @Post()
   create(@Body() dto: CreateTeacherDto) {
     return this.teachersService.create(dto)
   }
 
-  @ApiOperation({ summary: 'Delete teacher by id' })
+  @ApiOperation({ summary: `Delete teacher by id (Only for ${Role.admin})` })
   @ApiResponse({ status: HttpStatus.OK, type: [GetTeacherDto] })
   @Version('1')
+  @RequireRole(Role.admin)
+  @UseGuards(RolesGuard)
   @Delete('/:id')
   delete(@Param('id') value: string) {
     return this.teachersService.delete(Number(value))
