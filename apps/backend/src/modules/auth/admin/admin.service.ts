@@ -13,6 +13,21 @@ export class AdminService {
     return admin
   }
 
+  async getById(id: string): Promise<Admin> {
+    const admin = await this.adminRepository.findOne({
+      where: { id },
+    })
+
+    if (!admin) {
+      throw new HttpException(
+        `Admin with id "${id}" does not exist.`,
+        HttpStatus.NOT_FOUND,
+      )
+    }
+
+    return admin
+  }
+
   async getByEmail(email: string): Promise<Admin> {
     const admin = await this.adminRepository.findOne({
       where: { email },
