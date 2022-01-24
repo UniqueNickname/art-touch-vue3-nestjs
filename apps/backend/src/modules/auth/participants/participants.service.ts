@@ -15,6 +15,28 @@ export class ParticipantsService {
     return participant
   }
 
+  async getById(
+    id: string,
+    type: 'model' | 'dto' = 'dto',
+  ): Promise<Participant | Participant> {
+    const participant = await this.participantRepository.findOne({
+      where: { id },
+    })
+
+    if (!participant) {
+      throw new HttpException(
+        `Participant with id "${id}" does not exist.`,
+        HttpStatus.NOT_FOUND,
+      )
+    }
+
+    if (type === 'model') {
+      return participant
+    }
+
+    return participant
+  }
+
   async getByEmail(
     email: string,
     type: 'model' | 'dto' = 'dto',
