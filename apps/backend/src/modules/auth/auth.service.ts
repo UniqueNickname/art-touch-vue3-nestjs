@@ -113,7 +113,17 @@ export class AuthService {
     })
 
     return this.generatePairOfTokens(admin, Role.admin)
-    return this.generateToken(admin, Role.admin)
+  }
+
+  verify(accessToken: string) {
+    try {
+      const user = this.jwtService.verify<TokenPayload>(accessToken)
+      return !!user
+    } catch (error) {
+      throw new UnauthorizedException({
+        message: 'User is not authorized',
+      })
+    }
   }
 
   private async getUserById(

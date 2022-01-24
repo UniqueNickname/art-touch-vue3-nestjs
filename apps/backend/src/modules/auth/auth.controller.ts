@@ -93,4 +93,12 @@ export class AuthController {
   ): Promise<Tokens> {
     return this.authService.registrationJury(dto, photo)
   }
+
+  @ApiOperation({ summary: 'Verify access token' })
+  @ApiResponse({ status: HttpStatus.OK, type: Boolean })
+  @Version('1')
+  @Post('/verify')
+  verify(@Body() { token }: { token: string }): boolean {
+    return this.authService.verify(token)
+  }
 }
