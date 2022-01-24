@@ -101,4 +101,12 @@ export class AuthController {
   verify(@Body() { token }: { token: string }): boolean {
     return this.authService.verify(token)
   }
+
+  @ApiOperation({ summary: 'Refresh tokens' })
+  @ApiResponse({ status: HttpStatus.OK, type: Tokens })
+  @Version('1')
+  @Post('/refresh')
+  refresh(@Body() { token }: { token: string }): Promise<Tokens> {
+    return this.authService.refresh(token)
+  }
 }

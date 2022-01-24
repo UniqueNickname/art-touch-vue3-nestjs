@@ -126,6 +126,23 @@ export class AuthService {
     }
   }
 
+  async refresh(refreshToken: string): Promise<Tokens> {
+    try {
+      const payload = this.jwtService.verify<TokenPayload>(refreshToken)
+      const user = await this.getUserById(payload.id)
+
+      if (!user) {
+        throw new Error()
+      }
+
+      return this.generatePairOfTokens(user.model, payload.role)
+    } catch (error) {
+      throw new UnauthorizedException({
+        message: 'User is not authorized',
+      })
+    }
+  }
+
   private async getUserById(
     id: string,
   ): Promise<{ model: User; role: Role } | undefined> {
