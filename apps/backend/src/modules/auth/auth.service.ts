@@ -114,6 +114,34 @@ export class AuthService {
     return this.generateToken(admin, Role.admin)
   }
 
+  private async getUserById(
+    id: string,
+  ): Promise<{ model: User; role: Role } | undefined> {
+    try {
+      const participant = await this.participantsService.getById(id)
+      return {
+        model: participant,
+        role: Role.participant,
+      }
+    } catch (error) {}
+
+    try {
+      const admin = await this.adminService.getById(id)
+      return {
+        model: admin,
+        role: Role.admin,
+      }
+    } catch (error) {}
+
+    try {
+      const jury = await this.juryService.getById(id)
+      return {
+        model: jury,
+        role: Role.jury,
+      }
+    } catch (error) {}
+  }
+
   private async getUserByEmail(
     email: string,
   ): Promise<{ model: User; role: Role } | undefined> {
