@@ -6,7 +6,7 @@ export class GetJuryDto {
     description: 'Id of the city',
     uniqueItems: true,
   })
-  readonly id: number
+  readonly id: string
 
   @ApiProperty({
     example: 'example@gmail.com',

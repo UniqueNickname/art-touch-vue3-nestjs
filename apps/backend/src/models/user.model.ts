@@ -28,12 +28,13 @@ type AdminAttrs = UserCreationAttrs
 @Table({ tableName: 'participants' })
 export class Participant extends Model<Participant, ParticipantCreationAttrs> {
   @Column({
-    type: DataType.INTEGER,
+    type: DataType.UUID,
+    defaultValue: DataType.UUIDV4,
     unique: true,
-    autoIncrement: true,
+    allowNull: false,
     primaryKey: true,
   })
-  id: number
+  id: string
 
   @Column({ type: DataType.STRING, unique: true, allowNull: false })
   email: string
@@ -58,12 +59,13 @@ export class Participant extends Model<Participant, ParticipantCreationAttrs> {
 @Table({ tableName: 'jury' })
 export class Jury extends Model<Jury, JuryCreationAttrs> {
   @Column({
-    type: DataType.INTEGER,
+    type: DataType.UUID,
+    defaultValue: DataType.UUIDV4,
     unique: true,
-    autoIncrement: true,
+    allowNull: false,
     primaryKey: true,
   })
-  id: number
+  id: string
 
   @Column({ type: DataType.STRING, unique: true, allowNull: false })
   email: string
@@ -81,12 +83,13 @@ export class Jury extends Model<Jury, JuryCreationAttrs> {
 @Table({ tableName: 'admins' })
 export class Admin extends Model<Admin, AdminAttrs> {
   @Column({
-    type: DataType.INTEGER,
+    type: DataType.UUID,
+    defaultValue: DataType.UUIDV4,
     unique: true,
-    autoIncrement: true,
+    allowNull: false,
     primaryKey: true,
   })
-  id: number
+  id: string
 
   @Column({ type: DataType.STRING, unique: true, allowNull: false })
   email: string

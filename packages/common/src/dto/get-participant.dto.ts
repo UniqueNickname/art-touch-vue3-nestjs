@@ -6,7 +6,7 @@ export class GetParticipantDto {
     description: 'Id of the participant',
     uniqueItems: true,
   })
-  readonly id: number
+  readonly id: string
 
   @ApiProperty({
     example: 'example@gmail.com',
