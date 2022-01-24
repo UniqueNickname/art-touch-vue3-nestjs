@@ -15,6 +15,7 @@ import { Role } from '@art-touch/common/dist/enums/role.enum'
 import { CreateParticipantDto } from '@art-touch/common/dist/dto/create-participant.dto'
 import { CreateJuryDto } from '@art-touch/common/dist/dto/create-jury.dto'
 import { CreateAdminDto } from '@art-touch/common/dist/dto/create-admin.dto'
+import { Tokens, TokenPayload } from '@art-touch/common/dist/dto/get-tokens.dto'
 
 type User = Participant | Jury | Admin
 
@@ -38,7 +39,7 @@ export class AuthService {
     HttpStatus.BAD_REQUEST,
   )
 
-  async login(loginDto: LoginUserDto) {
+  async login(loginDto: LoginUserDto): Promise<Tokens> {
     const user = await this.getUserByEmail(loginDto.email)
 
     if (!user) {
@@ -54,10 +55,10 @@ export class AuthService {
       throw this.loginError
     }
 
-    return this.generateToken(user.model, user.role)
+    return this.generatePairOfTokens(user.model, user.role)
   }
 
-  async registrationParticipant(dto: CreateParticipantDto): Promise<string> {
+  async registrationParticipant(dto: CreateParticipantDto): Promise<Tokens> {
     const user = await this.getUserByEmail(dto.email)
 
     if (user) {
@@ -71,13 +72,13 @@ export class AuthService {
       password: hashPassword,
     })
 
-    return this.generateToken(participant, Role.participant)
+    return this.generatePairOfTokens(participant, Role.participant)
   }
 
   async registrationJury(
     dto: CreateJuryDto,
     photo: Express.Multer.File,
-  ): Promise<string> {
+  ): Promise<Tokens> {
     const user = await this.getUserByEmail(dto.email)
 
     if (user) {
@@ -94,10 +95,10 @@ export class AuthService {
       photo,
     )
 
-    return this.generateToken(jury, Role.jury)
+    return this.generatePairOfTokens(jury, Role.jury)
   }
 
-  async registrationAdmin(dto: CreateAdminDto): Promise<string> {
+  async registrationAdmin(dto: CreateAdminDto): Promise<Tokens> {
     const user = await this.getUserByEmail(dto.email)
 
     if (user) {
@@ -111,6 +112,7 @@ export class AuthService {
       password: hashPassword,
     })
 
+    return this.generatePairOfTokens(admin, Role.admin)
     return this.generateToken(admin, Role.admin)
   }
 
@@ -177,13 +179,33 @@ export class AuthService {
     return bcrypt.compare(dtoPassword, modelPassword)
   }
 
-  private generateToken(user: Participant | Jury | Admin, role: Role): string {
-    const payload = {
-      email: user.email,
+  private generatePairOfTokens(
+    user: Participant | Jury | Admin,
+    role: Role,
+  ): Tokens {
+    return {
+      access: this.generateToken(user, role, 'access'),
+      refresh: this.generateToken(user, role, 'refresh'),
+    }
+  }
+
+  private generateToken(
+    user: Participant | Jury | Admin,
+    role: Role,
+    type: 'access' | 'refresh',
+  ): string {
+    const expiresIn = {
+      access: '2h',
+      refresh: '7d',
+    }
+
+    const payload: TokenPayload = {
       id: user.id,
       role: role,
       fullName: user.fullName,
     }
-    return this.jwtService.sign(payload)
+    return this.jwtService.sign(payload, {
+      expiresIn: expiresIn[type],
+    })
   }
 }

@@ -5,9 +5,6 @@ import { JwtModule } from '@nestjs/jwt'
   imports: [
     JwtModule.register({
       secret: process.env.ACCESS_KEY || '_34fhR/fhR3-',
-      signOptions: {
-        expiresIn: '24h',
-      },
     }),
   ],
   exports: [JwtModule],

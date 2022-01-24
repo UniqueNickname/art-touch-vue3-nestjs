@@ -27,6 +27,7 @@ import { LoginUserDto } from '@art-touch/common/dist/dto/login-user.dto'
 import { RequireRole } from 'src/decorators/roles-auth.decorator'
 import { Role } from '@art-touch/common/dist/enums/role.enum'
 import { RolesGuard } from 'src/guards/roles.guard'
+import { Tokens } from '@art-touch/common/dist/dto/get-tokens.dto'
 
 const registerJuryBody: Record<
   keyof CreateJuryDto | 'photo',
@@ -47,7 +48,7 @@ export class AuthController {
   @ApiResponse({ status: HttpStatus.CREATED, type: GetParticipantDto })
   @Version('1')
   @Post('/login')
-  login(@Body() dto: LoginUserDto): Promise<string> {
+  login(@Body() dto: LoginUserDto): Promise<Tokens> {
     return this.authService.login(dto)
   }
 
@@ -55,7 +56,7 @@ export class AuthController {
   @ApiResponse({ status: HttpStatus.CREATED, type: GetParticipantDto })
   @Version('1')
   @Post('/registration')
-  register(@Body() dto: CreateParticipantDto): Promise<string> {
+  register(@Body() dto: CreateParticipantDto): Promise<Tokens> {
     return this.authService.registrationParticipant(dto)
   }
 
@@ -65,7 +66,7 @@ export class AuthController {
   @RequireRole(Role.admin)
   @UseGuards(RolesGuard)
   @Post('/registration/admin')
-  registerAdmin(@Body() dto: CreateAdminDto): Promise<string> {
+  registerAdmin(@Body() dto: CreateAdminDto): Promise<Tokens> {
     return this.authService.registrationAdmin(dto)
   }
 
@@ -89,7 +90,7 @@ export class AuthController {
   registerJury(
     @Body() dto: CreateJuryDto,
     @UploadedFile() photo: Express.Multer.File,
-  ): Promise<string> {
+  ): Promise<Tokens> {
     return this.authService.registrationJury(dto, photo)
   }
 }
