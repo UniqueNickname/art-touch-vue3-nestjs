@@ -18,6 +18,21 @@ export class JuryService {
     return jury
   }
 
+  async getById(id: string): Promise<Jury> {
+    const jury = await this.juryRepository.findOne({
+      where: { id },
+    })
+
+    if (!jury) {
+      throw new HttpException(
+        `Jury with id "${id}" does not exist.`,
+        HttpStatus.NOT_FOUND,
+      )
+    }
+
+    return jury
+  }
+
   async getByEmail(email: string): Promise<Jury> {
     const jury = await this.juryRepository.findOne({
       where: { email },
