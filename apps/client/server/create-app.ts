@@ -5,6 +5,7 @@ import { createRouter } from '../src/router'
 import { createI18N } from '../src/locale/create-i18n'
 import { isSSR } from '../src/utils/isSSR'
 import App from '../src/App.vue'
+import 'src/assets/tailwind.css'
 
 export async function createApp(language: ISO = ISO.en) {
   const app = isSSR() ? createSSRApp(App) : createVueApp(App)
