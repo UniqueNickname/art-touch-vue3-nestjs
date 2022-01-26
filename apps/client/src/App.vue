@@ -26,6 +26,12 @@ const themeOverrides: GlobalThemeOverrides = {
     colorFocusPrimary: colors.purple[700],
     borderFocusPrimary: colors.purple[700],
     textColorFocusPrimary: colors.white,
+    // text
+    textColorTextPrimary: colors.purple[800],
+    textColorTextHoverPrimary: colors.purple[700],
+    // ghost
+    textColorGhostPrimary: colors.purple[800],
+    textColorGhostHoverPrimary: colors.purple[700],
   },
 }
 </script>
