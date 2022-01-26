@@ -5,5 +5,25 @@
     "winners": "Победители",
     "participants": "Участники",
     "participate": "Участвовать"
+  },
+  "auth": {
+    "sign-in": "Войти",
+    "sign-out": "Выйти",
+    "sign-up": "Зарегистрироваться",
+    "profile": "Мои работы",
+    "sign-in-subtitle": "Введите Ваши данные для входа",
+    "sign-up-subtitle": "Мы рады видеть Вас в ArtTouch",
+    "have-account": "Уже есть аккаунт?",
+    "no-account": "Нет аккаунта?",
+    "forgot-password": "Забыл пароль",
+    "to-sign-in": "Вернуться к авторизации",
+    "email": "Email",
+    "phone": "Номер телефона",
+    "password": "Пароль",
+    "repeat-password": "Подтвердить пароль",
+    "user-name": "Ваше имя",
+    "city": "Город",
+    "university": "Университет",
+    "teacher": "Преподаватель"
   }
 }

@@ -5,5 +5,25 @@
     "winners": "Winners",
     "participants": "Participants",
     "participate": "Participate"
+  },
+  "auth": {
+    "sign-in": "Sign In",
+    "sign-out": "Sign Out",
+    "sign-up": "Sign Up",
+    "profile": "Profile",
+    "sign-in-subtitle": "Sign in to your account",
+    "sign-up-subtitle": "We are happy to see you in ArtTouch",
+    "have-account": "Already have an account?",
+    "no-account": "Don't have an account?",
+    "forgot-password": "Forgot password",
+    "to-sign-in": "Back to Sign In",
+    "email": "Email",
+    "phone": "Phone",
+    "password": "Password",
+    "repeat-password": "Repeat password",
+    "user-name": "Your name",
+    "city": "City",
+    "university": "University",
+    "teacher": "Teacher"
   }
 }
