@@ -2,8 +2,12 @@
   "name": "client",
   "version": "0.0.0",
   "scripts": {
-    "start:dev": "vite",
-    "build": "vue-tsc --noEmit && vite build"
+    "start:dev": "cross-env NODE_ENV=development ts-node server",
+    "start:prod": "run-s build serve",
+    "serve": "cross-env NODE_ENV=production ts-node server",
+    "build": "run-p build:client build:server",
+    "build:client": "vite build --outDir dist/client --ssrManifest",
+    "build:server": "vite build --outDir dist/server --ssr server/entry-server.ts "
   },
   "dependencies": {
     "@vueuse/head": "^0.7.5",
