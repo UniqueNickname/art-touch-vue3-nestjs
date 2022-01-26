@@ -1,1 +1,9 @@
-{}
+{
+  "navigation": {
+    "jury": "Jury",
+    "first": "First round",
+    "winners": "Winners",
+    "participants": "Participants",
+    "participate": "Participate"
+  }
+}
