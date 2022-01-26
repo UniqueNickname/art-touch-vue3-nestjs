@@ -2131,6 +2131,11 @@
   dependencies:
     "@types/superagent" "*"
 
+"@types/tailwindcss@^3.0.3":
+  version "3.0.3"
+  resolved "https://registry.yarnpkg.com/@types/tailwindcss/-/tailwindcss-3.0.3.tgz#909d907d7e4825d053162a582777e9d096d584e2"
+  integrity sha512-SWOyuROXgBlH1MQfl5gAcjunX37l4z1bx1lrQGh2nHqJyKU/FWYymKoBOgqGjyGamiZHtYQKoNgf2IahONL+og==
+
 "@types/uuid@^8.3.4":
   version "8.3.4"
   resolved "https://registry.yarnpkg.com/@types/uuid/-/uuid-8.3.4.tgz#bd86a43617df0594787d38b735f55c805becf1bc"
