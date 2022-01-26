@@ -4,7 +4,7 @@ import ru from './ru-RU.json'
 import en from './en-US.json'
 
 export function createI18N(defaultLanguage: ISO = ISO.en) {
-  const messages = { ru, en }
+  const messages = { 'ru-RU': ru, 'en-US': en }
 
   return createI18n({
     legacy: false,
