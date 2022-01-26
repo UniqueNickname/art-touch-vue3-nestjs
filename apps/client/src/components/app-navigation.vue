@@ -1,0 +1,74 @@
+<template>
+  <div class="bg-white">
+    <div
+      class="items-center justify-center max-w-5xl mx-auto xl:justify-between xl:flex"
+    >
+      <div class="flex items-center justify-center space-x-4">
+        <app-logo
+          class="py-1 text-xl px-7 text-purple-800 focus:outline-none"
+        />
+        <app-sidebar :links="[...links, extraLink]" class="xl:hidden" />
+        <div class="xl:hidden">
+          <language-selector />
+        </div>
+      </div>
+      <ul class="items-center justify-center hidden w-full space-x-10 xl:flex">
+        <li v-for="link of links" :key="link.to">
+          <n-button
+            text
+            strong
+            tag="a"
+            type="primary"
+            :href="link.to"
+            @click.prevent="redirect(link.to)"
+          >
+            {{ t(link.label) }}
+          </n-button>
+        </li>
+      </ul>
+      <div class="items-center hidden xl:flex space-x-4">
+        <n-button
+          v-if="extraLink"
+          type="primary"
+          strong
+          tag="a"
+          class="bg-purple-800"
+          :href="extraLink.to"
+          @click.prevent="redirect(extraLink.to)"
+        >
+          {{ t(extraLink.label) }}
+        </n-button>
+        <language-selector />
+      </div>
+    </div>
+  </div>
+</template>
+
+<script setup lang="ts">
+import AppLogo from 'src/components/app-logo.vue'
+import { NButton } from 'naive-ui/lib'
+import { reactive } from 'vue'
+import LanguageSelector from 'src/components/language-selector.vue'
+import AppSidebar from 'src/components/app-sidebar.vue'
+import { useI18n } from 'vue-i18n'
+import { useRouter } from 'vue-router'
+
+const { t } = useI18n()
+const router = useRouter()
+
+const links = reactive([
+  { label: 'navigation.jury', to: '/jury' },
+  { label: 'navigation.first', to: '/first' },
+  { label: 'navigation.winners', to: '/winners' },
+  { label: 'navigation.participants', to: '/participants' },
+])
+
+const extraLink = reactive({
+  label: 'auth.sign-up',
+  to: '/auth/registration',
+})
+
+const redirect = (path: string) => {
+  router.push(path)
+}
+</script>
