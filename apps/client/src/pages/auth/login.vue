@@ -1,0 +1,110 @@
+<template>
+  <auth-layout>
+    <auth-form
+      :next-label="t('auth.sign-in')"
+      :title="t('auth.sign-up')"
+      :subtitle="t('auth.sign-up-subtitle')"
+      @click:submit="submit"
+    >
+      <n-form-item
+        :show-feedback="isTouched.email && !!errors.email"
+        :feedback="errors.email"
+        :validation-status="
+          isTouched.email && errors.email ? 'error' : 'success'
+        "
+      >
+        <n-input
+          v-model:value="form.email"
+          autofocus
+          :placeholder="t('auth.email')"
+          @blur="isTouched.email = true"
+        />
+      </n-form-item>
+      <n-form-item
+        :show-feedback="isTouched.password && !!errors.password"
+        :feedback="errors.password"
+        :validation-status="
+          isTouched.password && errors.password ? 'error' : 'success'
+        "
+      >
+        <n-input
+          v-model:value="form.password"
+          autofocus
+          type="password"
+          :placeholder="t('auth.password')"
+          :feedback="errors.password"
+          @focus="isTouched.password = true"
+        />
+      </n-form-item>
+    </auth-form>
+  </auth-layout>
+</template>
+
+<script setup lang="ts">
+import AuthLayout from 'src/layouts/auth-layout.vue'
+import AuthForm from 'src/components/auth-form.vue'
+import { useI18n } from 'vue-i18n'
+import { NInput, NFormItem } from 'naive-ui'
+import { useErrors } from 'src/composables/useErrors'
+import { Tokens } from '../../../../../packages/common/src/dto/get-tokens.dto'
+import { Role } from '../../../../../packages/common/src/enums/role.enum'
+import axios from 'axios'
+import { useUser } from 'src/composables/useUser'
+import { useRouter } from 'vue-router'
+import { useAccessManager } from 'src/composables/useAccessManager'
+
+useAccessManager().onlyForUnauthorized()
+
+const { t } = useI18n()
+const { saveTokens, getCurrentUser, getUserByToken } = useUser()
+const router = useRouter()
+
+const { form, errors, isTouched } = useErrors<{
+  email: string
+  password: string
+}>({
+  email: {
+    defaultValue: '',
+    validatorDescriptions: ['required', 'email'],
+  },
+  password: {
+    defaultValue: '',
+    validatorDescriptions: ['required', { name: 'minLength', param: 4 }],
+  },
+})
+
+const submit = async () => {
+  if (errors.value.email) {
+    isTouched.email = true
+    return
+  }
+  if (errors.value.password) {
+    isTouched.password = true
+    return
+  }
+
+  try {
+    const { data: tokens } = (await axios.post(`/api/v1/auth/login`, form)) as {
+      data: Tokens
+    }
+
+    saveTokens(tokens)
+    getUserByToken(tokens.access)
+
+    const user = getCurrentUser()
+    if (!user) {
+      return
+    }
+
+    switch (user.role) {
+      case Role.admin:
+        router.push('/admin')
+        break
+
+      default:
+        router.push('/')
+        break
+    }
+  } catch (error) {}
+}
+</script>
