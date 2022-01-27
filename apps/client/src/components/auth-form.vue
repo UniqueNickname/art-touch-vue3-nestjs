@@ -4,9 +4,9 @@
   >
     <h1 class="mt-1 text-xl font-bold sm:text-2xl sm:mt-0">{{ title }}</h1>
     <small class="block mt-1 sm:text-xl sm:mt-3">{{ subtitle }}</small>
-    <form class="mt-4 space-y-6">
+    <n-form>
       <slot />
-    </form>
+    </n-form>
     <div
       v-if="$slots.left || $slots.right"
       class="mt-3 text-sm xs:flex xs:items-center xs:justify-between"
@@ -30,7 +30,7 @@
 </template>
 
 <script setup lang="ts">
-import { NButton } from 'naive-ui/lib'
+import { NButton, NForm } from 'naive-ui/lib'
 
 interface Props {
   title: string
