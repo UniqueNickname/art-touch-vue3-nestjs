@@ -9,4 +9,7 @@
 
 <script setup lang="ts">
 import AppNavigation from 'src/components/app-navigation.vue'
+import { useUser } from 'src/composables/useUser'
+
+useUser().verifyToken()
 </script>
