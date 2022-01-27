@@ -14,4 +14,11 @@ export default defineConfig({
       src: path.join(__dirname, 'src'),
     },
   },
+  server: {
+    proxy: {
+      '^/api/.*': {
+        target: `${process.env.CORE_API}`,
+      },
+    },
+  },
 })
