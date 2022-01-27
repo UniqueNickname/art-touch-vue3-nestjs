@@ -38,6 +38,19 @@
         >
           {{ t(extraLink.label) }}
         </n-button>
+        <n-button
+          v-if="getCurrentUser()"
+          type="primary"
+          strong
+          circle
+          class="bg-purple-800"
+          :href="extraLink.to"
+          @click.prevent="logout"
+        >
+          <template #icon>
+            <exit-outline />
+          </template>
+        </n-button>
         <language-selector />
       </div>
     </div>
@@ -53,9 +66,10 @@ import AppSidebar from 'src/components/app-sidebar.vue'
 import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
 import { useUser } from 'src/composables/useUser'
+import { ExitOutline } from '@vicons/ionicons5'
 import { Role } from '../../../../packages/common/src/enums/role.enum'
 
-const { getCurrentUser } = useUser()
+const { getCurrentUser, logout } = useUser()
 
 const { t } = useI18n()
 const router = useRouter()
