@@ -25,5 +25,10 @@
     "city": "Город",
     "university": "Университет",
     "teacher": "Преподаватель"
+  },
+  "validations": {
+    "required": "Обязательное поле",
+    "email": "Некорректный email",
+    "minLength": "Минимум {min} символа"
   }
 }

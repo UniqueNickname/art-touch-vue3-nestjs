@@ -25,5 +25,10 @@
     "city": "City",
     "university": "University",
     "teacher": "Teacher"
+  },
+  "validations": {
+    "required": "Required field",
+    "email": "Invalid email",
+    "minLength": "Minimum {min} symbols"
   }
 }
