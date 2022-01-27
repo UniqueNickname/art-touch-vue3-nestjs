@@ -52,17 +52,6 @@
             :key="link.label"
             class="flex items-center justify-center"
           >
-            <!-- <a-button
-            is-link
-            color="none"
-            size="none"
-            class="w-full py-4 hover:backdrop-brightness-90 transition-[backdrop-filter] duration-200 ease-in-out"
-            :to="link.to"
-            @click="closeSidebar"
-          >
-            {{ t(link.label) }}
-          </a-button> -->
-            <!-- text -->
             <n-button
               strong
               ghost
