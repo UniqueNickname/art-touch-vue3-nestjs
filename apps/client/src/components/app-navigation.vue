@@ -47,25 +47,55 @@
 <script setup lang="ts">
 import AppLogo from 'src/components/app-logo.vue'
 import { NButton } from 'naive-ui/lib'
-import { reactive } from 'vue'
+import { computed } from 'vue'
 import LanguageSelector from 'src/components/language-selector.vue'
 import AppSidebar from 'src/components/app-sidebar.vue'
 import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
+import { useUser } from 'src/composables/useUser'
+import { Role } from '../../../../packages/common/src/enums/role.enum'
+
+const { getCurrentUser } = useUser()
 
 const { t } = useI18n()
 const router = useRouter()
 
-const links = reactive([
-  { label: 'navigation.jury', to: '/jury' },
-  { label: 'navigation.first', to: '/first' },
-  { label: 'navigation.winners', to: '/winners' },
-  { label: 'navigation.participants', to: '/participants' },
-])
+interface Link {
+  label: string
+  to: string
+}
 
-const extraLink = reactive({
-  label: 'auth.sign-up',
-  to: '/auth/registration',
+const links = computed<Link[]>(() => {
+  const defaultLinks = [
+    { label: 'navigation.jury', to: '/jury' },
+    { label: 'navigation.first', to: '/first' },
+    { label: 'navigation.winners', to: '/winners' },
+    { label: 'navigation.participants', to: '/participants' },
+  ]
+
+  return defaultLinks
+})
+
+const extraLink = computed<Link>(() => {
+  const defaultLink = {
+    label: 'auth.sign-up',
+    to: '/auth/registration',
+  }
+
+  const user = getCurrentUser()
+
+  if (!user) {
+    return defaultLink
+  }
+
+  if (user.role === Role.admin) {
+    return {
+      label: 'admin.title',
+      to: '/admin',
+    }
+  }
+
+  return defaultLink
 })
 
 const redirect = (path: string) => {

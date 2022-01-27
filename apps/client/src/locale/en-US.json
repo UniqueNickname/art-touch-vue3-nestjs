@@ -30,5 +30,8 @@
     "required": "Required field",
     "email": "Invalid email",
     "minLength": "Minimum {min} symbols"
+  },
+  "admin": {
+    "title": "Admin panel"
   }
 }
