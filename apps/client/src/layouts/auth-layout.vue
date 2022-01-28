@@ -1,19 +1,11 @@
 <template>
-  <div
-    class="min-h-screen sm:bg-gradient-to-t from-red-300 to-violet-500 bg-none"
-  >
-    <div class="min-h-screen">
-      <app-navigation />
-      <div class="sm:pt-24 sm:pb-6 pb-4 pt-4">
-        <slot />
-      </div>
+  <default-layout>
+    <div class="sm:pt-24 sm:pb-6 pb-4 pt-4">
+      <slot />
     </div>
-  </div>
+  </default-layout>
 </template>
 
 <script setup lang="ts">
-import AppNavigation from 'src/components/app-navigation.vue'
-import { useUser } from 'src/composables/useUser'
-
-useUser().verifyToken()
+import DefaultLayout from 'src/layouts/default-layout.vue'
 </script>
