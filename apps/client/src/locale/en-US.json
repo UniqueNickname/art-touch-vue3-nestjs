@@ -40,7 +40,9 @@
       "cities": {
         "title": "Cities",
         "add": "Add city",
-        "add-placeholder": "Please input a city name"
+        "add-placeholder": "Please input a city name",
+        "add-altname": "Add alternative name",
+        "add-altname-placeholder": "Please input an alternative city name"
       }
     }
   }
