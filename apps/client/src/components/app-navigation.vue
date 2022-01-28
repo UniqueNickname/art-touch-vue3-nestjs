@@ -45,7 +45,7 @@
           circle
           class="bg-purple-800"
           :href="extraLink.to"
-          @click.prevent="logout"
+          @click.prevent="logoutUser"
         >
           <template #icon>
             <exit-outline />
@@ -77,6 +77,11 @@ const router = useRouter()
 interface Link {
   label: string
   to: string
+}
+
+const logoutUser = () => {
+  logout()
+  router.push('/')
 }
 
 const links = computed<Link[]>(() => {
