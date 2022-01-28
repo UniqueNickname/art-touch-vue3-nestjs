@@ -31,7 +31,17 @@
     "email": "Invalid email",
     "minLength": "Minimum {min} symbols"
   },
+  "common": {
+    "add": "Add"
+  },
   "admin": {
-    "title": "Admin panel"
+    "title": "Admin panel",
+    "tabs": {
+      "cities": {
+        "title": "Cities",
+        "add": "Add city",
+        "add-placeholder": "Please input a city name"
+      }
+    }
   }
 }
