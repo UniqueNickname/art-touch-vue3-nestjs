@@ -18,7 +18,7 @@ export class CreateAltNameDto {
   @IsString()
   @IsEnum(ISO)
   @MinLength(5)
-  readonly iso: ISO
+  readonly iso: string
 
   @ApiProperty({
     example: 'Нью Йорк',
