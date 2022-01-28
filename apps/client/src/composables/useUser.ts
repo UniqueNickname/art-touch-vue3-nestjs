@@ -92,6 +92,9 @@ export const useUser = () => {
         return
       }
 
+      const refresh = cookies.get('refresh-token')
+
+      state.tokens = { access: accessToken, refresh }
       getUserByToken(accessToken)
     } catch (error) {
       logout()
