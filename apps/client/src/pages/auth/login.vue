@@ -51,6 +51,18 @@
           {{ t('auth.sign-up') }}
         </n-button>
       </template>
+      <template #right>
+        <n-button
+          text
+          tag="a"
+          size="small"
+          class="text-purple-900 ml-1 cursor-pointer"
+          href="/auth/reset_password"
+          @click.prevent="router.push('/auth/reset_password')"
+        >
+          {{ t('auth.forgot-password') }}
+        </n-button>
+      </template>
     </auth-form>
   </auth-layout>
 </template>
