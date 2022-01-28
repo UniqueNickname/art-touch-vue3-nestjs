@@ -36,6 +36,21 @@
           @focus="isTouched.password = true"
         />
       </n-form-item>
+      <template #left>
+        <p class="text-black text-opacity-50">
+          {{ t('auth.no-account') }}
+        </p>
+        <n-button
+          text
+          tag="a"
+          size="small"
+          class="text-purple-900 ml-1 cursor-pointer"
+          href="/auth/login"
+          @click.prevent="router.push('/auth/registration')"
+        >
+          {{ t('auth.sign-up') }}
+        </n-button>
+      </template>
     </auth-form>
   </auth-layout>
 </template>
