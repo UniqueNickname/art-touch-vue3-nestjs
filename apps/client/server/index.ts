@@ -45,6 +45,7 @@ const setTegsToTemplate = (
     .replace(`<!--app-html-->`, tegs.appHtml)
     .replace(`<!--head-tags-->`, tegs.headTags)
     .replace(`<html lang="en">`, `<html lang="${language}">`)
+    .replace(`'<store-state>'`, tegs.store)
 
   return html
 }
@@ -96,7 +97,7 @@ const prepareTemplateForProd = async (
     }),
   )
 
-  return async (url: string, language: ISO): Promise<string> => {
+  return async (url, language): Promise<string> => {
     const template =
       fs.readFileSync(resolve('dist/client/index.html'), 'utf-8') || ''
 

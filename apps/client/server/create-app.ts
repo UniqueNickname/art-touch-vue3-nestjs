@@ -21,5 +21,5 @@ export async function createApp(language: ISO = ISO.en) {
   app.use(i18n)
   app.use(pinia)
 
-  return { app, head, router }
+  return { app, head, router, store: pinia }
 }

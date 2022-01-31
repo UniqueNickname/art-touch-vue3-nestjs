@@ -8,6 +8,7 @@ export interface Tegs {
   appHtml: string
   preloadLinks: string
   headTags: string
+  store: string
 }
 
 export interface Context {
