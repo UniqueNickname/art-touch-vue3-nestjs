@@ -67,7 +67,6 @@ import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
 import { useUser } from 'src/composables/useUser'
 import { ExitOutline } from '@vicons/ionicons5'
-import { Role } from '../../../../packages/common/src/enums/role.enum'
 
 const { currentUser, logout } = useUser()
 
@@ -105,7 +104,7 @@ const extraLink = computed<Link>(() => {
     return defaultLink
   }
 
-  if (currentUser.value.role === Role.admin) {
+  if (currentUser.value.role === 'admin') {
     return {
       label: 'admin.title',
       to: '/admin',

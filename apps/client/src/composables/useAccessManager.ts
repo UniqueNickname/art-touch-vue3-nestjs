@@ -1,5 +1,4 @@
 import { useRouter } from 'vue-router'
-import { Role } from '../../../../packages/common/src/enums/role.enum'
 import { useUser } from './useUser'
 
 export const useAccessManager = () => {
@@ -13,17 +12,17 @@ export const useAccessManager = () => {
 
   return {
     onlyForAdmin() {
-      if (currentUser.value?.role !== Role.admin) {
+      if (currentUser.value?.role !== 'admin') {
         toHome()
       }
     },
     onlyForJury() {
-      if (currentUser.value?.role !== Role.jury) {
+      if (currentUser.value?.role !== 'jury') {
         toHome()
       }
     },
     onlyForParticipant() {
-      if (currentUser.value?.role !== Role.participant) {
+      if (currentUser.value?.role !== 'participant') {
         toHome()
       }
     },

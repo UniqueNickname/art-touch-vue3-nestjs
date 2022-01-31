@@ -44,7 +44,7 @@
           text
           tag="a"
           size="small"
-          class="text-purple-900 ml-1 cursor-pointer"
+          class="ml-1 text-purple-900 cursor-pointer"
           href="/auth/login"
           @click.prevent="router.push('/auth/registration')"
         >
@@ -56,7 +56,7 @@
           text
           tag="a"
           size="small"
-          class="text-purple-900 ml-1 cursor-pointer"
+          class="ml-1 text-purple-900 cursor-pointer"
           href="/auth/reset_password"
           @click.prevent="router.push('/auth/reset_password')"
         >
@@ -74,7 +74,6 @@ import { useI18n } from 'vue-i18n'
 import { NInput, NFormItem } from 'naive-ui'
 import { useErrors } from 'src/composables/useErrors'
 import { Tokens } from '../../../../../packages/common/src/dto/get-tokens.dto'
-import { Role } from '../../../../../packages/common/src/enums/role.enum'
 import axios from 'axios'
 import { useUser } from 'src/composables/useUser'
 import { useRouter } from 'vue-router'
@@ -83,7 +82,7 @@ import { useAccessManager } from 'src/composables/useAccessManager'
 useAccessManager().onlyForUnauthorized()
 
 const { t } = useI18n()
-const { saveTokens, getCurrentUser, getUserByToken } = useUser()
+const { saveTokens, currentUser, getUserByToken } = useUser()
 const router = useRouter()
 
 const { form, errors, isTouched } = useErrors<{
@@ -118,13 +117,12 @@ const submit = async () => {
     saveTokens(tokens)
     getUserByToken(tokens.access)
 
-    const user = getCurrentUser()
-    if (!user) {
+    if (!currentUser) {
       return
     }
 
-    switch (user.role) {
-      case Role.admin:
+    switch (currentUser.value?.role) {
+      case 'admin':
         router.push('/admin')
         break
 
