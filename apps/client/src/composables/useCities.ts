@@ -3,7 +3,7 @@ import { computed, reactive } from 'vue'
 import { CreateCityDto } from '../../../../packages/common/src/dto/create-city.dto'
 import { CreateAltNameDto } from '../../../../packages/common/src/dto/create-alt-name.dto'
 import { GetCityDto } from '../../../../packages/common/src/dto/get-city.dto'
-import { useUsersStore } from 'src/store/users.store'
+import { useUsersStore } from 'src/composables/useUsersStore'
 import { useI18n } from 'vue-i18n'
 
 interface State {
@@ -33,7 +33,7 @@ export const useCities = () => {
   const addCity = async (city: CreateCityDto) => {
     try {
       await axios.post('/api/v1/cities', city, {
-        headers: { Authorization: authToken },
+        headers: { Authorization: authToken.value },
       })
 
       await requireCitiesFromServer()
@@ -43,7 +43,7 @@ export const useCities = () => {
   const addCityAltname = async (form: CreateAltNameDto) => {
     try {
       await axios.post('/api/v1/cities/alt-names', form, {
-        headers: { Authorization: authToken },
+        headers: { Authorization: authToken.value },
       })
 
       await requireCitiesFromServer()

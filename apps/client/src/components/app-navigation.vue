@@ -65,7 +65,7 @@ import LanguageSelector from 'src/components/language-selector.vue'
 import AppSidebar from 'src/components/app-sidebar.vue'
 import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
-import { useUsersStore } from 'src/store/users.store'
+import { useUsersStore } from 'src/composables/useUsersStore'
 import { ExitOutline } from '@vicons/ionicons5'
 
 const { currentUser, logout } = useUsersStore()
@@ -100,11 +100,11 @@ const extraLink = computed<Link>(() => {
     to: '/auth/registration',
   }
 
-  if (!currentUser) {
+  if (!currentUser.value) {
     return defaultLink
   }
 
-  if (currentUser.role === 'admin') {
+  if (currentUser.value.role === 'admin') {
     return {
       label: 'admin.title',
       to: '/admin',
