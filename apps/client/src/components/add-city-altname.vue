@@ -65,18 +65,17 @@ import { useCities } from 'src/composables/useCities'
 import { useErrors } from 'src/composables/useErrors'
 import { computed } from 'vue'
 import { isSSR } from 'src/utils/isSSR'
-import { ISO } from '../../../../packages/common/src/enums/iso.enum'
 
 const { requireCitiesFromServer, cities, addCityAltname } = useCities()
 
-const { t, locale } = useI18n()
+const { t, locale, availableLocales } = useI18n()
 
 if (!cities.value.length) {
   requireCitiesFromServer()
 }
 
 const langs = computed(() => {
-  return Object.values(ISO).map(iso => ({
+  return availableLocales.map(iso => ({
     label: iso,
     value: iso,
   }))
