@@ -8,14 +8,13 @@ import {
   Table,
 } from 'sequelize-typescript'
 import { City } from 'src/models/city.model'
-import { ISO } from '@art-touch/common/dist/enums/iso.enum'
 import { University } from './university.model'
 import { Teacher } from './teacher.model'
 
 interface AltNamesCreationAttrs {
   entityId: number
   value: string
-  iso: ISO
+  iso: string
 }
 
 abstract class BaseAltName extends Model<BaseAltName, AltNamesCreationAttrs> {
@@ -33,12 +32,12 @@ abstract class BaseAltName extends Model<BaseAltName, AltNamesCreationAttrs> {
   id: number
 
   @ApiProperty({
-    example: ISO.ru,
+    example: 'ru-RU',
     description: 'ISO',
     uniqueItems: true,
   })
   @Column({ type: DataType.STRING, allowNull: false })
-  iso: ISO
+  iso: string
 
   @ApiProperty({
     example: 'Нью Йорк',
