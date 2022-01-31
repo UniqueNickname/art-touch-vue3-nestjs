@@ -18,17 +18,15 @@ export const useCities = () => {
   const { tokens } = useUser()
   const { locale } = useI18n()
 
-  const getCitiesFromServer = async () => {
+  const requireCitiesFromServer = async (): Promise<void> => {
     try {
       const { data } = (await axios.get('/api/v1/cities')) as {
         data: GetCityDto[]
       }
 
       state.cities = data
-      return state.cities
     } catch (error) {
       state.cities = []
-      return state.cities
     }
   }
 
@@ -38,7 +36,7 @@ export const useCities = () => {
         headers: { Authorization: `Bearer ${tokens.value?.access}` },
       })
 
-      await getCitiesFromServer()
+      await requireCitiesFromServer()
     } catch (error) {}
   }
 
@@ -48,12 +46,12 @@ export const useCities = () => {
         headers: { Authorization: `Bearer ${tokens.value?.access}` },
       })
 
-      await getCitiesFromServer()
+      await requireCitiesFromServer()
     } catch (error) {}
   }
 
   return {
-    getCitiesFromServer,
+    requireCitiesFromServer,
     cities: computed(() => {
       return state.cities.map(city => ({
         label: city.altNames[locale.value] || city.name,

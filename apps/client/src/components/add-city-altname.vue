@@ -67,12 +67,12 @@ import { computed } from 'vue'
 import { isSSR } from 'src/utils/isSSR'
 import { ISO } from '../../../../packages/common/src/enums/iso.enum'
 
-const { getCitiesFromServer, cities, addCityAltname } = useCities()
+const { requireCitiesFromServer, cities, addCityAltname } = useCities()
 
 const { t, locale } = useI18n()
 
 if (!cities.value.length) {
-  getCitiesFromServer()
+  requireCitiesFromServer()
 }
 
 const langs = computed(() => {
