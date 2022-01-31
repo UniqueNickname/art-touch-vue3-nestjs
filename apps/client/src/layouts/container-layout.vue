@@ -1,9 +1,9 @@
 <template>
-  <default-layout>
+  <default-layout :role="role">
     <div
-      class="mx-auto max-w-5xl w-full bg-white my-6 pt-4 pb-8 px-10 rounded-xl"
+      class="w-full max-w-5xl px-10 pt-4 pb-8 mx-auto my-6 bg-white rounded-xl"
     >
-      <h1 class="text-center font-bold text-2xl mb-4">
+      <h1 class="mb-4 text-2xl font-bold text-center">
         {{ title }}
       </h1>
       <slot />
@@ -13,10 +13,14 @@
 
 <script setup lang="ts">
 import DefaultLayout from 'src/layouts/default-layout.vue'
+import { Role } from 'src/types'
 
 interface Props {
   title: string
+  role?: Role
 }
 
-defineProps<Props>()
+withDefaults(defineProps<Props>(), {
+  role: 'all',
+})
 </script>

@@ -1,5 +1,5 @@
 <template>
-  <auth-layout>
+  <auth-layout role="unauthorized">
     <auth-form
       :next-label="t('auth.sign-in')"
       :title="t('auth.sign-up')"

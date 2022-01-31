@@ -10,6 +10,15 @@
 <script setup lang="ts">
 import AppNavigation from 'src/components/app-navigation.vue'
 import { useUser } from 'src/composables/useUser'
+import { Role } from 'src/types'
 
-useUser().verifyToken()
+interface Props {
+  role?: Role
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  role: 'all',
+})
+
+useUser().checkAccess(props.role)
 </script>

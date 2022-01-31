@@ -4,3 +4,4 @@ export type Role =
   | 'participant'
   | 'authorized'
   | 'unauthorized'
+  | 'all'

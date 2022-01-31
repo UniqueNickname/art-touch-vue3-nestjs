@@ -7,6 +7,8 @@ import {
   Tokens,
 } from '../../../../packages/common/src/dto/get-tokens.dto'
 import { isSSR } from 'src/utils/isSSR'
+import { Role } from 'src/types'
+import { useRouter } from 'vue-router'
 
 interface State {
   currentUser: TokenPayload | null
@@ -22,6 +24,7 @@ const state = reactive<State>({
 
 export const useUser = () => {
   const { cookies } = useCookies()
+  const router = useRouter()
 
   const getUserByToken = (token: string) => {
     const user = jwtDecode<TokenPayload>(token)
@@ -102,12 +105,24 @@ export const useUser = () => {
     }
   }
 
+  const checkAccess = async (role: Role = 'all') => {
+    await verifyToken()
+
+    if (role === 'all') {
+      return
+    }
+
+    if (state.currentUser?.role !== role) {
+      router.replace('/')
+    }
+  }
+
   return {
     getUserByToken,
     saveTokens,
     currentUser: computed(() => state.currentUser),
     tokens: computed(() => state.tokens),
     logout,
-    verifyToken,
+    checkAccess,
   }
 }
