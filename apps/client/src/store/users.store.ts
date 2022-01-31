@@ -112,6 +112,8 @@ export const useUsersStore = defineStore('users', {
     async checkAccess(role: Role = 'all') {
       await this.verify()
 
+      if (isSSR()) return
+
       if (role === 'all') {
         return
       }
