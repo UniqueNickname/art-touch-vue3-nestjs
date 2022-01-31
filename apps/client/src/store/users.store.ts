@@ -9,9 +9,7 @@ import axios from 'axios'
 import { isSSR } from 'src/utils/isSSR'
 import { useCookies } from 'vue3-cookies'
 import { useRouter } from 'vue-router'
-
-const ACCESS_TOKEN_KEY = 'access-token'
-const REFRESH_TOKEN_KEY = 'refresh-token'
+import { ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY } from 'src/constants'
 
 interface UsersState {
   currentUser: TokenPayload | null
@@ -110,6 +108,8 @@ export const useUsersStore = defineStore('users', {
       }
     },
     async checkAccess(role: Role = 'all') {
+      console.log(this.tokens)
+
       await this.verify()
 
       if (isSSR()) return
