@@ -67,16 +67,9 @@ import { computed } from 'vue'
 import { isSSR } from 'src/utils/isSSR'
 import { ISO } from '../../../../packages/common/src/enums/iso.enum'
 
-const { getCitiesFromServer, getCities, addCityAltname } = useCities()
+const { getCitiesFromServer, cities, addCityAltname } = useCities()
 
 const { t, locale } = useI18n()
-
-const cities = computed(() => {
-  return getCities().map(city => ({
-    label: city.altNames[locale.value] || city.name,
-    value: city.id,
-  }))
-})
 
 if (!cities.value.length) {
   getCitiesFromServer()

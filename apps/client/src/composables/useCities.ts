@@ -1,9 +1,10 @@
 import axios from 'axios'
-import { reactive } from 'vue'
+import { computed, reactive } from 'vue'
 import { CreateCityDto } from '../../../../packages/common/src/dto/create-city.dto'
 import { CreateAltNameDto } from '../../../../packages/common/src/dto/create-alt-name.dto'
 import { GetCityDto } from '../../../../packages/common/src/dto/get-city.dto'
 import { useUser } from 'src/composables/useUser'
+import { useI18n } from 'vue-i18n'
 
 interface State {
   cities: GetCityDto[]
@@ -15,6 +16,7 @@ const state = reactive<State>({
 
 export const useCities = () => {
   const { tokens } = useUser()
+  const { locale } = useI18n()
 
   const getCitiesFromServer = async () => {
     try {
@@ -50,11 +52,14 @@ export const useCities = () => {
     } catch (error) {}
   }
 
-  const getCities = () => state.cities
-
   return {
     getCitiesFromServer,
-    getCities,
+    cities: computed(() => {
+      return state.cities.map(city => ({
+        label: city.altNames[locale.value] || city.name,
+        value: city.id,
+      }))
+    }),
     addCity,
     addCityAltname,
   }
