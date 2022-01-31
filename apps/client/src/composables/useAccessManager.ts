@@ -3,7 +3,7 @@ import { Role } from '../../../../packages/common/src/enums/role.enum'
 import { useUser } from './useUser'
 
 export const useAccessManager = () => {
-  const user = useUser().getCurrentUser()
+  const { currentUser } = useUser()
 
   const router = useRouter()
 
@@ -13,27 +13,27 @@ export const useAccessManager = () => {
 
   return {
     onlyForAdmin() {
-      if (user?.role !== Role.admin) {
+      if (currentUser.value?.role !== Role.admin) {
         toHome()
       }
     },
     onlyForJury() {
-      if (user?.role !== Role.jury) {
+      if (currentUser.value?.role !== Role.jury) {
         toHome()
       }
     },
     onlyForParticipant() {
-      if (user?.role !== Role.participant) {
+      if (currentUser.value?.role !== Role.participant) {
         toHome()
       }
     },
     onlyForUnauthorized() {
-      if (user) {
+      if (currentUser.value) {
         toHome()
       }
     },
     onlyForAuthorized() {
-      if (!user) {
+      if (!currentUser.value) {
         toHome()
       }
     },

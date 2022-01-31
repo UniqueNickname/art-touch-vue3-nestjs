@@ -1,4 +1,4 @@
-import { reactive } from 'vue'
+import { computed, reactive } from 'vue'
 import { useCookies } from 'vue3-cookies'
 import jwtDecode from 'jwt-decode'
 import axios from 'axios'
@@ -39,9 +39,6 @@ export const useUser = () => {
 
     state.tokens = { access, refresh }
   }
-
-  const getCurrentUser = () => state.currentUser
-  const getTokens = () => state.tokens
 
   const logout = () => {
     state.currentUser = null
@@ -108,8 +105,8 @@ export const useUser = () => {
   return {
     getUserByToken,
     saveTokens,
-    getCurrentUser,
-    getTokens,
+    currentUser: computed(() => state.currentUser),
+    tokens: computed(() => state.tokens),
     logout,
     verifyToken,
   }

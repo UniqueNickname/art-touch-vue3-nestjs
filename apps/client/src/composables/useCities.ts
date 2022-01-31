@@ -14,7 +14,7 @@ const state = reactive<State>({
 })
 
 export const useCities = () => {
-  const { getTokens } = useUser()
+  const { tokens } = useUser()
 
   const getCitiesFromServer = async () => {
     try {
@@ -33,7 +33,7 @@ export const useCities = () => {
   const addCity = async (city: CreateCityDto) => {
     try {
       await axios.post('/api/v1/cities', city, {
-        headers: { Authorization: `Bearer ${getTokens()?.access}` },
+        headers: { Authorization: `Bearer ${tokens.value?.access}` },
       })
 
       await getCitiesFromServer()
@@ -43,7 +43,7 @@ export const useCities = () => {
   const addCityAltname = async (form: CreateAltNameDto) => {
     try {
       await axios.post('/api/v1/cities/alt-names', form, {
-        headers: { Authorization: `Bearer ${getTokens()?.access}` },
+        headers: { Authorization: `Bearer ${tokens.value?.access}` },
       })
 
       await getCitiesFromServer()

@@ -39,7 +39,7 @@
           {{ t(extraLink.label) }}
         </n-button>
         <n-button
-          v-if="getCurrentUser()"
+          v-if="currentUser"
           type="primary"
           strong
           circle
@@ -69,7 +69,7 @@ import { useUser } from 'src/composables/useUser'
 import { ExitOutline } from '@vicons/ionicons5'
 import { Role } from '../../../../packages/common/src/enums/role.enum'
 
-const { getCurrentUser, logout } = useUser()
+const { currentUser, logout } = useUser()
 
 const { t } = useI18n()
 const router = useRouter()
@@ -101,13 +101,11 @@ const extraLink = computed<Link>(() => {
     to: '/auth/registration',
   }
 
-  const user = getCurrentUser()
-
-  if (!user) {
+  if (!currentUser.value) {
     return defaultLink
   }
 
-  if (user.role === Role.admin) {
+  if (currentUser.value.role === Role.admin) {
     return {
       label: 'admin.title',
       to: '/admin',
