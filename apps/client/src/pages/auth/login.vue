@@ -74,12 +74,12 @@ import { useI18n } from 'vue-i18n'
 import { NInput, NFormItem, NButton } from 'naive-ui'
 import { useErrors } from 'src/composables/useErrors'
 import { Tokens } from '../../../../../packages/common/src/dto/get-tokens.dto'
-import axios from 'axios'
-import { useUser } from 'src/composables/useUser'
+import { useUsersStore } from 'src/store/users.store'
 import { useRouter } from 'vue-router'
+import axios from 'axios'
 
 const { t } = useI18n()
-const { saveTokens, currentUser, getUserByToken } = useUser()
+const { saveTokens, currentUser, getUserByToken } = useUsersStore()
 const router = useRouter()
 
 const { form, errors, isTouched } = useErrors<{
@@ -118,7 +118,7 @@ const submit = async () => {
       return
     }
 
-    switch (currentUser.value?.role) {
+    switch (currentUser?.role) {
       case 'admin':
         router.push('/admin')
         break

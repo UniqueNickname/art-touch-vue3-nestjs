@@ -3,7 +3,7 @@ import { computed, reactive } from 'vue'
 import { CreateCityDto } from '../../../../packages/common/src/dto/create-city.dto'
 import { CreateAltNameDto } from '../../../../packages/common/src/dto/create-alt-name.dto'
 import { GetCityDto } from '../../../../packages/common/src/dto/get-city.dto'
-import { useUser } from 'src/composables/useUser'
+import { useUsersStore } from 'src/store/users.store'
 import { useI18n } from 'vue-i18n'
 
 interface State {
@@ -15,7 +15,7 @@ const state = reactive<State>({
 })
 
 export const useCities = () => {
-  const { tokens } = useUser()
+  const { authToken } = useUsersStore()
   const { locale } = useI18n()
 
   const requireCitiesFromServer = async (): Promise<void> => {
@@ -33,7 +33,7 @@ export const useCities = () => {
   const addCity = async (city: CreateCityDto) => {
     try {
       await axios.post('/api/v1/cities', city, {
-        headers: { Authorization: `Bearer ${tokens.value?.access}` },
+        headers: { Authorization: authToken },
       })
 
       await requireCitiesFromServer()
@@ -43,7 +43,7 @@ export const useCities = () => {
   const addCityAltname = async (form: CreateAltNameDto) => {
     try {
       await axios.post('/api/v1/cities/alt-names', form, {
-        headers: { Authorization: `Bearer ${tokens.value?.access}` },
+        headers: { Authorization: authToken },
       })
 
       await requireCitiesFromServer()

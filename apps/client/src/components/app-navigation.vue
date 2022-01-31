@@ -65,10 +65,10 @@ import LanguageSelector from 'src/components/language-selector.vue'
 import AppSidebar from 'src/components/app-sidebar.vue'
 import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
-import { useUser } from 'src/composables/useUser'
+import { useUsersStore } from 'src/store/users.store'
 import { ExitOutline } from '@vicons/ionicons5'
 
-const { currentUser, logout } = useUser()
+const { currentUser, logout } = useUsersStore()
 
 const { t } = useI18n()
 const router = useRouter()
@@ -100,11 +100,11 @@ const extraLink = computed<Link>(() => {
     to: '/auth/registration',
   }
 
-  if (!currentUser.value) {
+  if (!currentUser) {
     return defaultLink
   }
 
-  if (currentUser.value.role === 'admin') {
+  if (currentUser.role === 'admin') {
     return {
       label: 'admin.title',
       to: '/admin',
