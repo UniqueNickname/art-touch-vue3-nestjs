@@ -1,3 +1,5 @@
+import type { LoginUserDto } from '@art-touch/common/dist/dto/login-user.dto'
+import type { Role } from 'src/types'
 import {
   Injectable,
   UnauthorizedException,
@@ -9,13 +11,11 @@ import { Admin, Jury, Participant } from 'src/models/user.model'
 import { AdminService } from './admin/admin.service'
 import { JuryService } from './jury/jury.service'
 import { ParticipantsService } from './participants/participants.service'
-import type { LoginUserDto } from '@art-touch/common/dist/dto/login-user.dto'
-import * as bcrypt from 'bcryptjs'
-import { Role } from '@art-touch/common/dist/enums/role.enum'
 import { CreateParticipantDto } from '@art-touch/common/dist/dto/create-participant.dto'
 import { CreateJuryDto } from '@art-touch/common/dist/dto/create-jury.dto'
 import { CreateAdminDto } from '@art-touch/common/dist/dto/create-admin.dto'
 import { Tokens, TokenPayload } from '@art-touch/common/dist/dto/get-tokens.dto'
+import * as bcrypt from 'bcryptjs'
 
 type User = Participant | Jury | Admin
 
@@ -72,7 +72,7 @@ export class AuthService {
       password: hashPassword,
     })
 
-    return this.generatePairOfTokens(participant, Role.participant)
+    return this.generatePairOfTokens(participant, 'participant')
   }
 
   async registrationJury(
@@ -95,7 +95,7 @@ export class AuthService {
       photo,
     )
 
-    return this.generatePairOfTokens(jury, Role.jury)
+    return this.generatePairOfTokens(jury, 'jury')
   }
 
   async registrationAdmin(dto: CreateAdminDto): Promise<Tokens> {
@@ -112,7 +112,7 @@ export class AuthService {
       password: hashPassword,
     })
 
-    return this.generatePairOfTokens(admin, Role.admin)
+    return this.generatePairOfTokens(admin, 'admin')
   }
 
   verify(accessToken: string) {
@@ -150,7 +150,7 @@ export class AuthService {
       const participant = await this.participantsService.getById(id)
       return {
         model: participant,
-        role: Role.participant,
+        role: 'participant',
       }
     } catch (error) {}
 
@@ -158,7 +158,7 @@ export class AuthService {
       const admin = await this.adminService.getById(id)
       return {
         model: admin,
-        role: Role.admin,
+        role: 'admin',
       }
     } catch (error) {}
 
@@ -166,7 +166,7 @@ export class AuthService {
       const jury = await this.juryService.getById(id)
       return {
         model: jury,
-        role: Role.jury,
+        role: 'jury',
       }
     } catch (error) {}
   }
@@ -178,7 +178,7 @@ export class AuthService {
       const participant = await this.participantsService.getByEmail(email)
       return {
         model: participant,
-        role: Role.participant,
+        role: 'participant',
       }
     } catch (error) {}
 
@@ -186,7 +186,7 @@ export class AuthService {
       const admin = await this.adminService.getByEmail(email)
       return {
         model: admin,
-        role: Role.admin,
+        role: 'admin',
       }
     } catch (error) {}
 
@@ -194,7 +194,7 @@ export class AuthService {
       const jury = await this.juryService.getByEmail(email)
       return {
         model: jury,
-        role: Role.jury,
+        role: 'jury',
       }
     } catch (error) {}
   }

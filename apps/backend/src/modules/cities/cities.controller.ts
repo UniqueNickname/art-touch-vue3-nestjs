@@ -13,7 +13,6 @@ import { CitiesService } from './cities.service'
 import { CreateCityDto } from '@art-touch/common/dist/dto/create-city.dto'
 import { GetCityDto } from '@art-touch/common/dist/dto/get-city.dto'
 import { RequireRole } from 'src/decorators/roles-auth.decorator'
-import { Role } from '@art-touch/common/dist/enums/role.enum'
 import { RolesGuard } from 'src/guards/roles.guard'
 
 @ApiTags('Cities')
@@ -21,10 +20,10 @@ import { RolesGuard } from 'src/guards/roles.guard'
 export class CitiesController {
   constructor(private citiesService: CitiesService) {}
 
-  @ApiOperation({ summary: `Add a new city (Only for ${Role.admin})` })
+  @ApiOperation({ summary: `Add a new city (Only for )` })
   @ApiResponse({ status: HttpStatus.CREATED, type: GetCityDto })
   @Version('1')
-  @RequireRole(Role.admin)
+  @RequireRole('admin')
   @UseGuards(RolesGuard)
   @Post()
   create(@Body() dto: CreateCityDto) {

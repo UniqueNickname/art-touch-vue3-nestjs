@@ -1,12 +1,11 @@
 import { ApiProperty } from '@nestjs/swagger'
-import { Role } from '../enums/role.enum'
 
 export class TokenPayload {
   readonly id: string
 
   readonly fullName: string
 
-  readonly role: Role
+  readonly role: 'admin' | 'jury' | 'participant'
 }
 
 export class Tokens {

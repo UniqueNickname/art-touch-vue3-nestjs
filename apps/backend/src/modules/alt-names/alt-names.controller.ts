@@ -1,5 +1,4 @@
 import { CreateAltNameDto } from '@art-touch/common/dist/dto/create-alt-name.dto'
-import { Role } from '@art-touch/common/dist/enums/role.enum'
 import {
   Body,
   Controller,
@@ -20,11 +19,11 @@ export class AltNamesController {
 
   @ApiTags('Cities')
   @ApiOperation({
-    summary: `Add alternative name of the city (Only for ${Role.admin})`,
+    summary: `Add alternative name of the city (Only for admin)`,
   })
   @ApiResponse({ status: HttpStatus.CREATED, type: CityAltName })
   @Version('1')
-  @RequireRole(Role.admin)
+  @RequireRole('admin')
   @UseGuards(RolesGuard)
   @Post('/cities/alt-names')
   createCityName(@Body() dto: CreateAltNameDto) {
@@ -32,12 +31,12 @@ export class AltNamesController {
   }
 
   @ApiOperation({
-    summary: `Add alternative name of the university (Only for ${Role.admin})`,
+    summary: `Add alternative name of the university (Only for admin)`,
   })
   @ApiResponse({ status: HttpStatus.OK, type: UniversityAltName })
   @ApiTags('Universities')
   @Version('1')
-  @RequireRole(Role.admin)
+  @RequireRole('admin')
   @UseGuards(RolesGuard)
   @Post('/universities/alt-names')
   createUniversityName(@Body() dto: CreateAltNameDto) {
@@ -45,12 +44,12 @@ export class AltNamesController {
   }
 
   @ApiOperation({
-    summary: `Add alternative name of the teacher (Only for ${Role.admin})`,
+    summary: `Add alternative name of the teacher (Only for admin)`,
   })
   @ApiResponse({ status: HttpStatus.OK, type: UniversityAltName })
   @ApiTags('Teachers')
   @Version('1')
-  @RequireRole(Role.admin)
+  @RequireRole('admin')
   @UseGuards(RolesGuard)
   @Post('/teachers/alt-names')
   createTeacherName(@Body() dto: CreateAltNameDto) {

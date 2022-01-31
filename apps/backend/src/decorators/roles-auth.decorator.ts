@@ -1,4 +1,4 @@
-import { Role } from '@art-touch/common/dist/enums/role.enum'
+import type { Role } from 'src/types'
 import { SetMetadata } from '@nestjs/common'
 
 export const ROLES_KEY = 'role'

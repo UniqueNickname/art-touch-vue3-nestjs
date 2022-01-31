@@ -1,6 +1,5 @@
 import { CreateTeacherDto } from '@art-touch/common/dist/dto/create-teacher.dto'
 import { GetTeacherDto } from '@art-touch/common/dist/dto/get-teacher.dto'
-import { Role } from '@art-touch/common/dist/enums/role.enum'
 import {
   Body,
   Controller,
@@ -22,20 +21,20 @@ import { TeachersService } from './teachers.service'
 export class TeachersController {
   constructor(private teachersService: TeachersService) {}
 
-  @ApiOperation({ summary: `Add a new teacher (Only for ${Role.admin})` })
+  @ApiOperation({ summary: `Add a new teacher (Only for admin)` })
   @ApiResponse({ status: HttpStatus.CREATED, type: GetTeacherDto })
   @Version('1')
-  @RequireRole(Role.admin)
+  @RequireRole('admin')
   @UseGuards(RolesGuard)
   @Post()
   create(@Body() dto: CreateTeacherDto) {
     return this.teachersService.create(dto)
   }
 
-  @ApiOperation({ summary: `Delete teacher by id (Only for ${Role.admin})` })
+  @ApiOperation({ summary: `Delete teacher by id (Only for admin)` })
   @ApiResponse({ status: HttpStatus.OK, type: [GetTeacherDto] })
   @Version('1')
-  @RequireRole(Role.admin)
+  @RequireRole('admin')
   @UseGuards(RolesGuard)
   @Delete('/:id')
   delete(@Param('id') value: string) {

@@ -25,7 +25,6 @@ import { CreateJuryDto } from '@art-touch/common/dist/dto/create-jury.dto'
 import { FileInterceptor } from '@nestjs/platform-express'
 import { LoginUserDto } from '@art-touch/common/dist/dto/login-user.dto'
 import { RequireRole } from 'src/decorators/roles-auth.decorator'
-import { Role } from '@art-touch/common/dist/enums/role.enum'
 import { RolesGuard } from 'src/guards/roles.guard'
 import { Tokens } from '@art-touch/common/dist/dto/get-tokens.dto'
 
@@ -60,17 +59,17 @@ export class AuthController {
     return this.authService.registrationParticipant(dto)
   }
 
-  @ApiOperation({ summary: `Register a new admin (Only for ${Role.admin})` })
+  @ApiOperation({ summary: `Register a new admin (Only for ${'admin'})` })
   @ApiResponse({ status: HttpStatus.CREATED, type: GetAdminDto })
   @Version('1')
-  @RequireRole(Role.admin)
+  @RequireRole('admin')
   @UseGuards(RolesGuard)
   @Post('/registration/admin')
   registerAdmin(@Body() dto: CreateAdminDto): Promise<Tokens> {
     return this.authService.registrationAdmin(dto)
   }
 
-  @ApiOperation({ summary: `Register a new jury (Only for ${Role.admin})` })
+  @ApiOperation({ summary: `Register a new jury (Only for ${'admin'})` })
   @ApiConsumes('multipart/form-data')
   @ApiBody({
     required: true,
@@ -83,7 +82,7 @@ export class AuthController {
   })
   @ApiResponse({ status: HttpStatus.CREATED, type: GetJuryDto })
   @Version('1')
-  @RequireRole(Role.admin)
+  @RequireRole('admin')
   @UseGuards(RolesGuard)
   @Post('/registration/jury')
   @UseInterceptors(FileInterceptor('photo'))

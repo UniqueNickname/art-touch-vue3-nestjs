@@ -1,6 +1,5 @@
 import { CreateUniversityDto } from '@art-touch/common/dist/dto/create-university.dto'
 import { GetUniversityDto } from '@art-touch/common/dist/dto/get-university.dto'
-import { Role } from '@art-touch/common/dist/enums/role.enum'
 import {
   Body,
   Controller,
@@ -21,10 +20,10 @@ import { UniversitiesService } from './universities.service'
 export class UniversitiesController {
   constructor(private universitiesService: UniversitiesService) {}
 
-  @ApiOperation({ summary: `Add a new university (Only for ${Role.admin})` })
+  @ApiOperation({ summary: `Add a new university (Only for admin)` })
   @ApiResponse({ status: HttpStatus.CREATED, type: GetUniversityDto })
   @Version('1')
-  @RequireRole(Role.admin)
+  @RequireRole('admin')
   @UseGuards(RolesGuard)
   @Post()
   create(@Body() dto: CreateUniversityDto) {
