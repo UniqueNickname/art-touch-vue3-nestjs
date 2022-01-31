@@ -112,6 +112,20 @@ export const useUser = () => {
       return
     }
 
+    if (role === 'authorized') {
+      if (!state.currentUser) {
+        router.replace('/')
+      }
+      return
+    }
+
+    if (role === 'unauthorized') {
+      if (state.currentUser) {
+        router.replace('/')
+      }
+      return
+    }
+
     if (state.currentUser?.role !== role) {
       router.replace('/')
     }
