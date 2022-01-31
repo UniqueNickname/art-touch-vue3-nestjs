@@ -13,6 +13,9 @@ interface State {
   tokens?: Tokens
 }
 
+const ACCESS_TOKEN_KEY = 'access-token'
+const REFRESH_TOKEN_KEY = 'refresh-token'
+
 const state = reactive<State>({
   currentUser: null,
 })
@@ -31,8 +34,8 @@ export const useUser = () => {
       return
     }
 
-    cookies.set('access-token', access, '2h', undefined, undefined, true)
-    cookies.set('refresh-token', refresh, '7d', undefined, undefined, true)
+    cookies.set(ACCESS_TOKEN_KEY, access, '2h', undefined, undefined, true)
+    cookies.set(REFRESH_TOKEN_KEY, refresh, '7d', undefined, undefined, true)
 
     state.tokens = { access, refresh }
   }
@@ -43,7 +46,8 @@ export const useUser = () => {
   const logout = () => {
     state.currentUser = null
 
-    saveTokens({ access: '', refresh: '' })
+    cookies.remove(ACCESS_TOKEN_KEY)
+    cookies.remove(REFRESH_TOKEN_KEY)
   }
 
   const refreshToken = async () => {
@@ -52,7 +56,7 @@ export const useUser = () => {
         return
       }
 
-      const token = cookies.get('refresh-token')
+      const token = cookies.get(REFRESH_TOKEN_KEY)
 
       if (!token) {
         logout()
@@ -76,7 +80,7 @@ export const useUser = () => {
         return
       }
 
-      const accessToken = cookies.get('access-token')
+      const accessToken = cookies.get(ACCESS_TOKEN_KEY)
 
       if (!accessToken) {
         logout()
@@ -92,7 +96,7 @@ export const useUser = () => {
         return
       }
 
-      const refresh = cookies.get('refresh-token')
+      const refresh = cookies.get(REFRESH_TOKEN_KEY)
 
       state.tokens = { access: accessToken, refresh }
       getUserByToken(accessToken)
