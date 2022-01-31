@@ -77,9 +77,6 @@ import { Tokens } from '../../../../../packages/common/src/dto/get-tokens.dto'
 import axios from 'axios'
 import { useUser } from 'src/composables/useUser'
 import { useRouter } from 'vue-router'
-import { useAccessManager } from 'src/composables/useAccessManager'
-
-useAccessManager().onlyForUnauthorized()
 
 const { t } = useI18n()
 const { saveTokens, currentUser, getUserByToken } = useUser()
