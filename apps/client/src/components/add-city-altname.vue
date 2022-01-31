@@ -1,16 +1,29 @@
 <template>
   <n-form>
     <div class="space-y-4">
-      <n-form-item :label="t('admin.tabs.cities.title')" :show-feedback="false">
+      <n-form-item
+        :label="t('admin.tabs.cities.title')"
+        :show-feedback="isTouched.entityId && !!errors.entityId"
+        :feedback="errors.entityId"
+        :validation-status="
+          isTouched.entityId && errors.entityId ? 'error' : 'success'
+        "
+      >
         <n-select
           v-if="!isSSR()"
           v-model:value="form.entityId"
           name="cities"
           filterable
           :options="cities"
+          @blur="isTouched.entityId = true"
         />
       </n-form-item>
-      <n-form-item :label="t('admin.tabs.cities.title')" :show-feedback="false">
+      <n-form-item
+        label="ISO"
+        :show-feedback="isTouched.iso && !!errors.iso"
+        :feedback="errors.iso"
+        :validation-status="isTouched.iso && errors.iso ? 'error' : 'success'"
+      >
         <n-select
           v-if="!isSSR()"
           v-model:value="form.iso"
@@ -96,12 +109,21 @@ const { form, errors, isTouched } = useErrors<{
 })
 
 const createAltname = async () => {
-  await addCityAltname({
-    entityId: form.entityId,
-    value: form.value,
-    iso: form.iso,
-  })
+  try {
+    await addCityAltname({
+      entityId: form.entityId,
+      value: form.value,
+      iso: form.iso,
+    })
 
-  form.value = ''
+    form.value = ''
+    isTouched.value = false
+    isTouched.entityId = false
+    isTouched.iso = false
+  } catch (error) {
+    isTouched.entityId = true
+    isTouched.iso = true
+    isTouched.value = true
+  }
 }
 </script>
