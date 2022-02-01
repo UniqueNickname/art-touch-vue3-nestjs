@@ -53,6 +53,15 @@
         "add-altname": "Add alternative name",
         "add-altname-placeholder": "Please input an alternative university name",
         "empty-list": "There are no universities registered in the selected city"
+      },
+      "teachers": {
+        "title": "Teachers",
+        "label": "Teacher",
+        "add": "Add teacher",
+        "add-placeholder": "Please input a teacher name",
+        "add-altname": "Add alternative name",
+        "add-altname-placeholder": "Please input an alternative teacher name",
+        "empty-list": "There are no teachers registered in the selected university"
       }
     }
   }
