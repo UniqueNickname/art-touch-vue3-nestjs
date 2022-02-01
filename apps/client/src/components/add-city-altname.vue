@@ -2,7 +2,7 @@
   <n-form>
     <div class="space-y-4">
       <n-form-item
-        :label="t('admin.tabs.cities.title')"
+        :label="t('admin.tabs.cities.label')"
         :show-feedback="isTouched.entityId && !!errors.entityId"
         :feedback="errors.entityId"
         :validation-status="

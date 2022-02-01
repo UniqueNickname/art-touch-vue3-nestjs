@@ -39,6 +39,7 @@
     "tabs": {
       "cities": {
         "title": "Cities",
+        "label": "City",
         "add": "Add city",
         "add-placeholder": "Please input a city name",
         "add-altname": "Add alternative name",
