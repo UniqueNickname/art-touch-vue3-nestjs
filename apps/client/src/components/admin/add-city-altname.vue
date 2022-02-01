@@ -77,7 +77,7 @@ const langs = computed(() => {
   }))
 })
 
-const { form, errors, isTouched } = useErrors<{
+const { form, errors, isTouched, touchAll, resetTouch } = useErrors<{
   value: string
   entityId: number | ''
   iso: string
@@ -101,23 +101,17 @@ requireCities().then(() => {
 })
 
 const createAltname = async () => {
+  touchAll()
+
   if (typeof form.entityId !== 'number') return
 
-  try {
-    await addCityAltname({
-      entityId: form.entityId,
-      value: form.value,
-      iso: form.iso,
-    })
+  await addCityAltname({
+    entityId: form.entityId,
+    value: form.value,
+    iso: form.iso,
+  })
 
-    form.value = ''
-    isTouched.value = false
-    isTouched.entityId = false
-    isTouched.iso = false
-  } catch (error) {
-    isTouched.entityId = true
-    isTouched.iso = true
-    isTouched.value = true
-  }
+  form.value = ''
+  resetTouch()
 }
 </script>

@@ -28,7 +28,7 @@ interface FormParams {
 
 /**
  * @example
- * const { form, errors } = useErrors<{
+ * const { form, errors, isTouched, touchAll, resetTouch } = useErrors<{
  *   email: string
  *   password: string
  * }>({
@@ -108,11 +108,25 @@ export const useErrors = <Form extends Record<string, string | number>>(
       acc[key] = false
       return acc
     }, {} as Record<Key, boolean>),
-  )
+  ) as Record<Key, boolean>
+
+  const touchAll = () => {
+    for (const key in isTouched) {
+      isTouched[key] = true
+    }
+  }
+
+  const resetTouch = () => {
+    for (const key in isTouched) {
+      isTouched[key] = false
+    }
+  }
 
   return {
     form,
     errors,
     isTouched,
+    touchAll,
+    resetTouch,
   }
 }

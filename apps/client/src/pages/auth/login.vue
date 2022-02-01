@@ -82,7 +82,7 @@ const { t } = useI18n()
 const { saveTokens, currentUser, getUserByToken } = useUsersStore()
 const router = useRouter()
 
-const { form, errors, isTouched } = useErrors<{
+const { form, errors, isTouched, touchAll } = useErrors<{
   email: string
   password: string
 }>({
@@ -97,14 +97,7 @@ const { form, errors, isTouched } = useErrors<{
 })
 
 const submit = async () => {
-  if (errors.value.email) {
-    isTouched.email = true
-    return
-  }
-  if (errors.value.password) {
-    isTouched.password = true
-    return
-  }
+  touchAll()
 
   try {
     const { data: tokens } = (await axios.post(`/api/v1/auth/login`, form)) as {

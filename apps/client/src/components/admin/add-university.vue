@@ -56,7 +56,7 @@ const { createUniversity } = useUniversities()
 
 const { t } = useI18n()
 
-const { form, errors, isTouched } = useErrors<{
+const { form, errors, isTouched, touchAll, resetTouch } = useErrors<{
   name: string
   cityId: number | ''
 }>({
@@ -75,12 +75,13 @@ requireCities().then(() => {
 })
 
 const createNewUniversity = async () => {
+  touchAll()
+
   if (typeof form.cityId !== 'number') return
 
   await createUniversity({ name: form.name, cityId: form.cityId })
 
-  isTouched.cityId = false
-  isTouched.name = false
+  resetTouch()
   form.name = ''
 }
 </script>

@@ -98,7 +98,7 @@ const langs = computed(() => {
   }))
 })
 
-const { form, errors, isTouched } = useErrors<{
+const { form, errors, isTouched, touchAll, resetTouch } = useErrors<{
   value: string
   entityId: number | ''
   cityId: number | ''
@@ -142,26 +142,20 @@ watch(
 )
 
 const createAltname = async () => {
+  touchAll()
+
   if (typeof form.entityId !== 'number') return
   if (typeof form.cityId !== 'number') return
 
-  try {
-    await addUniversityAltname({
-      entityId: form.entityId,
-      value: form.value,
-      iso: form.iso,
-    })
+  await addUniversityAltname({
+    entityId: form.entityId,
+    value: form.value,
+    iso: form.iso,
+  })
 
-    form.value = ''
-    isTouched.value = false
-    isTouched.entityId = false
-    isTouched.iso = false
+  resetTouch()
+  form.value = ''
 
-    requireUniversitiesByCity(form.cityId)
-  } catch (error) {
-    isTouched.entityId = true
-    isTouched.iso = true
-    isTouched.value = true
-  }
+  requireUniversitiesByCity(form.cityId)
 }
 </script>
