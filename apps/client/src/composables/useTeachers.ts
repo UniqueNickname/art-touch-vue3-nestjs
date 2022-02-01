@@ -58,11 +58,16 @@ export const useTeachers = () => {
     } catch (error) {}
   }
 
+  const clearTeachers = () => {
+    state.teachers = []
+  }
+
   return {
     requireTeachers,
     requireTeachersByUniversity,
     createTeacher,
     addTeacherAltname,
+    clearTeachers,
     teachers: computed(() =>
       state.teachers.map(university => ({
         label: university.altNames[locale.value] || university.name,
