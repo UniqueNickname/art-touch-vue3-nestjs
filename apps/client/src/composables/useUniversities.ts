@@ -54,7 +54,12 @@ export const useUniversities = () => {
     } catch (error) {}
   }
 
+  const clearUniversities = () => {
+    state.universities = []
+  }
+
   return {
+    clearUniversities,
     requireUniversities,
     requireUniversitiesByCity,
     createUniversity,
