@@ -30,7 +30,8 @@
     "required": "Обязательное поле",
     "email": "Некорректный email",
     "minLengthBig": "Минимум {min} символов",
-    "minLengthSmall": "Минимум {min} символа"
+    "minLengthSmall": "Минимум {min} символа",
+    "sameAs": "Должен быть идентичен полю {otherName}"
   },
   "common": {
     "add": "Добавить"

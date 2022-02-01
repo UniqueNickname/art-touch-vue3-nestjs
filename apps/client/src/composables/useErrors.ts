@@ -7,7 +7,7 @@ import { useI18nValidators } from './useI18nValidators'
 
 type ValidatorName = keyof ReturnType<typeof useI18nValidators>
 
-type ValidatorObjectDescription =
+type ValidatorObjectDescription<Form> =
   | {
       name: 'minLength'
       param: number
@@ -16,14 +16,18 @@ type ValidatorObjectDescription =
       name: 'maxLength'
       param: number
     }
+  | {
+      name: 'sameAs'
+      param: keyof Form
+    }
 
-type ValidatorDescription =
-  | Exclude<ValidatorName, ValidatorObjectDescription['name']>
-  | ValidatorObjectDescription
+type ValidatorDescription<Form> =
+  | Exclude<ValidatorName, ValidatorObjectDescription<Form>['name']>
+  | ValidatorObjectDescription<Form>
 
-interface FormParams {
+interface FormParams<Form> {
   defaultValue: string | number
-  validatorDescriptions: ValidatorDescription[]
+  validatorDescriptions: ValidatorDescription<Form>[]
 }
 
 /**
@@ -43,7 +47,7 @@ interface FormParams {
  * })
  */
 export const useErrors = <Form extends Record<string, string | number>>(
-  description: Record<keyof Form, FormParams>,
+  description: Record<keyof Form, FormParams<Form>>,
 ) => {
   type Key = keyof Form
   type ValidatorRuleValue = Record<
@@ -52,14 +56,14 @@ export const useErrors = <Form extends Record<string, string | number>>(
   >
   type ValidatorRule = Record<Key, Partial<ValidatorRuleValue>>
 
-  const entries = Object.entries(description) as Array<[Key, FormParams]>
+  const entries = Object.entries(description) as Array<[Key, FormParams<Form>]>
 
   const form = reactive(
     entries.reduce((acc, [key, { defaultValue }]) => {
       acc[key] = defaultValue as Form[Key]
       return acc
     }, {} as Form),
-  )
+  ) as Form
 
   const validators = useI18nValidators()
 
@@ -70,6 +74,16 @@ export const useErrors = <Form extends Record<string, string | number>>(
       if (typeof validatorDescription === 'string') {
         acc[key][validatorDescription] = validators[validatorDescription]
 
+        return
+      }
+
+      if (validatorDescription.name === 'sameAs') {
+        const otherName = validatorDescription.param as string
+        const equalTo = computed(() => form[otherName])
+
+        acc[key][validatorDescription.name] = validators[
+          validatorDescription.name
+        ](equalTo, otherName) as ValidationRuleWithParams
         return
       }
 

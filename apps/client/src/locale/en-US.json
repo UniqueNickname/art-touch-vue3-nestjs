@@ -30,7 +30,8 @@
     "required": "Required field",
     "email": "Invalid email",
     "minLengthBig": "Minimum {min} symbols",
-    "minLengthSmall": "Minimum {min} symbols"
+    "minLengthSmall": "Minimum {min} symbols",
+    "sameAs": "Should by same as {otherName}"
   },
   "common": {
     "add": "Add"

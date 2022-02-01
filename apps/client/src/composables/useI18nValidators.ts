@@ -24,10 +24,13 @@ export const useI18nValidators = () => {
   const required = withI18nMessage(validators.required)
   const email = withI18nMessage(validators.email)
   const minLength = (min: number) => withI18nMessage(validators.minLength(min))
+  const sameAs = <E = unknown>(equalTo: E, otherName?: string) =>
+    withI18nMessage(validators.sameAs(equalTo, otherName))
 
   return {
     required,
     email,
     minLength,
+    sameAs,
   }
 }
