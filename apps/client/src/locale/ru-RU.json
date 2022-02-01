@@ -29,7 +29,8 @@
   "validations": {
     "required": "Обязательное поле",
     "email": "Некорректный email",
-    "minLength": "Минимум {min} символа"
+    "minLengthBig": "Минимум {min} символов",
+    "minLengthSmall": "Минимум {min} символа"
   },
   "common": {
     "add": "Добавить"
