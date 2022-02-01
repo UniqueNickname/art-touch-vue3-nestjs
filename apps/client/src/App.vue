@@ -1,11 +1,17 @@
 <template>
   <n-config-provider :theme-overrides="themeOverrides">
-    <router-view />
+    <n-message-provider placement="top-right">
+      <router-view />
+    </n-message-provider>
   </n-config-provider>
 </template>
 
 <script setup lang="ts">
-import { NConfigProvider, GlobalThemeOverrides } from 'naive-ui'
+import {
+  NConfigProvider,
+  GlobalThemeOverrides,
+  NMessageProvider,
+} from 'naive-ui'
 import colors from 'tailwindcss/colors'
 
 const themeOverrides: GlobalThemeOverrides = {
