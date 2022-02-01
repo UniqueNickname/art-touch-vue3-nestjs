@@ -24,7 +24,8 @@
     "user-name": "Ваше имя",
     "city": "Город",
     "university": "Университет",
-    "teacher": "Преподаватель"
+    "teacher": "Преподаватель",
+    "success-registration": "Вы успешно зарегистрированы!"
   },
   "validations": {
     "required": "Обязательное поле",

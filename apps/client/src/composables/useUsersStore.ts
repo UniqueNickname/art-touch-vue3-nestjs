@@ -6,6 +6,9 @@ import { isSSR } from 'src/utils/isSSR'
 import { computed, reactive } from 'vue'
 import { useRouter } from 'vue-router'
 import { useCookies } from 'vue3-cookies'
+import { CreateParticipantDto } from '../../../../packages/common/src/dto/create-participant.dto'
+import { useMessage } from 'naive-ui'
+import { useI18n } from 'vue-i18n'
 
 interface UsersState {
   currentUser: TokenPayload | null
@@ -20,6 +23,8 @@ const state = reactive<UsersState>({
 export const useUsersStore = () => {
   const { cookies } = useCookies()
   const router = useRouter()
+  const { t } = useI18n()
+  const message = useMessage()
 
   const getUserByToken = (token: string) => {
     const user = jwtDecode<TokenPayload>(token)
@@ -128,11 +133,27 @@ export const useUsersStore = () => {
     }
   }
 
+  const registerParticipant = async (dto: CreateParticipantDto) => {
+    try {
+      await axios.post('/api/v1/auth/registration', dto)
+
+      //TODO: set i18n text
+      message.success(t('auth.success-registration'))
+      router.push('/auth/login')
+    } catch (error: any) {
+      const errorMessage = error.response.data.message
+      message.error(
+        Array.isArray(errorMessage) ? errorMessage.join(', ') : errorMessage,
+      )
+    }
+  }
+
   return {
     saveTokens,
     getUserByToken,
     checkAccess,
     logout,
+    registerParticipant,
     currentUser: computed(() => state.currentUser),
     authToken: computed(() => `Bearer ${state.tokens?.access}`),
   }

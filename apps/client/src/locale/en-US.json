@@ -24,7 +24,8 @@
     "user-name": "Your name",
     "city": "City",
     "university": "University",
-    "teacher": "Teacher"
+    "teacher": "Teacher",
+    "success-registration": "You are successfully registered!"
   },
   "validations": {
     "required": "Required field",
