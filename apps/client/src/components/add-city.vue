@@ -29,7 +29,7 @@ import { useI18n } from 'vue-i18n'
 import { useCities } from 'src/composables/useCities'
 import { useErrors } from 'src/composables/useErrors'
 
-const { addCity } = useCities()
+const { createCity } = useCities()
 
 const { t } = useI18n()
 
@@ -43,7 +43,7 @@ const { form, errors, isTouched } = useErrors<{
 })
 
 const createNewCity = async () => {
-  await addCity({ name: form.name })
+  await createCity({ name: form.name })
 
   isTouched.name = false
   form.name = ''

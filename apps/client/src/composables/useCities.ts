@@ -10,15 +10,15 @@ interface State {
   cities: GetCityDto[]
 }
 
-const state = reactive<State>({
-  cities: [],
-})
-
 export const useCities = () => {
   const { authToken } = useUsersStore()
   const { locale } = useI18n()
 
-  const requireCitiesFromServer = async (): Promise<void> => {
+  const state = reactive<State>({
+    cities: [],
+  })
+
+  const requireCities = async (): Promise<void> => {
     try {
       const { data } = (await axios.get('/api/v1/cities')) as {
         data: GetCityDto[]
@@ -30,13 +30,13 @@ export const useCities = () => {
     }
   }
 
-  const addCity = async (city: CreateCityDto) => {
+  const createCity = async (city: CreateCityDto) => {
     try {
       await axios.post('/api/v1/cities', city, {
         headers: { Authorization: authToken.value },
       })
 
-      await requireCitiesFromServer()
+      await requireCities()
     } catch (error) {}
   }
 
@@ -46,19 +46,19 @@ export const useCities = () => {
         headers: { Authorization: authToken.value },
       })
 
-      await requireCitiesFromServer()
+      await requireCities()
     } catch (error) {}
   }
 
   return {
-    requireCitiesFromServer,
+    requireCities,
     cities: computed(() => {
       return state.cities.map(city => ({
         label: city.altNames[locale.value] || city.name,
         value: city.id,
       }))
     }),
-    addCity,
+    createCity,
     addCityAltname,
   }
 }

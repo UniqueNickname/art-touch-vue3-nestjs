@@ -85,7 +85,7 @@ import { computed, watch } from 'vue'
 import { isSSR } from 'src/utils/isSSR'
 import { useUniversities } from 'src/composables/useUniversities'
 
-const { requireCitiesFromServer, cities } = useCities()
+const { requireCities, cities } = useCities()
 const { universities, requireUniversitiesByCity, addUniversityAltname } =
   useUniversities()
 
@@ -122,7 +122,7 @@ const { form, errors, isTouched } = useErrors<{
   },
 })
 
-requireCitiesFromServer().then(async () => {
+requireCities().then(async () => {
   form.cityId = cities.value[0]?.value || ''
   if (!form.cityId) return
 

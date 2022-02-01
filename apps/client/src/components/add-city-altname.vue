@@ -66,13 +66,9 @@ import { useErrors } from 'src/composables/useErrors'
 import { computed } from 'vue'
 import { isSSR } from 'src/utils/isSSR'
 
-const { requireCitiesFromServer, cities, addCityAltname } = useCities()
+const { requireCities, cities, addCityAltname } = useCities()
 
 const { t, locale, availableLocales } = useI18n()
-
-if (!cities.value.length) {
-  requireCitiesFromServer()
-}
 
 const langs = computed(() => {
   return availableLocales.map(iso => ({
@@ -83,7 +79,7 @@ const langs = computed(() => {
 
 const { form, errors, isTouched } = useErrors<{
   value: string
-  entityId: number
+  entityId: number | ''
   iso: string
 }>({
   value: {
@@ -91,7 +87,7 @@ const { form, errors, isTouched } = useErrors<{
     validatorDescriptions: ['required', { name: 'minLength', param: 3 }],
   },
   entityId: {
-    defaultValue: cities.value[0]?.value || '',
+    defaultValue: '',
     validatorDescriptions: ['required'],
   },
   iso: {
@@ -100,7 +96,13 @@ const { form, errors, isTouched } = useErrors<{
   },
 })
 
+requireCities().then(() => {
+  form.entityId = cities.value[0]?.value || ''
+})
+
 const createAltname = async () => {
+  if (typeof form.entityId !== 'number') return
+
   try {
     await addCityAltname({
       entityId: form.entityId,

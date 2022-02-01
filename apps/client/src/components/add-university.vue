@@ -51,12 +51,10 @@ import { useErrors } from 'src/composables/useErrors'
 import { isSSR } from 'src/utils/isSSR'
 import { useUniversities } from 'src/composables/useUniversities'
 
-const { cities, requireCitiesFromServer } = useCities()
+const { cities, requireCities } = useCities()
 const { createUniversity } = useUniversities()
 
 const { t } = useI18n()
-
-requireCitiesFromServer()
 
 const { form, errors, isTouched } = useErrors<{
   name: string
@@ -67,9 +65,13 @@ const { form, errors, isTouched } = useErrors<{
     validatorDescriptions: ['required', { name: 'minLength', param: 3 }],
   },
   cityId: {
-    defaultValue: cities.value[0]?.value || '',
+    defaultValue: '',
     validatorDescriptions: ['required'],
   },
+})
+
+requireCities().then(() => {
+  form.cityId = cities.value[0]?.value || ''
 })
 
 const createNewUniversity = async () => {
