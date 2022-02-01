@@ -47,7 +47,7 @@ export class CitiesService {
   }
 
   async getAll(): Promise<GetCityDto[]> {
-    const cities = await this.cityRepository.findAll()
+    const cities = await this.cityRepository.findAll({ include: [CityAltName] })
 
     return cities.map(city => ({
       id: city.id,
