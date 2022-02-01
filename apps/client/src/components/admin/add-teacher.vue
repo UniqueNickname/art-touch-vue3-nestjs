@@ -30,7 +30,7 @@
         <n-select
           v-if="!isSSR()"
           v-model:value="form.universityId"
-          name="cities"
+          name="universities"
           filterable
           :disabled="!universities.length"
           :options="universities"
