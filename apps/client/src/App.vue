@@ -38,6 +38,9 @@ const themeOverrides: GlobalThemeOverrides = {
     // ghost
     textColorGhostPrimary: colors.purple[800],
     textColorGhostHoverPrimary: colors.purple[700],
+    // disabled
+    colorDisabledPrimary: colors.purple[500],
+    borderDisabledPrimary: colors.purple[500],
   },
 }
 </script>
