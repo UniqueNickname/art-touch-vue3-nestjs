@@ -45,7 +45,6 @@ const setTegsToTemplate = (
     .replace(`<!--app-html-->`, tegs.appHtml)
     .replace(`<!--head-tags-->`, tegs.headTags)
     .replace(`<html lang="en">`, `<html lang="${language}">`)
-    .replace(`'<store-state>'`, tegs.store)
 
   return html
 }

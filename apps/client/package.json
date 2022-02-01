@@ -10,7 +10,6 @@
     "build:server": "vite build --outDir dist/server --ssr server/entry-server.ts "
   },
   "dependencies": {
-    "@nuxt/devalue": "^2.0.0",
     "@vicons/ionicons5": "^0.11.0",
     "@vuelidate/core": "^2.0.0-alpha.34",
     "@vuelidate/validators": "^2.0.0-alpha.26",
@@ -18,7 +17,6 @@
     "axios": "^0.25.0",
     "compression": "^1.7.4",
     "jwt-decode": "^3.1.2",
-    "pinia": "^2.0.11",
     "serve-static": "^1.14.2",
     "vue": "^3.2.25",
     "vue-i18n": "^9.2.0-beta.29",

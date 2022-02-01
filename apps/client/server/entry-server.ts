@@ -2,7 +2,6 @@ import { ISO } from '../../../packages/common/src/enums/iso.enum'
 import { createApp } from './create-app'
 import { renderToString } from '@vue/server-renderer'
 import { renderHeadToString } from '@vueuse/head'
-import devalue from '@nuxt/devalue'
 import type { Tegs, Manifest, Context } from './types'
 
 function renderPreloadLink(file: string) {
@@ -47,7 +46,7 @@ export async function render(
   manifest: Manifest,
   language: ISO = ISO.en,
 ): Promise<Tegs> {
-  const { app, head, router, store } = await createApp(language)
+  const { app, head, router } = await createApp(language)
 
   await router.push(url)
   await router.isReady()
@@ -70,6 +69,5 @@ export async function render(
     appHtml: html,
     preloadLinks,
     headTags,
-    store: devalue(store.state.value),
   }
 }

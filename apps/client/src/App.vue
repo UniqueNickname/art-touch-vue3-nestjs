@@ -7,18 +7,6 @@
 <script setup lang="ts">
 import { NConfigProvider, GlobalThemeOverrides } from 'naive-ui'
 import colors from 'tailwindcss/colors'
-import { useUsersStore } from './store/users.store'
-import { isSSR } from './utils/isSSR'
-
-if (!isSSR()) {
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
-  const initialState = window.__INITIAL_STATE__ as {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    users: any
-  }
-  useUsersStore().$state = initialState.users
-}
 
 const themeOverrides: GlobalThemeOverrides = {
   Button: {
