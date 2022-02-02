@@ -1,12 +1,15 @@
-import type { CreateAltNameDto, CreateTeacherDto } from 'src/types/dto'
+import type {
+  CreateAltNameDto,
+  CreateTeacherDto,
+  GetTeacherDto,
+} from 'src/types/dto'
 import axios from 'axios'
 import { computed, reactive } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { GetTeacherDto } from '../../../../packages/common/src/dto/get-teacher.dto'
 import { useUsersStore } from './useUsersStore'
 
 interface State {
-  teachers: GetTeacherDto[]
+  teachers: Readonly<GetTeacherDto>[]
 }
 
 export const useTeachers = () => {
@@ -31,7 +34,7 @@ export const useTeachers = () => {
     universityId: number,
   ): Promise<void> => {
     try {
-      const { data } = await axios.get<GetTeacherDto[]>(
+      const { data } = await axios.get<Readonly<GetTeacherDto>[]>(
         `/api/v1/teachers/by-university/${universityId}`,
       )
 

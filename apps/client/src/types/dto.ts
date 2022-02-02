@@ -34,3 +34,10 @@ export interface CreateTeacherDto {
   name: string
   universityId: number
 }
+
+export interface GetTeacherDto {
+  id: number
+  universityId: number
+  name: string
+  altNames: AltNamesObject
+}
