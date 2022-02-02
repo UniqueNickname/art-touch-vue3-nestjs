@@ -13,7 +13,7 @@ import { JuryService } from './jury/jury.service'
 import { ParticipantsService } from './participants/participants.service'
 import { CreateParticipantDto } from '@art-touch/common/dist/dto/create-participant.dto'
 import { CreateJuryDto } from '@art-touch/common/dist/dto/create-jury.dto'
-import { CreateAdminDto } from '@art-touch/common/dist/dto/create-admin.dto'
+import { CreateAdminDto } from 'src/dto/create-admin.dto'
 import { Tokens, TokenPayload } from '@art-touch/common/dist/dto/get-tokens.dto'
 import * as bcrypt from 'bcryptjs'
 

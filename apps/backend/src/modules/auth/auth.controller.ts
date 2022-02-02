@@ -20,7 +20,7 @@ import { GetParticipantDto } from '@art-touch/common/dist/dto/get-participant.dt
 import { GetJuryDto } from '@art-touch/common/dist/dto/get-jury.dto'
 import { GetAdminDto } from '@art-touch/common/dist/dto/get-admin.dto'
 import { CreateParticipantDto } from '@art-touch/common/dist/dto/create-participant.dto'
-import { CreateAdminDto } from '@art-touch/common/dist/dto/create-admin.dto'
+import { CreateAdminDto } from 'src/dto/create-admin.dto'
 import { CreateJuryDto } from '@art-touch/common/dist/dto/create-jury.dto'
 import { FileInterceptor } from '@nestjs/platform-express'
 import { LoginUserDto } from '@art-touch/common/dist/dto/login-user.dto'

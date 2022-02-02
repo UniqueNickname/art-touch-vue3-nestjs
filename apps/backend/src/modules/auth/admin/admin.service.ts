@@ -1,4 +1,4 @@
-import { CreateAdminDto } from '@art-touch/common/dist/dto/create-admin.dto'
+import { CreateAdminDto } from 'src/dto/create-admin.dto'
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common'
 import { InjectModel } from '@nestjs/sequelize'
 import { Admin } from 'src/models/user.model'
