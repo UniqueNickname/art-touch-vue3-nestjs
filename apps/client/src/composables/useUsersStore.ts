@@ -11,7 +11,7 @@ import { useMessage } from 'naive-ui'
 import { useI18n } from 'vue-i18n'
 
 interface UsersState {
-  currentUser: TokenPayload | null
+  currentUser: Readonly<TokenPayload> | null
   tokens: Tokens | null
 }
 
@@ -27,7 +27,7 @@ export const useUsersStore = () => {
   const message = useMessage()
 
   const getUserByToken = (token: string) => {
-    const user = jwtDecode<TokenPayload>(token)
+    const user = jwtDecode<Readonly<TokenPayload>>(token)
 
     state.currentUser = user
   }

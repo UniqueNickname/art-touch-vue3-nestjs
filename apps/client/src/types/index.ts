@@ -1,16 +1,13 @@
 export type Role = 'admin' | 'jury' | 'participant'
 
 export interface TokenPayload {
-  readonly id: string
-
-  readonly fullName: string
-
-  readonly role: Role
+  id: string
+  fullName: string
+  role: Role
 }
 
 export interface Tokens {
   access: string
-
   refresh: string
 }
 
