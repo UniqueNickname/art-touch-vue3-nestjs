@@ -1,8 +1,7 @@
-import type { CreateAltNameDto } from 'src/types/dto'
+import type { CreateAltNameDto, CreateTeacherDto } from 'src/types/dto'
 import axios from 'axios'
 import { computed, reactive } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { CreateTeacherDto } from '../../../../packages/common/src/dto/create-teacher.dto'
 import { GetTeacherDto } from '../../../../packages/common/src/dto/get-teacher.dto'
 import { useUsersStore } from './useUsersStore'
 

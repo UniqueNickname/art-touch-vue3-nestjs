@@ -29,3 +29,8 @@ export interface GetUniversityDto {
   name: string
   altNames: AltNamesObject
 }
+
+export interface CreateTeacherDto {
+  name: string
+  universityId: number
+}
