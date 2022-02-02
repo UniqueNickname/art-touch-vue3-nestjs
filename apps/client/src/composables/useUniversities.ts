@@ -1,13 +1,12 @@
-import type { CreateAltNameDto } from 'src/types/dto'
+import type { CreateAltNameDto, CreateUniversityDto } from 'src/types/dto'
 import axios from 'axios'
 import { computed, reactive } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { CreateUniversityDto } from '../../../../packages/common/src/dto/create-university.dto'
 import { GetUniversityDto } from '../../../../packages/common/src/dto/get-university.dto'
 import { useUsersStore } from './useUsersStore'
 
 interface State {
-  universities: GetUniversityDto[]
+  universities: Readonly<GetUniversityDto>[]
 }
 
 export const useUniversities = () => {
@@ -20,7 +19,9 @@ export const useUniversities = () => {
 
   const requireUniversities = async (): Promise<void> => {
     try {
-      const { data } = await axios.get(`/api/v1/universities/`)
+      const { data } = await axios.get<Readonly<GetUniversityDto>[]>(
+        `/api/v1/universities/`,
+      )
 
       state.universities = data
     } catch (error) {
@@ -30,7 +31,9 @@ export const useUniversities = () => {
 
   const requireUniversitiesByCity = async (cityId: number): Promise<void> => {
     try {
-      const { data } = await axios.get(`/api/v1/universities/by-city/${cityId}`)
+      const { data } = await axios.get<Readonly<GetUniversityDto>[]>(
+        `/api/v1/universities/by-city/${cityId}`,
+      )
 
       state.universities = data
     } catch (error) {
