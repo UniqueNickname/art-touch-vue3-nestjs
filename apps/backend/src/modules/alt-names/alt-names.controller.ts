@@ -1,4 +1,4 @@
-import { CreateAltNameDto } from '@art-touch/common/dist/dto/create-alt-name.dto'
+import { CreateAltNameDto } from 'src/dto/create-alt-name.dto'
 import {
   Body,
   Controller,

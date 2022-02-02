@@ -11,7 +11,7 @@ import {
   TeacherAltName,
   UniversityAltName,
 } from 'src/models/alt-names.model'
-import { CreateAltNameDto } from '@art-touch/common/dist/dto/create-alt-name.dto'
+import { CreateAltNameDto } from 'src/dto/create-alt-name.dto'
 import { AltNamesModule } from 'src/modules/alt-names/alt-names.module'
 import { UniversitiesModule } from 'src/modules/universities/universities.module'
 import { University } from 'src/models/university.model'
