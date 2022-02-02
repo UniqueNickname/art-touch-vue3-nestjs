@@ -26,7 +26,7 @@ import { FilesModule } from 'src/modules/files/files.module'
 import { AuthModule } from 'src/modules/auth/auth.module'
 import { initDefaultConfig } from 'src/config'
 import { CreateAdminDto } from 'src/dto/create-admin.dto'
-import { Tokens } from '@art-touch/common/dist/dto/get-tokens.dto'
+import { Tokens } from 'src/dto/get-tokens.dto'
 
 describe('Backend', () => {
   let app: INestApplication

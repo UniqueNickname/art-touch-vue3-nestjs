@@ -26,7 +26,7 @@ import { FileInterceptor } from '@nestjs/platform-express'
 import { LoginUserDto } from 'src/dto/login-user.dto'
 import { RequireRole } from 'src/decorators/roles-auth.decorator'
 import { RolesGuard } from 'src/guards/roles.guard'
-import { Tokens } from '@art-touch/common/dist/dto/get-tokens.dto'
+import { Tokens } from 'src/dto/get-tokens.dto'
 
 const registerJuryBody: Record<
   keyof CreateJuryDto | 'photo',
