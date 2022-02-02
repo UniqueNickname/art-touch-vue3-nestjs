@@ -1,7 +1,6 @@
 import axios from 'axios'
 import { computed, reactive } from 'vue'
 import { CreateCityDto } from '../../../../packages/common/src/dto/create-city.dto'
-import { CreateAltNameDto } from '../../../../packages/common/src/dto/create-alt-name.dto'
 import { GetCityDto } from '../../../../packages/common/src/dto/get-city.dto'
 import { useUsersStore } from 'src/composables/useUsersStore'
 import { useI18n } from 'vue-i18n'

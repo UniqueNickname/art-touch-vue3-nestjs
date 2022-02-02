@@ -3,7 +3,6 @@ import { computed, reactive } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { CreateUniversityDto } from '../../../../packages/common/src/dto/create-university.dto'
 import { GetUniversityDto } from '../../../../packages/common/src/dto/get-university.dto'
-import { CreateAltNameDto } from '../../../../packages/common/src/dto/create-alt-name.dto'
 import { useUsersStore } from './useUsersStore'
 
 interface State {
