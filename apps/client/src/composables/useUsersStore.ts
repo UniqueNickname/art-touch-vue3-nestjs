@@ -1,3 +1,4 @@
+import type { AccessType, TokenPayload, Tokens } from 'src/types'
 import axios from 'axios'
 import jwtDecode from 'jwt-decode'
 import { ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY } from 'src/constants'

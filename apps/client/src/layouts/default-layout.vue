@@ -8,6 +8,7 @@
 </template>
 
 <script setup lang="ts">
+import type { AccessType } from 'src/types'
 import AppNavigation from 'src/components/app-navigation.vue'
 import { useUsersStore } from 'src/composables/useUsersStore'
 

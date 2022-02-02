@@ -1,3 +1,4 @@
+import type { CreateAltNameDto } from 'src/types/dto'
 import axios from 'axios'
 import { computed, reactive } from 'vue'
 import { useI18n } from 'vue-i18n'

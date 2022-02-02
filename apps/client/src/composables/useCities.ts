@@ -1,3 +1,4 @@
+import type { CreateAltNameDto, CreateCityDto } from 'src/types/dto'
 import axios from 'axios'
 import { computed, reactive } from 'vue'
 import { GetCityDto } from '../../../../packages/common/src/dto/get-city.dto'

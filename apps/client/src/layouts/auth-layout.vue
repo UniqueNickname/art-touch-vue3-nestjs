@@ -7,6 +7,7 @@
 </template>
 
 <script setup lang="ts">
+import type { AccessType } from 'src/types'
 import DefaultLayout from 'src/layouts/default-layout.vue'
 
 interface Props {
