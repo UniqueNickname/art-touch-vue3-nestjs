@@ -2,7 +2,7 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common'
 import { InjectModel } from '@nestjs/sequelize'
 import { City } from 'src/models/city.model'
 import { CreateCityDto } from 'src/dto/create-city.dto'
-import { GetCityDto } from '@art-touch/common/dist/dto/get-city.dto'
+import { GetCityDto } from 'src/dto/get-city.dto'
 import { CityAltName } from 'src/models/alt-names.model'
 import { GetAltNamesDto } from 'src/dto/get-alt-name.dto'
 
