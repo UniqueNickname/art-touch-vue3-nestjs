@@ -14,7 +14,7 @@ import { ParticipantsService } from './participants/participants.service'
 import { CreateParticipantDto } from 'src/dto/create-participant.dto'
 import { CreateJuryDto } from 'src/dto/create-jury.dto'
 import { CreateAdminDto } from 'src/dto/create-admin.dto'
-import { Tokens, TokenPayload } from '@art-touch/common/dist/dto/get-tokens.dto'
+import { Tokens, TokenPayload } from 'src/dto/get-tokens.dto'
 import * as bcrypt from 'bcryptjs'
 
 type User = Participant | Jury | Admin
