@@ -11,7 +11,6 @@ import {
   TeacherAltName,
   UniversityAltName,
 } from 'src/models/alt-names.model'
-import { ISO } from '@art-touch/common/dist/enums/iso.enum'
 import { CreateAltNameDto } from '@art-touch/common/dist/dto/create-alt-name.dto'
 import { AltNamesModule } from 'src/modules/alt-names/alt-names.module'
 import { UniversitiesModule } from 'src/modules/universities/universities.module'
@@ -250,13 +249,13 @@ describe('Backend', () => {
     describe('Cities alt names', () => {
       const createCityAltNameRu: CreateAltNameDto = {
         entityId: getCityDtoFirst.id,
-        iso: ISO.ru,
+        iso: 'ru-RU',
         value: 'Нью Йорк',
       }
 
       const createCityAltNameEn: CreateAltNameDto = {
         entityId: getCityDtoFirst.id,
-        iso: ISO.en,
+        iso: 'en-US',
         value: 'New York',
       }
 
@@ -442,13 +441,13 @@ describe('Backend', () => {
     describe('Universities alt names', () => {
       const createUniversityAltNameRu: CreateAltNameDto = {
         entityId: getUniversityDto.id,
-        iso: ISO.ru,
+        iso: 'ru-RU',
         value: 'Колумбийский университет',
       }
 
       const createUniversityAltNameEn: CreateAltNameDto = {
         entityId: getUniversityDto.id,
-        iso: ISO.en,
+        iso: 'en-US',
         value: 'Columbia University',
       }
 
@@ -652,13 +651,13 @@ describe('Backend', () => {
     describe('Teachers alt names', () => {
       const createTeacherAltNameRu: CreateAltNameDto = {
         entityId: getTeacherDto.id,
-        iso: ISO.ru,
+        iso: 'ru-RU',
         value: 'Николас Бартлет',
       }
 
       const createTeacherAltNameEn: CreateAltNameDto = {
         entityId: getTeacherDto.id,
-        iso: ISO.en,
+        iso: 'en-US',
         value: 'Nicholas Bartlett',
       }
 
