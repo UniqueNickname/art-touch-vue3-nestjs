@@ -1,12 +1,11 @@
-import type { CreateAltNameDto, CreateCityDto } from 'src/types/dto'
+import type { CreateAltNameDto, CreateCityDto, GetCityDto } from 'src/types/dto'
 import axios from 'axios'
 import { computed, reactive } from 'vue'
-import { GetCityDto } from '../../../../packages/common/src/dto/get-city.dto'
 import { useUsersStore } from 'src/composables/useUsersStore'
 import { useI18n } from 'vue-i18n'
 
 interface State {
-  cities: GetCityDto[]
+  cities: Readonly<GetCityDto>[]
 }
 
 export const useCities = () => {
@@ -19,9 +18,7 @@ export const useCities = () => {
 
   const requireCities = async (): Promise<void> => {
     try {
-      const { data } = (await axios.get('/api/v1/cities')) as {
-        data: GetCityDto[]
-      }
+      const { data } = await axios.get<Readonly<GetCityDto>[]>('/api/v1/cities')
 
       state.cities = data
     } catch (error) {

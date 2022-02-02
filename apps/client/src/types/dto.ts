@@ -11,3 +11,9 @@ export interface CreateAltNameDto {
 export interface CreateCityDto {
   name: string
 }
+
+export interface GetCityDto {
+  id: number
+  name: string
+  altNames: AltNamesObject
+}
