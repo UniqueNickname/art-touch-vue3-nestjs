@@ -4,7 +4,7 @@ import { City } from 'src/models/city.model'
 import { CreateCityDto } from '@art-touch/common/dist/dto/create-city.dto'
 import { GetCityDto } from '@art-touch/common/dist/dto/get-city.dto'
 import { CityAltName } from 'src/models/alt-names.model'
-import { GetAltNamesDTO } from '@art-touch/common/dist/dto/get-alt-name.dto'
+import { GetAltNamesDto } from 'src/dto/get-alt-name.dto'
 
 @Injectable()
 export class CitiesService {
@@ -60,6 +60,6 @@ export class CitiesService {
     return altNames.reduce((acc, { value, iso }) => {
       acc[iso] = value
       return acc
-    }, {} as GetAltNamesDTO)
+    }, {} as GetAltNamesDto)
   }
 }

@@ -5,7 +5,7 @@ import { CreateUniversityDto } from '@art-touch/common/dist/dto/create-universit
 import { GetUniversityDto } from '@art-touch/common/dist/dto/get-university.dto'
 import { CitiesService } from '../cities/cities.service'
 import { UniversityAltName } from 'src/models/alt-names.model'
-import { GetAltNamesDTO } from '@art-touch/common/dist/dto/get-alt-name.dto'
+import { GetAltNamesDto } from 'src/dto/get-alt-name.dto'
 
 @Injectable()
 export class UniversitiesService {
@@ -99,6 +99,6 @@ export class UniversitiesService {
     return altNames.reduce((acc, { value, iso }) => {
       acc[iso] = value
       return acc
-    }, {} as GetAltNamesDTO)
+    }, {} as GetAltNamesDto)
   }
 }

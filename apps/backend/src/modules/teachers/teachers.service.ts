@@ -5,7 +5,7 @@ import { CreateTeacherDto } from '@art-touch/common/dist/dto/create-teacher.dto'
 import { GetTeacherDto } from '@art-touch/common/dist/dto/get-teacher.dto'
 import { UniversitiesService } from '../universities/universities.service'
 import { TeacherAltName } from 'src/models/alt-names.model'
-import { GetAltNamesDTO } from '@art-touch/common/dist/dto/get-alt-name.dto'
+import { GetAltNamesDto } from 'src/dto/get-alt-name.dto'
 
 @Injectable()
 export class TeachersService {
@@ -87,7 +87,7 @@ export class TeachersService {
     return altNames.reduce((acc, { value, iso }) => {
       acc[iso] = value
       return acc
-    }, {} as GetAltNamesDTO)
+    }, {} as GetAltNamesDto)
   }
 
   private async getModelById(teacherId: number): Promise<Teacher> {
