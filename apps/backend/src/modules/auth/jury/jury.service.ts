@@ -1,7 +1,7 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common'
 import { InjectModel } from '@nestjs/sequelize'
 import { Jury } from 'src/models/user.model'
-import { CreateJuryDto } from '@art-touch/common/dist/dto/create-jury.dto'
+import { CreateJuryDto } from 'src/dto/create-jury.dto'
 import { FilesService } from 'src/modules/files/files.service'
 
 @Injectable()
