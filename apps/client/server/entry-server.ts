@@ -1,4 +1,4 @@
-import { ISO } from '../../../packages/common/src/enums/iso.enum'
+import type { ISO } from 'src/types'
 import { createApp } from './create-app'
 import { renderToString } from '@vue/server-renderer'
 import { renderHeadToString } from '@vueuse/head'
@@ -44,7 +44,7 @@ function renderPreloadLinks(modules: Set<string>, manifest: Manifest) {
 export async function render(
   url: string,
   manifest: Manifest,
-  language: ISO = ISO.en,
+  language: ISO = 'en-US',
 ): Promise<Tegs> {
   const { app, head, router } = await createApp(language)
 

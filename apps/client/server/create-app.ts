@@ -1,4 +1,4 @@
-import { ISO } from '../../../packages/common/src/enums/iso.enum'
+import type { ISO } from 'src/types'
 import { createSSRApp, createApp as createVueApp } from 'vue'
 import { createHead } from '@vueuse/head'
 import { createRouter } from '../src/router'
@@ -7,7 +7,7 @@ import { isSSR } from '../src/utils/isSSR'
 import App from '../src/App.vue'
 import 'src/assets/tailwind.css'
 
-export async function createApp(language: ISO = ISO.en) {
+export async function createApp(language: ISO = 'en-US') {
   const app = isSSR() ? createSSRApp(App) : createVueApp(App)
 
   const head = createHead()

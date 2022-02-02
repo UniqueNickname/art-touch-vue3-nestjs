@@ -1,4 +1,4 @@
-import { ISO } from '../../../packages/common/src/enums/iso.enum'
+import type { ISO } from 'src/types'
 
 export interface Manifest {
   [key: string]: string[]

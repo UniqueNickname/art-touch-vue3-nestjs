@@ -1,7 +1,9 @@
-import { ISO } from '../../../packages/common/src/enums/iso.enum'
+import { getValidISO } from 'src/runtime-type-checkers/iso'
 import { createApp } from './create-app'
 
-const language = document.documentElement.getAttribute('lang') as ISO
+const language = getValidISO(
+  document.documentElement.getAttribute('lang') || '',
+)
 
 createApp(language).then(({ app, router }) => {
   router.isReady().then(() => {

@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
+import type { ISO } from 'src/types'
 import * as fs from 'fs'
 import * as path from 'path'
 import type { Express, Request } from 'express'
@@ -6,8 +7,8 @@ import * as express from 'express'
 import * as dotenv from 'dotenv'
 import * as cookieParser from 'cookie-parser'
 import { createServer as createViteServer } from 'vite'
-import { ISO } from '../../../packages/common/src/enums/iso.enum'
 import { PrepareTemplateByUrl, Tegs, RenderFunction, Manifest } from './types'
+import { getValidISO } from '../src/runtime-type-checkers/iso'
 
 dotenv.config({ path: `.env.${process.env.NODE_ENV}` })
 
@@ -125,11 +126,9 @@ const prepareTemplate = (app: Express): Promise<PrepareTemplateByUrl> => {
 const getLanguage = (headers: Request['headers']): ISO => {
   const langsFromHeaders = headers['accept-language']?.split(';')[0].split(',')
 
-  const language = langsFromHeaders?.find(lang => lang.length === 5) as
-    | ISO
-    | undefined
+  const language = langsFromHeaders?.find(lang => lang.length === 5)
 
-  return language || ISO.en
+  return getValidISO(language || '')
 }
 
 const createServer = async () => {
@@ -143,8 +142,10 @@ const createServer = async () => {
     try {
       const { originalUrl, headers, cookies } = req
 
-      const language =
-        (cookies.i18n_redirected as ISO | undefined) || getLanguage(headers)
+      const language = getValidISO(
+        cookies.i18n_redirected,
+        getLanguage(headers),
+      )
 
       const html: string = await prepareTemplateByUrl(originalUrl, language)
 
