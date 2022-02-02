@@ -1,4 +1,4 @@
-import { CreateTeacherDto } from '@art-touch/common/dist/dto/create-teacher.dto'
+import { CreateTeacherDto } from 'src/dto/create-teacher.dto'
 import { GetTeacherDto } from '@art-touch/common/dist/dto/get-teacher.dto'
 import {
   Body,

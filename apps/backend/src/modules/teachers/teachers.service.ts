@@ -1,7 +1,7 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common'
 import { InjectModel } from '@nestjs/sequelize'
 import { Teacher } from 'src/models/teacher.model'
-import { CreateTeacherDto } from '@art-touch/common/dist/dto/create-teacher.dto'
+import { CreateTeacherDto } from 'src/dto/create-teacher.dto'
 import { GetTeacherDto } from '@art-touch/common/dist/dto/get-teacher.dto'
 import { UniversitiesService } from '../universities/universities.service'
 import { TeacherAltName } from 'src/models/alt-names.model'

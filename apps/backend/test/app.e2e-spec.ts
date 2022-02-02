@@ -19,7 +19,7 @@ import { CreateUniversityDto } from '@art-touch/common/dist/dto/create-universit
 import { GetUniversityDto } from '@art-touch/common/dist/dto/get-university.dto'
 import { Teacher } from 'src/models/teacher.model'
 import { TeachersModule } from 'src/modules/teachers/teachers.module'
-import { CreateTeacherDto } from '@art-touch/common/dist/dto/create-teacher.dto'
+import { CreateTeacherDto } from 'src/dto/create-teacher.dto'
 import { GetTeacherDto } from '@art-touch/common/dist/dto/get-teacher.dto'
 import { Admin, Jury, Participant } from 'src/models/user.model'
 import { FilesModule } from 'src/modules/files/files.module'
