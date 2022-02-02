@@ -1,4 +1,4 @@
-import { CreateUniversityDto } from '@art-touch/common/dist/dto/create-university.dto'
+import { CreateUniversityDto } from 'src/dto/create-university.dto'
 import { GetUniversityDto } from '@art-touch/common/dist/dto/get-university.dto'
 import {
   Body,

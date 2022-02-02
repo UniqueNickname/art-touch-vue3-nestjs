@@ -1,7 +1,7 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common'
 import { InjectModel } from '@nestjs/sequelize'
 import { University } from 'src/models/university.model'
-import { CreateUniversityDto } from '@art-touch/common/dist/dto/create-university.dto'
+import { CreateUniversityDto } from 'src/dto/create-university.dto'
 import { GetUniversityDto } from '@art-touch/common/dist/dto/get-university.dto'
 import { CitiesService } from '../cities/cities.service'
 import { UniversityAltName } from 'src/models/alt-names.model'
