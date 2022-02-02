@@ -1,7 +1,7 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common'
 import { InjectModel } from '@nestjs/sequelize'
 import { Participant } from 'src/models/user.model'
-import { CreateParticipantDto } from '@art-touch/common/dist/dto/create-participant.dto'
+import { CreateParticipantDto } from 'src/dto/create-participant.dto'
 
 @Injectable()
 export class ParticipantsService {
