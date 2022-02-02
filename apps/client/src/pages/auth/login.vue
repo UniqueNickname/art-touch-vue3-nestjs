@@ -68,12 +68,12 @@
 </template>
 
 <script setup lang="ts">
+import type { Tokens } from 'src/types'
 import AuthLayout from 'src/layouts/auth-layout.vue'
 import AuthForm from 'src/components/auth-form.vue'
 import { useI18n } from 'vue-i18n'
 import { NInput, NFormItem, NButton } from 'naive-ui'
 import { useErrors } from 'src/composables/useErrors'
-import { Tokens } from '../../../../../packages/common/src/dto/get-tokens.dto'
 import { useUsersStore } from 'src/composables/useUsersStore'
 import { useRouter } from 'vue-router'
 import axios from 'axios'
