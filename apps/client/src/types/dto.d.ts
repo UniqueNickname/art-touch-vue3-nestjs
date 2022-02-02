@@ -3,3 +3,7 @@ declare interface CreateAltNameDto {
   iso: string
   value: string
 }
+
+declare interface CreateCityDto {
+  name: string
+}
