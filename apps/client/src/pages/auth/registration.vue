@@ -112,7 +112,7 @@
             "
           >
             <n-select
-              v-if="!isSSR()"
+              v-if="!isSSR"
               v-model:value="form.cityId"
               name="cities"
               filterable
@@ -133,7 +133,7 @@
             "
           >
             <n-select
-              v-if="!isSSR()"
+              v-if="!isSSR"
               v-model:value="form.universityId"
               name="universities"
               filterable
@@ -153,7 +153,7 @@
             "
           >
             <n-select
-              v-if="!isSSR()"
+              v-if="!isSSR"
               v-model:value="form.teacherId"
               name="isTouched"
               filterable
@@ -193,7 +193,7 @@ import { useRouter } from 'vue-router'
 import { useCities } from 'src/composables/useCities'
 import { useTeachers } from 'src/composables/useTeachers'
 import { useUniversities } from 'src/composables/useUniversities'
-import { isSSR } from 'src/utils/isSSR'
+import { isSSR } from 'src/constants'
 import { watch } from 'vue'
 import { useUsersStore } from 'src/composables/useUsersStore'
 

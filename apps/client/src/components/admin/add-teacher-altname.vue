@@ -10,7 +10,7 @@
         "
       >
         <n-select
-          v-if="!isSSR()"
+          v-if="!isSSR"
           v-model:value="form.cityId"
           name="cities"
           filterable
@@ -27,7 +27,7 @@
         "
       >
         <n-select
-          v-if="!isSSR()"
+          v-if="!isSSR"
           v-model:value="form.universityId"
           name="universities"
           filterable
@@ -45,7 +45,7 @@
         "
       >
         <n-select
-          v-if="!isSSR()"
+          v-if="!isSSR"
           v-model:value="form.entityId"
           name="isTouched"
           filterable
@@ -61,7 +61,7 @@
         :validation-status="isTouched.iso && errors.iso ? 'error' : 'success'"
       >
         <n-select
-          v-if="!isSSR()"
+          v-if="!isSSR"
           v-model:value="form.iso"
           name="langs"
           filterable
@@ -100,7 +100,7 @@ import { useI18n } from 'vue-i18n'
 import { useCities } from 'src/composables/useCities'
 import { useErrors } from 'src/composables/useErrors'
 import { computed, watch } from 'vue'
-import { isSSR } from 'src/utils/isSSR'
+import { isSSR } from 'src/constants'
 import { useUniversities } from 'src/composables/useUniversities'
 import { useTeachers } from 'src/composables/useTeachers'
 

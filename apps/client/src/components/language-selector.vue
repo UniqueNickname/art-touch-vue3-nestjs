@@ -1,6 +1,6 @@
 <template>
   <n-dropdown
-    v-if="!isSSR()"
+    v-if="!isSSR"
     trigger="hover"
     :options="options"
     @select="changeLanguage"
@@ -14,14 +14,14 @@ import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useCookies } from 'vue3-cookies'
 import { NDropdown, NButton } from 'naive-ui/lib'
-import { isSSR } from 'src/utils/isSSR'
+import { isSSR } from 'src/constants'
 
 const { locale, availableLocales } = useI18n()
 const { cookies } = useCookies()
 
 const COOKIES_LANG_KEY = 'i18n_redirected'
 
-if (!isSSR()) {
+if (!isSSR) {
   const cookiesLanguage = cookies.get(COOKIES_LANG_KEY)
   if (cookiesLanguage) {
     locale.value = cookiesLanguage
@@ -37,7 +37,7 @@ const options = computed(() => {
 
 const changeLanguage = (event: string) => {
   locale.value = event
-  if (isSSR()) {
+  if (isSSR) {
     return
   }
   cookies.set(COOKIES_LANG_KEY, locale.value)

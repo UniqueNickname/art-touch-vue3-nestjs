@@ -3,7 +3,7 @@ import type { CreateParticipantDto } from 'src/types/dto'
 import axios from 'axios'
 import jwtDecode from 'jwt-decode'
 import { ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY } from 'src/constants'
-import { isSSR } from 'src/utils/isSSR'
+import { isSSR } from 'src/constants'
 import { computed, reactive } from 'vue'
 import { useRouter } from 'vue-router'
 import { useCookies } from 'vue3-cookies'
@@ -33,7 +33,7 @@ export const useUsersStore = () => {
   }
 
   const saveTokens = ({ access, refresh }: Tokens) => {
-    if (isSSR()) {
+    if (isSSR) {
       return
     }
 
@@ -51,7 +51,7 @@ export const useUsersStore = () => {
   }
 
   const refresh = async () => {
-    if (isSSR()) {
+    if (isSSR) {
       return
     }
 
@@ -75,7 +75,7 @@ export const useUsersStore = () => {
   }
 
   const verify = async () => {
-    if (isSSR()) {
+    if (isSSR) {
       return
     }
 
@@ -108,7 +108,7 @@ export const useUsersStore = () => {
   const checkAccess = async (accessType: AccessType = 'all') => {
     await verify()
 
-    if (isSSR()) return
+    if (isSSR) return
 
     if (accessType === 'all') {
       return

@@ -33,7 +33,7 @@ import { useI18n } from 'vue-i18n'
 import CitiesAdminPanel from 'src/components/admin/cities-admin-panel.vue'
 import UniversitiesAdminPanel from 'src/components/admin/universities-admin-panel.vue'
 import TeachersAdminPanel from 'src/components/admin/teachers-admin-panel.vue'
-import { isSSR } from 'src/utils/isSSR'
+import { isSSR } from 'src/constants'
 import { computed, ref, watch } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { useScreenSize } from 'src/composables/useScreenSize'
@@ -46,7 +46,7 @@ const route = useRoute()
 const { screenWidth } = useScreenSize()
 
 const tabsType = computed(() => {
-  if (isSSR()) {
+  if (isSSR) {
     return 'segment'
   }
 

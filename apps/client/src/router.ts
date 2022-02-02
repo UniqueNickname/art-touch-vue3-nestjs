@@ -4,11 +4,11 @@ import {
   createWebHistory,
 } from 'vue-router'
 import routes from '~pages'
-import { isSSR } from 'src/utils/isSSR'
+import { isSSR } from 'src/constants'
 
 export function createRouter() {
   return _createRouter({
-    history: isSSR() ? createMemoryHistory() : createWebHistory(),
+    history: isSSR ? createMemoryHistory() : createWebHistory(),
     routes,
   })
 }

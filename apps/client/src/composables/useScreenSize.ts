@@ -1,11 +1,11 @@
-import { isSSR } from 'src/utils/isSSR'
+import { isSSR } from 'src/constants'
 import { ref, onMounted, onUnmounted } from 'vue'
 
 export const useScreenSize = () => {
   const screenWidth = ref(320)
 
   const updateClientWidth = () => {
-    screenWidth.value = isSSR() ? 320 : document.documentElement.clientWidth
+    screenWidth.value = isSSR ? 320 : document.documentElement.clientWidth
   }
 
   onMounted(() => {

@@ -10,7 +10,7 @@
         "
       >
         <n-select
-          v-if="!isSSR()"
+          v-if="!isSSR"
           v-model:value="form.cityId"
           name="cities"
           filterable
@@ -28,7 +28,7 @@
         "
       >
         <n-select
-          v-if="!isSSR()"
+          v-if="!isSSR"
           v-model:value="form.universityId"
           name="universities"
           filterable
@@ -66,7 +66,7 @@ import { NForm, NFormItem, NInput, NButton, NSelect } from 'naive-ui'
 import { useI18n } from 'vue-i18n'
 import { useCities } from 'src/composables/useCities'
 import { useErrors } from 'src/composables/useErrors'
-import { isSSR } from 'src/utils/isSSR'
+import { isSSR } from 'src/constants'
 import { useUniversities } from 'src/composables/useUniversities'
 import { useTeachers } from 'src/composables/useTeachers'
 
