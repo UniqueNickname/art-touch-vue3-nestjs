@@ -10,10 +10,10 @@
 <script setup lang="ts">
 import AppNavigation from 'src/components/app-navigation.vue'
 import { useUsersStore } from 'src/composables/useUsersStore'
-import { Role } from 'src/types'
+import { AccessType } from 'src/types'
 
 interface Props {
-  role?: Role
+  role?: AccessType
 }
 
 const props = withDefaults(defineProps<Props>(), {

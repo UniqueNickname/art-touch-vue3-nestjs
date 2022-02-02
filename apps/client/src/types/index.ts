@@ -12,4 +12,8 @@ export interface Tokens {
   refresh: string
 }
 
-export type Role = TokenPayload['role'] | 'authorized' | 'unauthorized' | 'all'
+export type AccessType =
+  | TokenPayload['role']
+  | 'authorized'
+  | 'unauthorized'
+  | 'all'

@@ -1,7 +1,7 @@
 import axios from 'axios'
 import jwtDecode from 'jwt-decode'
 import { ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY } from 'src/constants'
-import { Role, TokenPayload, Tokens } from 'src/types'
+import { AccessType, TokenPayload, Tokens } from 'src/types'
 import { isSSR } from 'src/utils/isSSR'
 import { computed, reactive } from 'vue'
 import { useRouter } from 'vue-router'
@@ -105,30 +105,30 @@ export const useUsersStore = () => {
     }
   }
 
-  const checkAccess = async (role: Role = 'all') => {
+  const checkAccess = async (accessType: AccessType = 'all') => {
     await verify()
 
     if (isSSR()) return
 
-    if (role === 'all') {
+    if (accessType === 'all') {
       return
     }
 
-    if (role === 'authorized') {
+    if (accessType === 'authorized') {
       if (!state.currentUser) {
         router.replace('/')
       }
       return
     }
 
-    if (role === 'unauthorized') {
+    if (accessType === 'unauthorized') {
       if (state.currentUser) {
         router.replace('/')
       }
       return
     }
 
-    if (state.currentUser?.role !== role) {
+    if (state.currentUser?.role !== accessType) {
       router.replace('/')
     }
   }

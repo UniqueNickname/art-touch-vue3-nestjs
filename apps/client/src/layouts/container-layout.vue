@@ -15,11 +15,11 @@
 
 <script setup lang="ts">
 import DefaultLayout from 'src/layouts/default-layout.vue'
-import { Role } from 'src/types'
+import { AccessType } from 'src/types'
 
 interface Props {
   title: string
-  role?: Role
+  role?: AccessType
 }
 
 withDefaults(defineProps<Props>(), {
