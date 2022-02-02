@@ -1,7 +1,6 @@
 import axios from 'axios'
 import jwtDecode from 'jwt-decode'
 import { ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY } from 'src/constants'
-import { AccessType, TokenPayload, Tokens } from 'src/types'
 import { isSSR } from 'src/utils/isSSR'
 import { computed, reactive } from 'vue'
 import { useRouter } from 'vue-router'

@@ -10,7 +10,6 @@
 <script setup lang="ts">
 import AppNavigation from 'src/components/app-navigation.vue'
 import { useUsersStore } from 'src/composables/useUsersStore'
-import { AccessType } from 'src/types'
 
 interface Props {
   role?: AccessType

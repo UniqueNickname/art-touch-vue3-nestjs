@@ -15,7 +15,6 @@
 
 <script setup lang="ts">
 import DefaultLayout from 'src/layouts/default-layout.vue'
-import { AccessType } from 'src/types'
 
 interface Props {
   title: string
