@@ -18,7 +18,7 @@ module.exports = {
         'build',
       ],
     ],
-    'scope-enum': [2, 'always', ['backend', 'client', 'global', 'common']],
+    'scope-enum': [2, 'always', ['backend', 'client', 'global']],
     'subject-case': [0],
   },
 }

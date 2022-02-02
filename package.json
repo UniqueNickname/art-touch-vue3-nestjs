@@ -4,8 +4,7 @@
   "private": true,
   "license": "MIT",
   "workspaces": [
-    "apps/*",
-    "packages/*"
+    "apps/*"
   ],
   "scripts": {
     "format": "prettier --write \"apps/{backend,client}/{src,test,server}/**/*.{ts,vue}\" ",

@@ -3,8 +3,7 @@
 	"useWorkspaces": true,
   "conventionalCommits": true,
 	"packages": [
-		"apps/*",
-    "packages/*"
+		"apps/*"
 	],
   "version": "1.0.0"
 }
