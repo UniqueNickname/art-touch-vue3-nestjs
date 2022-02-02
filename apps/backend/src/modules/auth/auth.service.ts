@@ -1,4 +1,3 @@
-import type { LoginUserDto } from '@art-touch/common/dist/dto/login-user.dto'
 import type { Role } from 'src/types'
 import {
   Injectable,
@@ -6,6 +5,7 @@ import {
   HttpException,
   HttpStatus,
 } from '@nestjs/common'
+import { LoginUserDto } from 'src/dto/login-user.dto'
 import { JwtService } from '@nestjs/jwt'
 import { Admin, Jury, Participant } from 'src/models/user.model'
 import { AdminService } from './admin/admin.service'
