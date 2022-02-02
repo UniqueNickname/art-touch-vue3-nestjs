@@ -3,7 +3,7 @@ import { Test } from '@nestjs/testing'
 import { CitiesModule } from 'src/modules/cities/cities.module'
 import { HttpStatus, INestApplication } from '@nestjs/common'
 import { DatabaseModule } from 'src/modules/database/database.module'
-import { CreateCityDto } from '@art-touch/common/dist/dto/create-city.dto'
+import { CreateCityDto } from 'src/dto/create-city.dto'
 import { GetCityDto } from '@art-touch/common/dist/dto/get-city.dto'
 import { City } from 'src/models/city.model'
 import {

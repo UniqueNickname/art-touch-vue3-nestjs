@@ -10,7 +10,7 @@ import {
 } from '@nestjs/common'
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger'
 import { CitiesService } from './cities.service'
-import { CreateCityDto } from '@art-touch/common/dist/dto/create-city.dto'
+import { CreateCityDto } from 'src/dto/create-city.dto'
 import { GetCityDto } from '@art-touch/common/dist/dto/get-city.dto'
 import { RequireRole } from 'src/decorators/roles-auth.decorator'
 import { RolesGuard } from 'src/guards/roles.guard'
