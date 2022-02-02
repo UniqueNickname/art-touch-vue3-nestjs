@@ -1,3 +1,7 @@
+import type { ISO } from 'src/types'
+
+export type AltNamesObject = Partial<Record<ISO, string>>
+
 export interface CreateAltNameDto {
   entityId: number
   iso: string
