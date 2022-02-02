@@ -16,7 +16,7 @@ import {
   ApiTags,
 } from '@nestjs/swagger'
 import { AuthService } from './auth.service'
-import { GetParticipantDto } from '@art-touch/common/dist/dto/get-participant.dto'
+import { GetParticipantDto } from 'src/dto/get-participant.dto'
 import { GetJuryDto } from 'src/dto/get-jury.dto'
 import { GetAdminDto } from 'src/dto/get-admin.dto'
 import { CreateParticipantDto } from 'src/dto/create-participant.dto'
