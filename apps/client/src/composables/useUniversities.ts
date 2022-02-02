@@ -1,8 +1,11 @@
-import type { CreateAltNameDto, CreateUniversityDto } from 'src/types/dto'
+import type {
+  CreateAltNameDto,
+  CreateUniversityDto,
+  GetUniversityDto,
+} from 'src/types/dto'
 import axios from 'axios'
 import { computed, reactive } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { GetUniversityDto } from '../../../../packages/common/src/dto/get-university.dto'
 import { useUsersStore } from './useUsersStore'
 
 interface State {

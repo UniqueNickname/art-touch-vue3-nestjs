@@ -22,3 +22,10 @@ export interface CreateUniversityDto {
   name: string
   cityId: number
 }
+
+export interface GetUniversityDto {
+  id: number
+  cityId: number
+  name: string
+  altNames: AltNamesObject
+}
