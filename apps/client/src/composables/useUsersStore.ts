@@ -1,4 +1,5 @@
 import type { AccessType, TokenPayload, Tokens } from 'src/types'
+import type { CreateParticipantDto } from 'src/types/dto'
 import axios from 'axios'
 import jwtDecode from 'jwt-decode'
 import { ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY } from 'src/constants'
@@ -6,7 +7,6 @@ import { isSSR } from 'src/utils/isSSR'
 import { computed, reactive } from 'vue'
 import { useRouter } from 'vue-router'
 import { useCookies } from 'vue3-cookies'
-import { CreateParticipantDto } from '../../../../packages/common/src/dto/create-participant.dto'
 import { useMessage } from 'naive-ui'
 import { useI18n } from 'vue-i18n'
 
@@ -137,7 +137,6 @@ export const useUsersStore = () => {
     try {
       await axios.post('/api/v1/auth/registration', dto)
 
-      //TODO: set i18n text
       message.success(t('auth.success-registration'))
       router.push('/auth/login')
     } catch (error: any) {

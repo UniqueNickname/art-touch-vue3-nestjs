@@ -41,3 +41,11 @@ export interface GetTeacherDto {
   name: string
   altNames: AltNamesObject
 }
+
+export interface CreateParticipantDto {
+  email: string
+  password: string
+  phone: string
+  fullName: string
+  teacherId: number
+}
