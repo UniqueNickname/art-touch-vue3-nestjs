@@ -17,7 +17,7 @@ import {
 } from '@nestjs/swagger'
 import { AuthService } from './auth.service'
 import { GetParticipantDto } from '@art-touch/common/dist/dto/get-participant.dto'
-import { GetJuryDto } from '@art-touch/common/dist/dto/get-jury.dto'
+import { GetJuryDto } from 'src/dto/get-jury.dto'
 import { GetAdminDto } from 'src/dto/get-admin.dto'
 import { CreateParticipantDto } from 'src/dto/create-participant.dto'
 import { CreateAdminDto } from 'src/dto/create-admin.dto'
