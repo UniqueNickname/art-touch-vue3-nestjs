@@ -1,9 +1,11 @@
+export type Role = 'admin' | 'jury' | 'participant'
+
 export interface TokenPayload {
   readonly id: string
 
   readonly fullName: string
 
-  readonly role: 'admin' | 'jury' | 'participant'
+  readonly role: Role
 }
 
 export interface Tokens {
@@ -12,8 +14,4 @@ export interface Tokens {
   refresh: string
 }
 
-export type AccessType =
-  | TokenPayload['role']
-  | 'authorized'
-  | 'unauthorized'
-  | 'all'
+export type AccessType = Role | 'authorized' | 'unauthorized' | 'all'
