@@ -27,7 +27,7 @@ interface CookieManager {
   remove: (keyName: string) => void
 }
 
-const config = (options: Partial<CookieConfig>): void => {
+const config: CookieManager['config'] = options => {
   for (const propertyName in defaultConfig) {
     defaultConfig[propertyName] = options[propertyName]
       ? options[propertyName]
@@ -35,7 +35,7 @@ const config = (options: Partial<CookieConfig>): void => {
   }
 }
 
-const get: CookieManager['get'] = (keyName: string) => {
+const get: CookieManager['get'] = keyName => {
   if (isSSR) return null
 
   const matches = document.cookie.match(
@@ -82,11 +82,7 @@ const timeString2Seconds = (string: TimeString): number => {
   }
 }
 
-const set: CookieManager['set'] = (
-  keyName: string,
-  value: any,
-  options: Partial<CookieConfig> = {},
-): void => {
+const set: CookieManager['set'] = (keyName, value, options = {}) => {
   if (isSSR) return
 
   const currentConfig: Omit<CookieConfig, 'expires'> & {
@@ -120,7 +116,7 @@ const set: CookieManager['set'] = (
   document.cookie = updatedCookie
 }
 
-const remove: CookieManager['remove'] = (keyName: string) => {
+const remove: CookieManager['remove'] = keyName => {
   set(keyName, '', { 'max-age': -1 })
 }
 
