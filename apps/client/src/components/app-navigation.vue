@@ -59,7 +59,7 @@
 
 <script setup lang="ts">
 import AppLogo from 'src/components/app-logo.vue'
-import { NButton } from 'naive-ui/lib'
+import { NButton } from 'naive-ui'
 import { computed } from 'vue'
 import LanguageSelector from 'src/components/language-selector.vue'
 import AppSidebar from 'src/components/app-sidebar.vue'

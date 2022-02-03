@@ -30,7 +30,7 @@
 </template>
 
 <script setup lang="ts">
-import { NButton, NForm } from 'naive-ui/lib'
+import { NButton, NForm } from 'naive-ui'
 
 interface Props {
   title: string

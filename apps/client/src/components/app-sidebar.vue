@@ -74,7 +74,7 @@
 <script setup lang="ts">
 import { MenuOutline, ArrowBackOutline } from '@vicons/ionicons5'
 import AppLogo from 'src/components/app-logo.vue'
-import { NButton } from 'naive-ui/lib'
+import { NButton } from 'naive-ui'
 import { useI18n } from 'vue-i18n'
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'

@@ -13,6 +13,7 @@
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useCookies } from 'src/composables/useCookies'
+import { NDropdown, NButton } from 'naive-ui'
 import { isSSR } from 'src/constants'
 
 const { locale, availableLocales } = useI18n()
