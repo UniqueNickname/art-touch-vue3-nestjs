@@ -12,12 +12,11 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { useCookies } from 'vue3-cookies'
-import { NDropdown, NButton } from 'naive-ui/lib'
+import { useCookies } from 'src/composables/useCookies'
 import { isSSR } from 'src/constants'
 
 const { locale, availableLocales } = useI18n()
-const { cookies } = useCookies()
+const cookies = useCookies()
 
 const COOKIES_LANG_KEY = 'i18n_redirected'
 
@@ -40,7 +39,7 @@ const changeLanguage = (event: string) => {
   if (isSSR) {
     return
   }
-  cookies.set(COOKIES_LANG_KEY, locale.value)
+  cookies.set(COOKIES_LANG_KEY, locale.value, { expires: '1y' })
   document.documentElement.setAttribute('lang', locale.value.toLowerCase())
 }
 </script>

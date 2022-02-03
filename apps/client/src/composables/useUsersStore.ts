@@ -6,7 +6,7 @@ import { ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY } from 'src/constants'
 import { isSSR } from 'src/constants'
 import { computed, reactive } from 'vue'
 import { useRouter } from 'vue-router'
-import { useCookies } from 'vue3-cookies'
+import { useCookies } from 'src/composables/useCookies'
 import { useMessage } from 'naive-ui'
 import { useI18n } from 'vue-i18n'
 
@@ -21,7 +21,7 @@ const state = reactive<UsersState>({
 })
 
 export const useUsersStore = () => {
-  const { cookies } = useCookies()
+  const cookies = useCookies()
   const router = useRouter()
   const { t } = useI18n()
   const message = useMessage()
@@ -37,8 +37,8 @@ export const useUsersStore = () => {
       return
     }
 
-    cookies.set(ACCESS_TOKEN_KEY, access, '2h', undefined, undefined, true)
-    cookies.set(REFRESH_TOKEN_KEY, refresh, '7d', undefined, undefined, true)
+    cookies.set(ACCESS_TOKEN_KEY, access, { expires: '2h' })
+    cookies.set(REFRESH_TOKEN_KEY, refresh, { expires: '7d' })
 
     state.tokens = { access, refresh }
   }
@@ -81,8 +81,9 @@ export const useUsersStore = () => {
 
     try {
       const accessToken = cookies.get(ACCESS_TOKEN_KEY)
+      const refreshToken = cookies.get(REFRESH_TOKEN_KEY)
 
-      if (!accessToken) {
+      if (!refreshToken || !accessToken) {
         logout()
         return
       }
@@ -95,8 +96,6 @@ export const useUsersStore = () => {
         await refresh()
         return
       }
-
-      const refreshToken = cookies.get(REFRESH_TOKEN_KEY)
 
       state.tokens = { access: accessToken, refresh: refreshToken }
       getUserByToken(accessToken)
