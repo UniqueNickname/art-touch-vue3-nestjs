@@ -5,7 +5,7 @@
     :options="options"
     @select="changeLanguage"
   >
-    <n-button text>{{ locale.split('-')[1] }}</n-button>
+    <n-button text>{{ locale.split('-')[0].toUpperCase() }}</n-button>
   </n-dropdown>
 </template>
 
@@ -29,7 +29,7 @@ if (!isSSR) {
 
 const options = computed(() => {
   return availableLocales.map(currentLocale => ({
-    label: currentLocale.split('-')[1],
+    label: currentLocale.split('-')[0].toUpperCase(),
     key: currentLocale,
   }))
 })
