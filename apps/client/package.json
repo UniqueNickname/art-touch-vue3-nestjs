@@ -7,7 +7,8 @@
     "serve": "cross-env NODE_ENV=production ts-node server",
     "build": "run-p build:client build:server",
     "build:client": "vite build --outDir dist/client --ssrManifest",
-    "build:server": "vite build --outDir dist/server --ssr server/entry-server.ts "
+    "build:server": "vite build --outDir dist/server --ssr server/entry-server.ts",
+    "test": "cross-env NODE_ENV=test jest"
   },
   "dependencies": {
     "@vicons/ionicons5": "^0.11.0",
