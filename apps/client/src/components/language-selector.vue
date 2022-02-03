@@ -40,6 +40,6 @@ const changeLanguage = (event: string) => {
     return
   }
   cookies.set(COOKIES_LANG_KEY, locale.value, { expires: '1y' })
-  document.documentElement.setAttribute('lang', locale.value.toLowerCase())
+  document.documentElement.setAttribute('lang', locale.value)
 }
 </script>
