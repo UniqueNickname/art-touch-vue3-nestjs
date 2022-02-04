@@ -115,6 +115,22 @@ export class AuthService {
     return this.generatePairOfTokens(admin, 'admin')
   }
 
+  getUserByToken(accessToken: string): TokenPayload {
+    try {
+      const user = this.jwtService.verify<TokenPayload>(accessToken)
+
+      return {
+        id: user.id,
+        role: user.role,
+        fullName: user.fullName,
+      }
+    } catch (error) {
+      throw new UnauthorizedException({
+        message: 'User is not authorized',
+      })
+    }
+  }
+
   verify(accessToken: string) {
     try {
       const user = this.jwtService.verify<TokenPayload>(accessToken)
