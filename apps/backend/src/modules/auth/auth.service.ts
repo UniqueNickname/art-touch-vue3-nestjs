@@ -16,6 +16,7 @@ import { CreateJuryDto } from 'src/dto/create-jury.dto'
 import { CreateAdminDto } from 'src/dto/create-admin.dto'
 import { Tokens, TokenPayload } from 'src/dto/get-tokens.dto'
 import * as bcrypt from 'bcryptjs'
+import { ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY } from 'src/constants'
 
 type User = Participant | Jury | Admin
 
@@ -38,6 +39,10 @@ export class AuthService {
     },
     HttpStatus.BAD_REQUEST,
   )
+
+  private verifyError = new UnauthorizedException({
+    message: 'User is not authorized',
+  })
 
   async login(
     loginDto: LoginUserDto,
@@ -155,37 +160,35 @@ export class AuthService {
         fullName: user.fullName,
       }
     } catch (error) {
-      throw new UnauthorizedException({
-        message: 'User is not authorized',
-      })
+      throw this.verifyError
     }
   }
 
-  verify(accessToken: string) {
+  verify(res: any) {
     try {
-      const user = this.jwtService.verify<TokenPayload>(accessToken)
-      return !!user
+      const accessToken = this.getTokenFromCookie(res, ACCESS_TOKEN_KEY)
+
+      const user = this.getUserByToken(accessToken)
+
+      return res.send(user)
     } catch (error) {
-      throw new UnauthorizedException({
-        message: 'User is not authorized',
-      })
+      return this.refresh(res)
     }
   }
 
-  async refresh(refreshToken: string): Promise<Tokens> {
+  async refresh(res: any) {
     try {
-      const payload = this.jwtService.verify<TokenPayload>(refreshToken)
-      const user = await this.getUserById(payload.id)
+      const accessToken = this.getTokenFromCookie(res, ACCESS_TOKEN_KEY)
+      const refreshToken = this.getTokenFromCookie(res, REFRESH_TOKEN_KEY)
 
-      if (!user) {
-        throw new Error()
-      }
+      const user = this.getUserByToken(refreshToken)
 
-      return this.generatePairOfTokens(user.model, payload.role)
+      return this.setTokensToCookie(res, {
+        access: accessToken,
+        refresh: refreshToken,
+      }).send(user)
     } catch (error) {
-      throw new UnauthorizedException({
-        message: 'User is not authorized',
-      })
+      throw this.verifyError
     }
   }
 

@@ -8,6 +8,7 @@ import {
   UseInterceptors,
   Version,
   Response,
+  HttpCode,
 } from '@nestjs/common'
 import {
   ApiBody,
@@ -97,10 +98,11 @@ export class AuthController {
   }
 
   @ApiOperation({ summary: 'Verify access token' })
-  @ApiResponse({ status: HttpStatus.OK, type: Boolean })
+  @ApiResponse({ status: HttpStatus.OK, type: TokenPayload })
   @Version('1')
+  @HttpCode(200)
   @Post('/verify')
-  verify(@Body() { token }: { token: string }): boolean {
-    return this.authService.verify(token)
+  verify(@Response() res: any) {
+    return this.authService.verify(res)
   }
 }
