@@ -189,6 +189,22 @@ export class AuthService {
     }
   }
 
+  private getTokenFromCookie(res: any, tokenKey: string) {
+    const rawHeaders = res.req.rawHeaders as string[]
+
+    const cookieIndex = rawHeaders.findIndex(string => string === 'cookie')
+    if (cookieIndex === -1) return ''
+
+    const cookiesString = rawHeaders[cookieIndex + 1]
+
+    const token = cookiesString
+      .split('; ')
+      .find(string => string.startsWith(tokenKey))
+      ?.split('=')[1]
+
+    return token || ''
+  }
+
   private async getUserById(
     id: string,
   ): Promise<{ model: User; role: Role } | undefined> {
