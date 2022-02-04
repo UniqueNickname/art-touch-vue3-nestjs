@@ -1,4 +1,6 @@
 {
+  "name": "@art-touch/backend E2E",
+  "displayName": "@art-touch/backend E2E",
   "moduleFileExtensions": ["js", "json", "ts"],
   "moduleNameMapper": {
     "^src(.*)$": "<rootDir>/../src$1"
