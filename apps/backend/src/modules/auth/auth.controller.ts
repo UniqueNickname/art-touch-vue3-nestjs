@@ -28,9 +28,7 @@ import { LoginUserDto } from 'src/dto/login-user.dto'
 import { RequireRole } from 'src/decorators/roles-auth.decorator'
 import { RolesGuard } from 'src/guards/roles.guard'
 import { TokenPayload, Tokens } from 'src/dto/get-tokens.dto'
-
-const ACCESS_TOKEN_KEY = 'access-token'
-const REFRESH_TOKEN_KEY = 'refresh-token'
+import { ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY } from 'src/constants'
 
 const registerJuryBody: Record<
   keyof CreateJuryDto | 'photo',
