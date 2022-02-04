@@ -26,7 +26,6 @@ import { FilesModule } from 'src/modules/files/files.module'
 import { AuthModule } from 'src/modules/auth/auth.module'
 import { initDefaultConfig } from 'src/config'
 import { CreateAdminDto } from 'src/dto/create-admin.dto'
-import { Tokens } from 'src/dto/get-tokens.dto'
 
 describe('Backend', () => {
   let app: INestApplication
@@ -94,7 +93,7 @@ describe('Backend', () => {
     name: createCityDtoSecond.name,
     altNames: {},
   }
-
+  //
   //+ University DTO
   const createUniversityDto: CreateUniversityDto = {
     name: 'Columbia University',
@@ -121,7 +120,7 @@ describe('Backend', () => {
     altNames: {},
   }
 
-  let adminAccessToken: Tokens
+  let adminAccessToken: string
 
   describe('Auth Admin', () => {
     it('/POST /api/v1/auth/login (as default admin)', async () => {
@@ -132,14 +131,18 @@ describe('Backend', () => {
           password: process.env.ADMIN_PASSWORD,
         })
         .expect(HttpStatus.CREATED)
-
-      adminAccessToken = response.body
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      adminAccessToken = response.res.rawHeaders
+        .find((string: string) => string.startsWith('access-token'))
+        .split('=')[1]
+        .split(';')[0]
     })
 
     it('/POST /api/v1/auth/registration/admin (with valid access token)', () => {
       return request(app.getHttpServer())
         .post(`/api/v1/auth/registration/admin`)
-        .set('Authorization', `Bearer ${adminAccessToken.access}`)
+        .set('Authorization', `Bearer ${adminAccessToken}`)
         .send({
           email: 'example@mail.com',
           password: process.env.ADMIN_PASSWORD,
@@ -151,7 +154,7 @@ describe('Backend', () => {
     it('/POST /api/v1/auth/registration/admin (with valid access token & exist email)', () => {
       return request(app.getHttpServer())
         .post(`/api/v1/auth/registration/admin`)
-        .set('Authorization', `Bearer ${adminAccessToken.access}`)
+        .set('Authorization', `Bearer ${adminAccessToken}`)
         .send({
           email: process.env.ADMIN_EMAIL,
           password: process.env.ADMIN_PASSWORD,
@@ -189,7 +192,7 @@ describe('Backend', () => {
     it(`/POST /api/v1/cities (first)`, () => {
       return request(app.getHttpServer())
         .post(`/api/v1/cities`)
-        .set('Authorization', `Bearer ${adminAccessToken.access}`)
+        .set('Authorization', `Bearer ${adminAccessToken}`)
         .send(createCityDtoFirst)
         .expect(HttpStatus.CREATED)
         .expect(getCityDtoFirst)
@@ -198,7 +201,7 @@ describe('Backend', () => {
     it(`/POST /api/v1/cities (second)`, () => {
       return request(app.getHttpServer())
         .post(`/api/v1/cities`)
-        .set('Authorization', `Bearer ${adminAccessToken.access}`)
+        .set('Authorization', `Bearer ${adminAccessToken}`)
         .send(createCityDtoSecond)
         .expect(HttpStatus.CREATED)
         .expect(getCityDtoSecond)
@@ -207,7 +210,7 @@ describe('Backend', () => {
     it(`/POST /api/v1/cities (with exist name)`, () => {
       return request(app.getHttpServer())
         .post(`/api/v1/cities`)
-        .set('Authorization', `Bearer ${adminAccessToken.access}`)
+        .set('Authorization', `Bearer ${adminAccessToken}`)
         .send(createCityDtoSecond)
         .expect(HttpStatus.BAD_REQUEST)
         .expect({
@@ -233,7 +236,7 @@ describe('Backend', () => {
     it(`/POST /api/v1/cities (with empty DTO)`, () => {
       return request(app.getHttpServer())
         .post(`/api/v1/cities`)
-        .set('Authorization', `Bearer ${adminAccessToken.access}`)
+        .set('Authorization', `Bearer ${adminAccessToken}`)
         .send({})
         .expect(HttpStatus.BAD_REQUEST)
         .expect({
@@ -278,7 +281,7 @@ describe('Backend', () => {
       it(`/POST /api/v1/cities/alt-names (ru-RU)`, () => {
         return request(app.getHttpServer())
           .post(`/api/v1/cities/alt-names`)
-          .set('Authorization', `Bearer ${adminAccessToken.access}`)
+          .set('Authorization', `Bearer ${adminAccessToken}`)
           .send(createCityAltNameRu)
           .expect(HttpStatus.CREATED)
           .expect({
@@ -292,7 +295,7 @@ describe('Backend', () => {
       it(`/POST /api/v1/cities/alt-names (en-US)`, () => {
         return request(app.getHttpServer())
           .post(`/api/v1/cities/alt-names`)
-          .set('Authorization', `Bearer ${adminAccessToken.access}`)
+          .set('Authorization', `Bearer ${adminAccessToken}`)
           .send(createCityAltNameEn)
           .expect(HttpStatus.CREATED)
           .expect({
@@ -314,7 +317,7 @@ describe('Backend', () => {
         const entityId = 4
         return request(app.getHttpServer())
           .post(`/api/v1/cities/alt-names`)
-          .set('Authorization', `Bearer ${adminAccessToken.access}`)
+          .set('Authorization', `Bearer ${adminAccessToken}`)
           .send({
             entityId,
             iso: createCityAltNameEn.iso,
@@ -330,7 +333,7 @@ describe('Backend', () => {
       it(`/POST /api/v1/cities/alt-names (with empty DTO)`, () => {
         return request(app.getHttpServer())
           .post(`/api/v1/cities/alt-names`)
-          .set('Authorization', `Bearer ${adminAccessToken.access}`)
+          .set('Authorization', `Bearer ${adminAccessToken}`)
           .send({})
           .expect(HttpStatus.BAD_REQUEST)
           .expect({
@@ -366,7 +369,7 @@ describe('Backend', () => {
     it(`/POST /api/v1/universities`, () => {
       return request(app.getHttpServer())
         .post(`/api/v1/universities`)
-        .set('Authorization', `Bearer ${adminAccessToken.access}`)
+        .set('Authorization', `Bearer ${adminAccessToken}`)
         .send(createUniversityDto)
         .expect(HttpStatus.CREATED)
         .expect(getUniversityDto)
@@ -375,7 +378,7 @@ describe('Backend', () => {
     it(`/POST /api/v1/universities (with exist name)`, () => {
       return request(app.getHttpServer())
         .post(`/api/v1/universities`)
-        .set('Authorization', `Bearer ${adminAccessToken.access}`)
+        .set('Authorization', `Bearer ${adminAccessToken}`)
         .send(createUniversityDto)
         .expect(HttpStatus.BAD_REQUEST)
         .expect({
@@ -389,7 +392,7 @@ describe('Backend', () => {
 
       return request(app.getHttpServer())
         .post(`/api/v1/universities`)
-        .set('Authorization', `Bearer ${adminAccessToken.access}`)
+        .set('Authorization', `Bearer ${adminAccessToken}`)
         .send({
           cityId,
           name: createUniversityDto.name,
@@ -424,7 +427,7 @@ describe('Backend', () => {
     it(`/POST /api/v1/universities (with empty DTO)`, () => {
       return request(app.getHttpServer())
         .post(`/api/v1/universities`)
-        .set('Authorization', `Bearer ${adminAccessToken.access}`)
+        .set('Authorization', `Bearer ${adminAccessToken}`)
         .send({})
         .expect(HttpStatus.BAD_REQUEST)
         .expect({
@@ -471,7 +474,7 @@ describe('Backend', () => {
       it(`/POST /api/v1/universities/alt-names (ru-RU)`, () => {
         return request(app.getHttpServer())
           .post(`/api/v1/universities/alt-names`)
-          .set('Authorization', `Bearer ${adminAccessToken.access}`)
+          .set('Authorization', `Bearer ${adminAccessToken}`)
           .send(createUniversityAltNameRu)
           .expect(HttpStatus.CREATED)
           .expect({
@@ -485,7 +488,7 @@ describe('Backend', () => {
       it(`/POST /api/v1/universities/alt-names (en-US)`, () => {
         return request(app.getHttpServer())
           .post(`/api/v1/universities/alt-names`)
-          .set('Authorization', `Bearer ${adminAccessToken.access}`)
+          .set('Authorization', `Bearer ${adminAccessToken}`)
           .send(createUniversityAltNameEn)
           .expect(HttpStatus.CREATED)
           .expect({
@@ -521,7 +524,7 @@ describe('Backend', () => {
         const entityId = 4
         return request(app.getHttpServer())
           .post(`/api/v1/universities/alt-names`)
-          .set('Authorization', `Bearer ${adminAccessToken.access}`)
+          .set('Authorization', `Bearer ${adminAccessToken}`)
           .send({
             entityId,
             iso: createUniversityAltNameEn.iso,
@@ -537,7 +540,7 @@ describe('Backend', () => {
       it(`/POST /api/v1/universities/alt-names (with empty DTO)`, () => {
         return request(app.getHttpServer())
           .post(`/api/v1/universities/alt-names`)
-          .set('Authorization', `Bearer ${adminAccessToken.access}`)
+          .set('Authorization', `Bearer ${adminAccessToken}`)
           .send({})
           .expect(HttpStatus.BAD_REQUEST)
           .expect({
@@ -576,11 +579,11 @@ describe('Backend', () => {
         .get(`/api/v1/teachers/${getTeacherDto.id}`)
         .expect(HttpStatus.NOT_FOUND)
     })
-
+    //
     it(`/POST /api/v1/teachers`, () => {
       return request(app.getHttpServer())
         .post(`/api/v1/teachers`)
-        .set('Authorization', `Bearer ${adminAccessToken.access}`)
+        .set('Authorization', `Bearer ${adminAccessToken}`)
         .send(createTeacherDto)
         .expect(HttpStatus.CREATED)
         .expect(getTeacherDto)
@@ -589,7 +592,7 @@ describe('Backend', () => {
     it(`/POST /api/v1/teachers (with exist name)`, () => {
       return request(app.getHttpServer())
         .post(`/api/v1/teachers`)
-        .set('Authorization', `Bearer ${adminAccessToken.access}`)
+        .set('Authorization', `Bearer ${adminAccessToken}`)
         .send(createTeacherDto)
         .expect(HttpStatus.CREATED)
         .expect(getSameTeacherDto)
@@ -598,7 +601,7 @@ describe('Backend', () => {
     it(`/POST /api/v1/teachers (with empty DTO)`, () => {
       return request(app.getHttpServer())
         .post(`/api/v1/teachers`)
-        .set('Authorization', `Bearer ${adminAccessToken.access}`)
+        .set('Authorization', `Bearer ${adminAccessToken}`)
         .send({})
         .expect(HttpStatus.BAD_REQUEST)
         .expect({
@@ -636,7 +639,7 @@ describe('Backend', () => {
     it(`/DELETE /api/v1/teachers/2`, () => {
       return request(app.getHttpServer())
         .delete(`/api/v1/teachers/2`)
-        .set('Authorization', `Bearer ${adminAccessToken.access}`)
+        .set('Authorization', `Bearer ${adminAccessToken}`)
         .expect(HttpStatus.OK)
         .expect({})
     })
@@ -681,7 +684,7 @@ describe('Backend', () => {
       it(`/POST /api/v1/teachers/alt-names (ru-RU)`, () => {
         return request(app.getHttpServer())
           .post(`/api/v1/teachers/alt-names`)
-          .set('Authorization', `Bearer ${adminAccessToken.access}`)
+          .set('Authorization', `Bearer ${adminAccessToken}`)
           .send(createTeacherAltNameRu)
           .expect(HttpStatus.CREATED)
           .expect({
@@ -695,7 +698,7 @@ describe('Backend', () => {
       it(`/POST /api/v1/teachers/alt-names (en-US)`, () => {
         return request(app.getHttpServer())
           .post(`/api/v1/teachers/alt-names`)
-          .set('Authorization', `Bearer ${adminAccessToken.access}`)
+          .set('Authorization', `Bearer ${adminAccessToken}`)
           .send(createTeacherAltNameEn)
           .expect(HttpStatus.CREATED)
           .expect({
@@ -724,7 +727,7 @@ describe('Backend', () => {
         const entityId = 4
         return request(app.getHttpServer())
           .post(`/api/v1/teachers/alt-names`)
-          .set('Authorization', `Bearer ${adminAccessToken.access}`)
+          .set('Authorization', `Bearer ${adminAccessToken}`)
           .send({
             entityId,
             iso: createTeacherAltNameEn.iso,
@@ -740,7 +743,7 @@ describe('Backend', () => {
       it(`/POST /api/v1/teachers/alt-names (with empty DTO)`, () => {
         return request(app.getHttpServer())
           .post(`/api/v1/teachers/alt-names`)
-          .set('Authorization', `Bearer ${adminAccessToken.access}`)
+          .set('Authorization', `Bearer ${adminAccessToken}`)
           .send({})
           .expect(HttpStatus.BAD_REQUEST)
           .expect({

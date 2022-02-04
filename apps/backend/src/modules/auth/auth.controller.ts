@@ -7,6 +7,7 @@ import {
   UseGuards,
   UseInterceptors,
   Version,
+  Response,
 } from '@nestjs/common'
 import {
   ApiBody,
@@ -26,7 +27,10 @@ import { FileInterceptor } from '@nestjs/platform-express'
 import { LoginUserDto } from 'src/dto/login-user.dto'
 import { RequireRole } from 'src/decorators/roles-auth.decorator'
 import { RolesGuard } from 'src/guards/roles.guard'
-import { Tokens } from 'src/dto/get-tokens.dto'
+import { TokenPayload, Tokens } from 'src/dto/get-tokens.dto'
+
+const ACCESS_TOKEN_KEY = 'access-token'
+const REFRESH_TOKEN_KEY = 'refresh-token'
 
 const registerJuryBody: Record<
   keyof CreateJuryDto | 'photo',
@@ -44,11 +48,33 @@ export class AuthController {
   constructor(private authService: AuthService) {}
 
   @ApiOperation({ summary: 'Login' })
-  @ApiResponse({ status: HttpStatus.CREATED, type: GetParticipantDto })
+  @ApiResponse({ status: HttpStatus.CREATED, type: TokenPayload })
   @Version('1')
   @Post('/login')
-  login(@Body() dto: LoginUserDto): Promise<Tokens> {
-    return this.authService.login(dto)
+  async login(@Body() dto: LoginUserDto, @Response() res: any) {
+    const {
+      user,
+      tokens: { access, refresh },
+    } = await this.authService.login(dto)
+
+    const hour = 60 * 60 * 1000
+
+    const cookieOptions = {
+      sameSite: 'strict',
+      withCredentials: true,
+      httpOnly: true,
+    }
+
+    res.cookie(ACCESS_TOKEN_KEY, access, {
+      ...cookieOptions,
+      expires: new Date(new Date().getTime() + 2 * hour),
+    })
+    res.cookie(REFRESH_TOKEN_KEY, refresh, {
+      ...cookieOptions,
+      expires: new Date(new Date().getTime() + 7 * 24 * hour),
+    })
+
+    return res.send(user)
   }
 
   @ApiOperation({ summary: 'Register a new participant' })

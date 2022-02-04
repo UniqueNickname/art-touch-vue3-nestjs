@@ -39,7 +39,9 @@ export class AuthService {
     HttpStatus.BAD_REQUEST,
   )
 
-  async login(loginDto: LoginUserDto): Promise<Tokens> {
+  async login(
+    loginDto: LoginUserDto,
+  ): Promise<{ user: TokenPayload; tokens: Tokens }> {
     const user = await this.getUserByEmail(loginDto.email)
 
     if (!user) {
@@ -55,7 +57,14 @@ export class AuthService {
       throw this.loginError
     }
 
-    return this.generatePairOfTokens(user.model, user.role)
+    return {
+      user: {
+        id: user.model.id,
+        role: user.role,
+        fullName: user.model.fullName,
+      },
+      tokens: this.generatePairOfTokens(user.model, user.role),
+    }
   }
 
   async registrationParticipant(dto: CreateParticipantDto): Promise<Tokens> {
