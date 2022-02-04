@@ -303,7 +303,6 @@ watch(
 const submit = async () => {
   touchAll()
   if (!!Object.values(errors.value).filter(Boolean).length) return
-  // console.log(!!Object.values(errors.value).filter(Boolean).length)
 
   if (typeof form.teacherId !== 'number') return
 
