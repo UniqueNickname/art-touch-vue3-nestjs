@@ -14,7 +14,7 @@
     "start:prod": "lerna run start:prod --stream",
     "start:dev": "lerna run start:dev --stream",
     "test": "cross-env NODE_ENV=test jest",
-    "test:e2e": "lerna run test:e2e --stream",
+    "test:e2e": "cd ./apps/backend && yarn test:e2e",
     "prepare": "husky install",
     "precommit": "lint-staged",
     "commit": "git cz"
