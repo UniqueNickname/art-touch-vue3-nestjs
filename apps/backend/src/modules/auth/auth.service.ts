@@ -129,6 +129,13 @@ export class AuthService {
     return this.generatePairOfTokens(admin, 'admin')
   }
 
+  logout(res: any) {
+    res.cookie(ACCESS_TOKEN_KEY, '', { 'max-age': -1 })
+    res.cookie(REFRESH_TOKEN_KEY, '', { 'max-age': -1 })
+
+    return res
+  }
+
   setTokensToCookie(res: any, tokens: Tokens) {
     const hour = 60 * 60 * 1000
 
