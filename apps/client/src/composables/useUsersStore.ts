@@ -42,6 +42,7 @@ export const useUsersStore = (): UsersManager => {
 
   const logout: UsersManager['logout'] = async () => {
     await api.post(`/api/v1/auth/logout`)
+    state.currentUser = null
   }
 
   const registerParticipant: UsersManager['registerParticipant'] =
@@ -80,7 +81,9 @@ export const useUsersStore = (): UsersManager => {
     } catch (error) {
       if (accessType !== 'unauthorized') {
         redirect2Home()
+        return
       }
+      await logout()
     }
   }
 
