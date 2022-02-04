@@ -68,7 +68,6 @@
 </template>
 
 <script setup lang="ts">
-import type { Tokens } from 'src/types'
 import AuthLayout from 'src/layouts/auth-layout.vue'
 import AuthForm from 'src/components/auth-form.vue'
 import { useI18n } from 'vue-i18n'
@@ -76,10 +75,9 @@ import { NInput, NFormItem, NButton } from 'naive-ui'
 import { useErrors } from 'src/composables/useErrors'
 import { useUsersStore } from 'src/composables/useUsersStore'
 import { useRouter } from 'vue-router'
-import axios from 'axios'
 
 const { t } = useI18n()
-const { saveTokens, currentUser, getUserByToken } = useUsersStore()
+const { login, user } = useUsersStore()
 const router = useRouter()
 
 const { form, errors, isTouched, touchAll } = useErrors<{
@@ -100,18 +98,11 @@ const submit = async () => {
   touchAll()
 
   try {
-    const { data: tokens } = (await axios.post(`/api/v1/auth/login`, form)) as {
-      data: Tokens
-    }
+    await login(form)
 
-    saveTokens(tokens)
-    getUserByToken(tokens.access)
+    if (!user.value) return
 
-    if (!currentUser.value) {
-      return
-    }
-
-    switch (currentUser.value?.role) {
+    switch (user.value?.role) {
       case 'admin':
         router.push('/admin')
         break

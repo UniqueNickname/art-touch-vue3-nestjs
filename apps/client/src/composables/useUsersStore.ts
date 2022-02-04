@@ -1,158 +1,94 @@
-import type { AccessType, TokenPayload, Tokens } from 'src/types'
-import type { CreateParticipantDto } from 'src/types/dto'
-import axios from 'axios'
-import jwtDecode from 'jwt-decode'
-import { ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY } from 'src/constants'
-import { isSSR } from 'src/constants'
-import { computed, reactive } from 'vue'
+import type { AccessType, TokenPayload } from 'src/types'
+import type { CreateParticipantDto, LoginDto } from 'src/types/dto'
+import { computed, ComputedRef, reactive } from 'vue'
 import { useRouter } from 'vue-router'
-import { useCookies } from 'src/composables/useCookies'
-import { useMessage } from 'naive-ui'
-import { useI18n } from 'vue-i18n'
+import { api } from 'src/api'
 
 interface UsersState {
   currentUser: Readonly<TokenPayload> | null
-  tokens: Tokens | null
+}
+
+interface UsersManager {
+  /** Login user (Can return error) */
+  login(user: LoginDto): Promise<void>
+  /** Create new participant (Can return error) */
+  registerParticipant(dto: CreateParticipantDto): Promise<void>
+  /** Logout user and redirect to home page */
+  logout(): Promise<void>
+  /** Redirect to home page if user does not have access to this page*/
+  checkAccess(accessType: AccessType): Promise<void>
+  user: ComputedRef<TokenPayload | null>
 }
 
 const state = reactive<UsersState>({
   currentUser: null,
-  tokens: null,
 })
 
-export const useUsersStore = () => {
-  const cookies = useCookies()
+export const useUsersStore = (): UsersManager => {
   const router = useRouter()
-  const { t } = useI18n()
-  const message = useMessage()
 
-  const getUserByToken = (token: string) => {
-    const user = jwtDecode<Readonly<TokenPayload>>(token)
+  const redirect2Home = () => {
+    router.replace('/')
+  }
+
+  const login: UsersManager['login'] = async dto => {
+    const { data: user } = await api.post<TokenPayload>(
+      `/api/v1/auth/login`,
+      dto,
+    )
 
     state.currentUser = user
   }
 
-  const saveTokens = ({ access, refresh }: Tokens) => {
-    if (isSSR) {
-      return
-    }
-
-    cookies.set(ACCESS_TOKEN_KEY, access, { expires: '2h' })
-    cookies.set(REFRESH_TOKEN_KEY, refresh, { expires: '7d' })
-
-    state.tokens = { access, refresh }
+  const logout: UsersManager['logout'] = async () => {
+    await api.post(`/api/v1/auth/logout`)
   }
 
-  const logout = () => {
-    state.currentUser = null
-
-    cookies.remove(ACCESS_TOKEN_KEY)
-    cookies.remove(REFRESH_TOKEN_KEY)
-  }
-
-  const refresh = async () => {
-    if (isSSR) {
-      return
+  const registerParticipant: UsersManager['registerParticipant'] =
+    async dto => {
+      await api.post('/api/v1/auth/registration', dto)
     }
 
+  const checkAccess: UsersManager['checkAccess'] = async accessType => {
     try {
-      const token = cookies.get(REFRESH_TOKEN_KEY)
+      const { data: user } = await api.post<TokenPayload>(`/api/v1/auth/verify`)
+      state.currentUser = user
 
-      if (!token) {
-        logout()
-        return
+      switch (accessType) {
+        case 'authorized':
+          return
+
+        case 'all':
+          return
+
+        case 'admin':
+          if (user.role !== 'admin') {
+            redirect2Home()
+          }
+          return
+        case 'jury':
+          if (user.role !== 'jury') {
+            redirect2Home()
+          }
+          return
+        case 'participant':
+          if (user.role !== 'participant') {
+            redirect2Home()
+          }
+          return
       }
-
-      const { data } = (await axios.post(`/api/v1/auth/verify`, {
-        token: token,
-      })) as { data: Tokens }
-
-      saveTokens(data)
-      getUserByToken(data.access)
     } catch (error) {
-      logout()
-    }
-  }
-
-  const verify = async () => {
-    if (isSSR) {
-      return
-    }
-
-    try {
-      const accessToken = cookies.get(ACCESS_TOKEN_KEY)
-      const refreshToken = cookies.get(REFRESH_TOKEN_KEY)
-
-      if (!refreshToken || !accessToken) {
-        logout()
-        return
+      if (accessType !== 'unauthorized') {
+        redirect2Home()
       }
-
-      const { data: tokenIsValid } = (await axios.post(`/api/v1/auth/verify`, {
-        token: accessToken,
-      })) as { data: boolean }
-
-      if (!tokenIsValid) {
-        await refresh()
-        return
-      }
-
-      state.tokens = { access: accessToken, refresh: refreshToken }
-      getUserByToken(accessToken)
-    } catch (error) {
-      logout()
-    }
-  }
-
-  const checkAccess = async (accessType: AccessType = 'all') => {
-    await verify()
-
-    if (isSSR) return
-
-    if (accessType === 'all') {
-      return
-    }
-
-    if (accessType === 'authorized') {
-      if (!state.currentUser) {
-        router.replace('/')
-      }
-      return
-    }
-
-    if (accessType === 'unauthorized') {
-      if (state.currentUser) {
-        router.replace('/')
-      }
-      return
-    }
-
-    if (state.currentUser?.role !== accessType) {
-      router.replace('/')
-    }
-  }
-
-  const registerParticipant = async (dto: CreateParticipantDto) => {
-    try {
-      await axios.post('/api/v1/auth/registration', dto)
-
-      message.success(t('auth.success-registration'))
-      router.push('/auth/login')
-    } catch (error: any) {
-      const errorMessage = error.response.data.message
-      message.error(
-        Array.isArray(errorMessage) ? errorMessage.join(', ') : errorMessage,
-      )
     }
   }
 
   return {
-    saveTokens,
-    getUserByToken,
-    checkAccess,
+    user: computed(() => state.currentUser),
+    login,
     logout,
     registerParticipant,
-    currentUser: computed(() => state.currentUser),
-    authToken: computed(() => `Bearer ${state.tokens?.access}`),
+    checkAccess,
   }
 }

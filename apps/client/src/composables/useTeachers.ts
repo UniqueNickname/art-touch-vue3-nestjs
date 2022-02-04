@@ -6,14 +6,12 @@ import type {
 import axios from 'axios'
 import { computed, reactive } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { useUsersStore } from './useUsersStore'
 
 interface State {
   teachers: Readonly<GetTeacherDto>[]
 }
 
 export const useTeachers = () => {
-  const { authToken } = useUsersStore()
   const { locale } = useI18n()
 
   const state = reactive<State>({
@@ -46,17 +44,13 @@ export const useTeachers = () => {
 
   const createTeacher = async (dto: CreateTeacherDto) => {
     try {
-      await axios.post('/api/v1/teachers', dto, {
-        headers: { Authorization: authToken.value },
-      })
+      await axios.post('/api/v1/teachers', dto)
     } catch (error) {}
   }
 
-  const addTeacherAltname = async (form: CreateAltNameDto) => {
+  const addTeacherAltname = async (dto: CreateAltNameDto) => {
     try {
-      await axios.post('/api/v1/teachers/alt-names', form, {
-        headers: { Authorization: authToken.value },
-      })
+      await axios.post('/api/v1/teachers/alt-names', dto)
     } catch (error) {}
   }
 

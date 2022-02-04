@@ -6,14 +6,12 @@ import type {
 import axios from 'axios'
 import { computed, reactive } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { useUsersStore } from './useUsersStore'
 
 interface State {
   universities: Readonly<GetUniversityDto>[]
 }
 
 export const useUniversities = () => {
-  const { authToken } = useUsersStore()
   const { locale } = useI18n()
 
   const state = reactive<State>({
@@ -46,17 +44,13 @@ export const useUniversities = () => {
 
   const createUniversity = async (dto: CreateUniversityDto) => {
     try {
-      await axios.post('/api/v1/universities', dto, {
-        headers: { Authorization: authToken.value },
-      })
+      await axios.post('/api/v1/universities', dto)
     } catch (error) {}
   }
 
-  const addUniversityAltname = async (form: CreateAltNameDto) => {
+  const addUniversityAltname = async (dto: CreateAltNameDto) => {
     try {
-      await axios.post('/api/v1/universities/alt-names', form, {
-        headers: { Authorization: authToken.value },
-      })
+      await axios.post('/api/v1/universities/alt-names', dto)
     } catch (error) {}
   }
 

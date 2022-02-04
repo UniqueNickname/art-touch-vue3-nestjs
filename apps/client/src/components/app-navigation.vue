@@ -5,7 +5,7 @@
     >
       <div class="flex items-center justify-center space-x-4">
         <app-logo
-          class="py-1 text-xl px-7 text-purple-800 focus:outline-none"
+          class="py-1 text-xl text-purple-800 px-7 focus:outline-none"
         />
         <app-sidebar :links="[...links, extraLink]" class="xl:hidden" />
         <div class="xl:hidden">
@@ -26,7 +26,7 @@
           </n-button>
         </li>
       </ul>
-      <div class="items-center hidden xl:flex space-x-4">
+      <div class="items-center hidden space-x-4 xl:flex">
         <n-button
           v-if="extraLink"
           type="primary"
@@ -39,7 +39,7 @@
           {{ t(extraLink.label) }}
         </n-button>
         <n-button
-          v-if="currentUser"
+          v-if="user"
           type="primary"
           strong
           circle
@@ -68,7 +68,7 @@ import { useRouter } from 'vue-router'
 import { useUsersStore } from 'src/composables/useUsersStore'
 import { ExitOutline } from '@vicons/ionicons5'
 
-const { currentUser, logout } = useUsersStore()
+const { user, logout } = useUsersStore()
 
 const { t } = useI18n()
 const router = useRouter()
@@ -100,11 +100,11 @@ const extraLink = computed<Link>(() => {
     to: '/auth/registration',
   }
 
-  if (!currentUser.value) {
+  if (!user.value) {
     return defaultLink
   }
 
-  if (currentUser.value.role === 'admin') {
+  if (user.value.role === 'admin') {
     return {
       label: 'admin.title',
       to: '/admin',
