@@ -28,7 +28,6 @@ import { LoginUserDto } from 'src/dto/login-user.dto'
 import { RequireRole } from 'src/decorators/roles-auth.decorator'
 import { RolesGuard } from 'src/guards/roles.guard'
 import { TokenPayload, Tokens } from 'src/dto/get-tokens.dto'
-import { ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY } from 'src/constants'
 
 const registerJuryBody: Record<
   keyof CreateJuryDto | 'photo',
@@ -50,29 +49,9 @@ export class AuthController {
   @Version('1')
   @Post('/login')
   async login(@Body() dto: LoginUserDto, @Response() res: any) {
-    const {
-      user,
-      tokens: { access, refresh },
-    } = await this.authService.login(dto)
+    const { user, tokens } = await this.authService.login(dto)
 
-    const hour = 60 * 60 * 1000
-
-    const cookieOptions = {
-      sameSite: 'strict',
-      withCredentials: true,
-      httpOnly: true,
-    }
-
-    res.cookie(ACCESS_TOKEN_KEY, access, {
-      ...cookieOptions,
-      expires: new Date(new Date().getTime() + 2 * hour),
-    })
-    res.cookie(REFRESH_TOKEN_KEY, refresh, {
-      ...cookieOptions,
-      expires: new Date(new Date().getTime() + 7 * 24 * hour),
-    })
-
-    return res.send(user)
+    return this.authService.setTokensToCookie(res, tokens).send(user)
   }
 
   @ApiOperation({ summary: 'Register a new participant' })

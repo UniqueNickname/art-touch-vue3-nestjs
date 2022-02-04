@@ -124,6 +124,27 @@ export class AuthService {
     return this.generatePairOfTokens(admin, 'admin')
   }
 
+  setTokensToCookie(res: any, tokens: Tokens) {
+    const hour = 60 * 60 * 1000
+
+    const cookieOptions = {
+      sameSite: 'strict',
+      withCredentials: true,
+      httpOnly: true,
+    }
+
+    res.cookie(ACCESS_TOKEN_KEY, tokens.access, {
+      ...cookieOptions,
+      expires: new Date(new Date().getTime() + 2 * hour),
+    })
+    res.cookie(REFRESH_TOKEN_KEY, tokens.refresh, {
+      ...cookieOptions,
+      expires: new Date(new Date().getTime() + 7 * 24 * hour),
+    })
+
+    return res
+  }
+
   getUserByToken(accessToken: string): TokenPayload {
     try {
       const user = this.jwtService.verify<TokenPayload>(accessToken)
