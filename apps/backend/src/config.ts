@@ -4,8 +4,9 @@ import {
   VersioningType,
 } from '@nestjs/common'
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger'
-import * as bcrypt from 'bcryptjs'
 import { Admin } from './models/user.model'
+import * as bcrypt from 'bcryptjs'
+import * as cookieParser from 'cookie-parser'
 
 const addDefaultAdmin = async () => {
   const admin = await Admin.findOne({
@@ -30,6 +31,7 @@ const addAppConfigs = (app: INestApplication) => {
   })
 
   app.useGlobalPipes(new ValidationPipe())
+  app.use(cookieParser())
 }
 
 const addSwaggerConfigs = (app: INestApplication): string => {
