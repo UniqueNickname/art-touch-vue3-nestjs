@@ -105,4 +105,13 @@ export class AuthController {
   verify(@Response() res: any) {
     return this.authService.verify(res)
   }
+
+  @ApiOperation({ summary: 'Logout' })
+  @ApiResponse({ status: HttpStatus.OK, type: TokenPayload })
+  @Version('1')
+  @HttpCode(200)
+  @Post('/logout')
+  logout(@Response() res: any) {
+    return this.authService.logout(res).send()
+  }
 }
