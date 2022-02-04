@@ -42,6 +42,11 @@ export interface GetTeacherDto {
   altNames: AltNamesObject
 }
 
+export interface LoginDto {
+  email: string
+  password: string
+}
+
 export interface CreateParticipantDto {
   email: string
   password: string
