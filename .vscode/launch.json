@@ -1,0 +1,24 @@
+{
+	"version": "0.2.0",
+	"configurations": [
+		{
+      "name": "Backend dev",
+      "type": "node",
+      "request": "launch",
+      "cwd": "${workspaceRoot}/apps/backend",
+      "runtimeExecutable": "yarn",
+      "address": "localhost",
+      "args": ["start:dev"],
+      "localRoot": "${workspaceFolder}",
+      "remoteRoot": "${workspaceFolder}",
+		},
+    {
+      "name": "Client",
+      "type": "msedge",
+      "url": "http://localhost:3000",
+      "request": "launch",
+      "address": "localhost",
+      "webRoot": "${workspaceFolder}",
+		}
+	]
+}
