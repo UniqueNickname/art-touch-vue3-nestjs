@@ -1,11 +1,11 @@
-import type { AccessType, TokenPayload } from 'src/types'
+import type { AccessType, User } from 'src/types'
 import type { CreateParticipantDto, LoginDto } from 'src/types/dto'
 import { computed, ComputedRef, reactive } from 'vue'
 import { useRouter } from 'vue-router'
 import { api } from 'src/api'
 
 interface UsersState {
-  currentUser: Readonly<TokenPayload> | null
+  currentUser: Readonly<User> | null
 }
 
 interface UsersManager {
@@ -17,7 +17,7 @@ interface UsersManager {
   logout(): Promise<void>
   /** Redirect to home page if user does not have access to this page*/
   checkAccess(accessType: AccessType): Promise<void>
-  user: ComputedRef<TokenPayload | null>
+  user: ComputedRef<User | null>
 }
 
 const state = reactive<UsersState>({
@@ -32,10 +32,7 @@ export const useUsersStore = (): UsersManager => {
   }
 
   const login: UsersManager['login'] = async dto => {
-    const { data: user } = await api.post<TokenPayload>(
-      `/api/v1/auth/login`,
-      dto,
-    )
+    const { data: user } = await api.post<User>(`/api/v1/auth/login`, dto)
 
     state.currentUser = user
   }
@@ -52,7 +49,7 @@ export const useUsersStore = (): UsersManager => {
 
   const checkAccess: UsersManager['checkAccess'] = async accessType => {
     try {
-      const { data: user } = await api.post<TokenPayload>(`/api/v1/auth/verify`)
+      const { data: user } = await api.post<User>(`/api/v1/auth/verify`)
       state.currentUser = user
 
       switch (accessType) {

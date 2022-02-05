@@ -2,7 +2,7 @@ export type ISO = 'en-US' | 'ru-RU'
 
 export type Role = 'admin' | 'jury' | 'participant'
 
-export interface TokenPayload {
+export interface User {
   id: string
   fullName: string
   role: Role
