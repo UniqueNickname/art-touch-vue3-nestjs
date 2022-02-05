@@ -2,8 +2,10 @@ import type { ISO } from 'src/types'
 
 const availableISO = ['en-US', 'ru-RU']
 
-export const checkISOType = (string: string): boolean =>
-  availableISO.includes(string)
+export const checkISOType = (value: unknown): boolean => {
+  if (typeof value !== 'string') return false
+  return availableISO.includes(value)
+}
 
-export const getValidISO = (string: string, defaultISO: ISO = 'en-US'): ISO =>
-  checkISOType(string) ? (string as ISO) : defaultISO
+export const getValidISO = (value: unknown, defaultISO: ISO = 'en-US'): ISO =>
+  checkISOType(value) ? (value as ISO) : defaultISO
