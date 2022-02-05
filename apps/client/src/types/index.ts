@@ -2,13 +2,13 @@ export type ISO = 'en-US' | 'ru-RU'
 
 export type Role = 'admin' | 'jury' | 'participant'
 
-export interface User {
+export type User = {
   id: string
   fullName: string
   role: Role
 }
 
-export interface Tokens {
+export type Tokens = {
   access: string
   refresh: string
 }

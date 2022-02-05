@@ -2,52 +2,52 @@ import type { ISO } from 'src/types'
 
 export type AltNamesObject = Partial<Record<ISO, string>>
 
-export interface CreateAltNameDto {
+export type CreateAltNameDto = {
   entityId: number
   iso: string
   value: string
 }
 
-export interface CreateCityDto {
+export type CreateCityDto = {
   name: string
 }
 
-export interface GetCityDto {
+export type GetCityDto = {
   id: number
   name: string
   altNames: AltNamesObject
 }
 
-export interface CreateUniversityDto {
+export type CreateUniversityDto = {
   name: string
   cityId: number
 }
 
-export interface GetUniversityDto {
+export type GetUniversityDto = {
   id: number
   cityId: number
   name: string
   altNames: AltNamesObject
 }
 
-export interface CreateTeacherDto {
+export type CreateTeacherDto = {
   name: string
   universityId: number
 }
 
-export interface GetTeacherDto {
+export type GetTeacherDto = {
   id: number
   universityId: number
   name: string
   altNames: AltNamesObject
 }
 
-export interface LoginDto {
+export type LoginDto = {
   email: string
   password: string
 }
 
-export interface CreateParticipantDto {
+export type CreateParticipantDto = {
   email: string
   password: string
   phone: string
