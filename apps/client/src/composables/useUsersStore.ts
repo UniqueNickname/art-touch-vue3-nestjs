@@ -3,6 +3,7 @@ import type { CreateParticipantDto, LoginDto } from 'src/types/dto'
 import { computed, ComputedRef, reactive } from 'vue'
 import { useRouter } from 'vue-router'
 import { api } from 'src/api'
+import { getValidUserOrNull } from 'src/runtime-type-checkers/user'
 
 interface UsersState {
   currentUser: Readonly<User> | null
@@ -32,9 +33,9 @@ export const useUsersStore = (): UsersManager => {
   }
 
   const login: UsersManager['login'] = async dto => {
-    const { data: user } = await api.post<User>(`/api/v1/auth/login`, dto)
+    const { data: user } = await api.post<unknown>(`/api/v1/auth/login`, dto)
 
-    state.currentUser = user
+    state.currentUser = getValidUserOrNull(user)
   }
 
   const logout: UsersManager['logout'] = async () => {
@@ -49,8 +50,10 @@ export const useUsersStore = (): UsersManager => {
 
   const checkAccess: UsersManager['checkAccess'] = async accessType => {
     try {
-      const { data: user } = await api.post<User>(`/api/v1/auth/verify`)
-      state.currentUser = user
+      const { data: user } = await api.post<unknown>(`/api/v1/auth/verify`)
+      state.currentUser = getValidUserOrNull(user)
+
+      if (!state.currentUser) throw new Error()
 
       switch (accessType) {
         case 'authorized':
@@ -60,17 +63,17 @@ export const useUsersStore = (): UsersManager => {
           return
 
         case 'admin':
-          if (user.role !== 'admin') {
+          if (state.currentUser.role !== 'admin') {
             redirect2Home()
           }
           return
         case 'jury':
-          if (user.role !== 'jury') {
+          if (state.currentUser.role !== 'jury') {
             redirect2Home()
           }
           return
         case 'participant':
-          if (user.role !== 'participant') {
+          if (state.currentUser.role !== 'participant') {
             redirect2Home()
           }
           return
